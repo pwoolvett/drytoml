@@ -4,3 +4,7 @@ image:
 tasks:
   - init: poetry install
     command: poetry shell
+
+github:
+  prebuilds:
+    addComment: true
