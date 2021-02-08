@@ -41,6 +41,13 @@ For the moment, the following providers are supported:
 
 ## Usage
 
+## Contribute
+
+1. Create issue
+1. clone
+1. add tests
+1. Create PR
+
 ## TODO
 
 * [ ] Allow different key name from cli
