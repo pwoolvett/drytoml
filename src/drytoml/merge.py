@@ -1,26 +1,36 @@
-from typing import Any
-from typing import Dict
+from typing import Any, Dict, List, Union
+
+from drytoml.utils import getitem_deep, setitem_deep
 
 
 def merge(
     left: Dict[str, Any],
     right: Dict[str, Any],
-    location: str,
+    location: Union[str, List[str]],
 ):
     """Update current mapping with reference location."""
 
-    if location not in left:
+    if isinstance(location, str):
+        path=[location]
+    else:
+        path=location
+
+    try:
+        left_data = getitem_deep(left, *path)
+    except KeyError:
         return
 
-    left_data = left[location]
-
-    # no merge is necessary if only one contains data
-    if location not in right:
-        right[location] = left_data
+    try:
+        right_data = getitem_deep(right, *path)
+    except KeyError:
+        # no merge is necessary if only one contains data
+        setitem_deep(
+            right,
+            left_data,
+            left,
+            *path,
+        )
         return
-
-    right_data = right[location]
-
     left_dtype = type(left_data)
     right_dtype = type(right_data)
 

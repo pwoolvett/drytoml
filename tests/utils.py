@@ -1,6 +1,6 @@
-from datetime import datetime
-from datetime import date
 import json
+from datetime import date, datetime
+
 
 class CustomEncoder(json.JSONEncoder):
     def default(self, o):

@@ -1,24 +1,15 @@
-from functools import partial
 import json
-from pathlib import Path
 import re
-from contextlib import contextmanager
-from typing import Any
-from typing import Callable
-from typing import MutableMapping
-from typing import Optional
-from typing import Dict
-from typing import Union
 import tempfile
+from contextlib import contextmanager
+from functools import partial
+from pathlib import Path
+from typing import Any, Callable, Dict, MutableMapping, Optional, Union
 
 import toml
-
-from drytoml.merge import full_merge
-from drytoml.merge import merge
-
-from drytoml.utils import Cached
-from drytoml.utils import is_url
-from drytoml.utils import Url
+from drytoml.merge import full_merge, merge
+from drytoml.utils import (Cached, Url, find_recursive, getitem_deep, is_url,
+                           request, sortOD)
 
 
 class Toml(metaclass=Cached):
@@ -51,7 +42,7 @@ class Toml(metaclass=Cached):
             with open(self.source) as fp:
                 self._data = fp.read()
         elif is_url(self.source):
-            self._data = get(self.source)
+            self._data = request(str(self.source))
         else:
             # TODO: add git+ssh support
             raise ValueError(f"source {self.source} is neither a valid file nor URL")
@@ -83,6 +74,14 @@ class Toml(metaclass=Cached):
             merge(reference_data, config, key)
         else:
             full_merge(reference_data, config)
+
+
+    def merge_section_from_str(self, config, source, *keys):
+        reference_toml = self.build_child(source).load()
+        reference_data = getitem_deep(reference_toml, *keys)
+        full_merge(reference_data, config)
+        print(config)
+
 
     def merge_from_dict(self, config, source_instructions):
         for key, value in source_instructions.items():
@@ -120,21 +119,25 @@ class Toml(metaclass=Cached):
         full_merge(reference_data, config)
 
     def merge_sections(self, config):
-        # for path in self.
-        #     while have_links():
-            # for name, path in walk(config):
-        raise NotImplementedError (" meger again cause we could still have links")
+        base_key_locations = sorted(
+            find_recursive(self.base_key, config),
+            key=lambda path_ct: path_ct[0]
+        )
 
-    def load(self) -> Dict[str, Any]:
+        for path, content in base_key_locations:
+            config2 = getitem_deep(config, *path)
+            extends = config2.pop(self.base_key, None)
+            self.merge_from_str(config, content, path)
+            # self.merge_section_from_str(config2, content, *path)
+            # self.merge_toplevel(extends, config2)
+
+    def load(self) -> MutableMapping[str, Any]:
         cls = type(self)
 
         config = cls.load_raw(self.raw_data)
-        extends = config.pop(self.base_key, None)
-
-        self.merge_toplevel(extends, config)
+        self.merge_toplevel(config.pop(self.base_key, None), config)
 
         self.merge_sections(config)
-
         self._dict = config
         return config
 
@@ -145,11 +148,14 @@ class Toml(metaclass=Cached):
 
     @contextmanager
     def virtual(self):
+        raw_data = self.as_dict()
+        tidy = sortOD(raw_data)
         with tempfile.NamedTemporaryFile(
             mode='w+',
             suffix=".toml",
             prefix="drytoml.black",
         ) as fp:
-            fp.write(toml.dumps(self.as_dict()))
+
+            fp.write(toml.dumps(tidy))
             fp.seek(0)
             yield fp
