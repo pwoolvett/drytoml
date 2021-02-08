@@ -1,29 +1,24 @@
+# -*- coding: utf-8 -*-
+""""""
+
+import functools
+import hashlib
 import re
 import urllib.request
-from typing import Any, List, OrderedDict, Tuple, Union
-import functools
 from logging import root as logger
-import hashlib
+from typing import Any
+from typing import List
+from typing import OrderedDict
+from typing import Tuple
+from typing import Union
+
 from drytoml.paths import CACHE
-
-class Cached(type):
-    _instances = {}
-
-    def __call__(
-        cls,
-        *args,
-        **kwargs,
-    ):
-        key = f"{cls.__name__}-{repr(args)}-{repr(kwargs)}"
-        if key not in cls._instances:
-            cls._instances[key] = super().__call__(
-                *args,
-                **kwargs,
-            )
-        return cls._instances[key]
-
-
-Url = str
+from drytoml.types import Url
+from tomlkit.container import _NOT_SET
+from tomlkit.container import Container
+from tomlkit.items import Item
+from tomlkit.items import Key
+from tomlkit.toml_document import TOMLDocument
 
 URL_VALIDATOR = re.compile(
     r"^(?:http|ftp)s?://"  # http:// or https://
@@ -43,96 +38,15 @@ def is_url(
     return URL_VALIDATOR.match(str(maybe_url)) is not None
 
 
-def find_recursive(
-    key: str,
-    container: Union[
-        str,
-        list,
-        dict,
-    ],
-    path=None,
-):
-    path = path or []
-
-    if isinstance(
-        container,
-        list,
-    ):
-        for (
-            index,
-            element,
-        ) in enumerate(container):
-            yield from find_recursive(
-                key,
-                element,
-                [
-                    *path,
-                    index,
-                ],
-            )
-        return list
-
-    if isinstance(
-        container,
-        dict,
-    ):
-        for (
-            name,
-            content,
-        ) in container.items():
-            yield from find_recursive(
-                key,
-                content,
-                [
-                    *path,
-                    name,
-                ],
-            )
-
-            if name == key:
-                yield path, content
-
-        return dict
-
-    return type(container)
-
-
-def getitem_deep(
-    container,
-    *keys,
-):
-    result = container
-    for key in keys:
-        result = result[key]
-    return result
-
-
-def setitem_deep(
-    container,
-    value,
-    skeleton,
-    *keys,
-):
-    result = container
-    reference = skeleton
-
-    for key in keys:
-        reference = skeleton[key]
-        if key not in result:
-            result[key] = type(reference)()
-        result = result[key]
-    result = value
-
-
-
 def cached(func):
-
     @functools.wraps(func)
-    def wrapped(url:Url, *a, **kw):
-        key = hashlib.sha1("https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/black.toml".encode("utf8")).hexdigest()
+    def wrapped(url: Url, *a, **kw):
+        key = hashlib.sha1(url.encode("utf8")).hexdigest()
         path = CACHE / key
         if path.exists():
-            logger.warning(f"Using cached version of {url} from {path}")
+            logger.warning(
+                f"DryToml: Using cached version of {url} from {path}"
+            )
             with open(path) as fp:
                 return fp.read()
 
@@ -154,11 +68,65 @@ def request(
         contents = fp.read().decode("utf-8")
     return contents
 
-def sortOD(od):
-    res = OrderedDict()
-    for k, v in sorted(od.items()):
-        if isinstance(v, dict):
-            res[k] = sortOD(v)
-        else:
-            res[k] = v
-    return res
+
+def deep_find(
+    container: Union[
+        str,
+        list,
+        dict,
+    ],
+    extend_key: str,
+    breadcrumbs=None,
+):
+    breadcrumbs = breadcrumbs or []
+
+    if isinstance(
+        container,
+        list,
+    ):
+        for index, element in enumerate(container):
+            yield from deep_find(element, extend_key, [*breadcrumbs, index])
+        return list
+
+    if isinstance(
+        container,
+        dict,
+    ):
+        for name, content in container.items():
+            yield from deep_find(content, extend_key, [*breadcrumbs, name])
+
+            if name == extend_key:
+                yield breadcrumbs, content
+
+        return dict
+
+    return type(container)
+
+
+def deep_pop(document, breadcrumbs, default=_NOT_SET):
+    crumbs, final = breadcrumbs[:-1], breadcrumbs[-1]
+    current = document
+    for key in crumbs:
+        current = current[key]
+    return current.pop(final, default)
+
+
+def deep_merge(
+    document: Container,
+    incoming: Container,
+    breadcrumbs: List[str],
+    value: Item,
+):
+    location = document
+    incoming_data = incoming
+    crumbs, final = breadcrumbs[:-1], breadcrumbs[-1]
+
+    for key in crumbs:
+        incoming_data = incoming_data[key]
+        if key not in location:
+            # emulate incoming container skeleton
+            location[key] = type(incoming_data)()
+        location = location[key]
+
+    location[final] = incoming_data[final]
+    return document

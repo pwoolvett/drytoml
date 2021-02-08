@@ -1,3 +1,5 @@
+global = "outside"
+
 [tool.poetry]
 name = "drytoml"
 version = "0.1.0"
@@ -9,14 +11,13 @@ packages = [
 ]
 
 [tool.poetry.scripts]
-"dry.black" = "drytoml.cli:black"
-"dry.isort" = "drytoml.cli:isort"
+dry = "drytoml.cli:main"
 
 [tool.poetry.dependencies]
 python = "^3.6.9"
-toml = "^0.10.2"
 black = {version = "^20.8b1", optional = true}
 isort = {version = "^5.7.0", optional = true}
+tomlkit = "^0.7.0"
 
 [tool.poetry.extras]
 black = ["black"]
@@ -38,9 +39,9 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
-extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/black.toml"
+__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/black.toml"
 target-version = ['py37']
 line-length = 79
 
 [tool.isort]
-extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/isort.toml"
+__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/isort.toml"

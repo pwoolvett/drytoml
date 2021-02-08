@@ -1,4 +1,2 @@
 # -*- coding: utf-8 -*-
-""""""
-
-from drytoml.reader import Toml
+"""DRY Toml - Inheritance and Centralization with toml files"""
