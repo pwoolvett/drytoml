@@ -2,26 +2,24 @@ from functools import partial
 import json
 from pathlib import Path
 import re
+from contextlib import contextmanager
 from typing import Any
 from typing import Callable
 from typing import MutableMapping
 from typing import Optional
 from typing import Dict
 from typing import Union
-
+import tempfile
 
 import toml
 
-# from drytoml.config import get
-from drytoml.merge import full_merge, merge
-# from drytoml.merge import merge
+from drytoml.merge import full_merge
+from drytoml.merge import merge
+
 from drytoml.utils import Cached
 from drytoml.utils import is_url
 from drytoml.utils import Url
 
-# from drytoml.utils import Url
-# from drytoml.utils import walk
-# from drytoml.utils import enter
 
 class Toml(metaclass=Cached):
     """toml with inheritance capcabilities"""
@@ -41,6 +39,7 @@ class Toml(metaclass=Cached):
         self.source = source
         self.base_key = base_key
         self._data: str = ""
+        self._dict: dict = None
 
     @property
     def raw_data(self) -> str:
@@ -107,11 +106,7 @@ class Toml(metaclass=Cached):
             else:
                 raise NotImplementedError
 
-    def load(self) -> Dict[str, Any]:
-        cls = type(self)
-        config = cls.load_raw(self.raw_data)
-        extends = config.pop(self.base_key, None)
-
+    def merge_toplevel(self, extends, config):
         reference_data = {}
         if isinstance(extends, str):
             self.merge_from_str(reference_data, extends)
@@ -123,4 +118,38 @@ class Toml(metaclass=Cached):
             raise NotImplementedError
 
         full_merge(reference_data, config)
+
+    def merge_sections(self, config):
+        # for path in self.
+        #     while have_links():
+            # for name, path in walk(config):
+        raise NotImplementedError (" meger again cause we could still have links")
+
+    def load(self) -> Dict[str, Any]:
+        cls = type(self)
+
+        config = cls.load_raw(self.raw_data)
+        extends = config.pop(self.base_key, None)
+
+        self.merge_toplevel(extends, config)
+
+        self.merge_sections(config)
+
+        self._dict = config
         return config
+
+    def as_dict(self):
+        if not self._dict:
+            self.load()
+        return self._dict
+
+    @contextmanager
+    def virtual(self):
+        with tempfile.NamedTemporaryFile(
+            mode='w+',
+            suffix=".toml",
+            prefix="drytoml.black",
+        ) as fp:
+            fp.write(toml.dumps(self.as_dict()))
+            fp.seek(0)
+            yield fp

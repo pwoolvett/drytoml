@@ -1,14 +1,9 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/pwoolvett/drytoml)
-
 # drytoml
-
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/pwoolvett/drytoml)
 
 Keep toml configuration centralized and personalizable
 
-1. Each section is allowed
-
-Its a replica of  `flakehell`'s patched app toml injection mechanism from [here](https://github.com/life4/flakehell/blob/d292e93de0e16b97adda83babf4de7aa24208d97/flakehell/_patched/_app.py#L60)
+Inspired by `flakehell` and `nitpick`, drytoml aims at having a single, centralized
+configuration for several project, as well as granular control on each table.
 
 ## Setup
 

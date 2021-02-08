@@ -1,6 +1,9 @@
-
 import re
 
+from typing import Any
+from typing import List
+from typing import Tuple
+from typing import Union
 
 class Cached(type):
     _instances = {}
@@ -10,6 +13,7 @@ class Cached(type):
         if key not in cls._instances:
             cls._instances[key] = super().__call__(*args, **kwargs)
         return cls._instances[key]
+
 
 Url = str
 
@@ -27,3 +31,26 @@ URL_VALIDATOR = re.compile(
 
 def is_url(maybe_url):
     return URL_VALIDATOR.match(str(maybe_url)) is not None
+
+def find_recursive(
+    key:str,
+    container: Union[str, list, dict],
+    path=None
+):
+    path = path or []
+
+    if isinstance(container, list):
+        for index, element in enumerate(container):
+            yield from find_recursive(key, element, [*path, index])
+        return list
+
+    if isinstance(container, dict):
+        for name, content in container.items():
+            yield from find_recursive(key, content, [*path, name])
+
+            if name == key:
+                yield path, content
+
+        return dict
+
+    return type(container)
