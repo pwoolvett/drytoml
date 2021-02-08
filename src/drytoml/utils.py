@@ -6,19 +6,15 @@ import hashlib
 import re
 import urllib.request
 from logging import root as logger
-from typing import Any
 from typing import List
-from typing import OrderedDict
-from typing import Tuple
 from typing import Union
 
 from drytoml.paths import CACHE
 from drytoml.types import Url
+
 from tomlkit.container import _NOT_SET
 from tomlkit.container import Container
 from tomlkit.items import Item
-from tomlkit.items import Key
-from tomlkit.toml_document import TOMLDocument
 
 URL_VALIDATOR = re.compile(
     r"^(?:http|ftp)s?://"  # http:// or https://
@@ -111,12 +107,45 @@ def deep_pop(document, breadcrumbs, default=_NOT_SET):
     return current.pop(final, default)
 
 
+def deep_extend(current, incoming):
+    current.extend(incoming)
+    return current
+
 def deep_merge(
+    current,
+    incoming
+):
+    if isinstance(current, list):
+        if isinstance(incoming, list):
+            return deep_extend(current, incoming)
+
+    if isinstance(current, dict):
+        if isinstance(incoming, dict):
+            for key in {*current.keys(), *incoming.keys()}:
+                if key not in incoming:
+                    continue
+                if key not in current:
+                    # emulate incoming container skeleton
+                    current[key] = incoming[key]
+                    continue
+                current[key] = deep_merge(current[key], incoming[key])
+            return current
+    if isinstance(current, str):
+        if isinstance(incoming, str):
+            return incoming
+
+    raise NotImplementedError
+
+def merge_targeted(
     document: Container,
     incoming: Container,
-    breadcrumbs: List[str],
+    breadcrumbs: List[Union[str, int]],
     value: Item,
 ):
+
+    if not breadcrumbs:
+        return deep_merge(document, incoming)
+
     location = document
     incoming_data = incoming
     crumbs, final = breadcrumbs[:-1], breadcrumbs[-1]
@@ -128,5 +157,6 @@ def deep_merge(
             location[key] = type(incoming_data)()
         location = location[key]
 
-    location[final] = incoming_data[final]
+    location[final] = deep_merge(location[final], incoming_data[final])
+    
     return document

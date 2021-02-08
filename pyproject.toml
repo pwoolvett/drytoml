@@ -1,4 +1,4 @@
-global = "outside"
+__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/pyproject.toml"
 
 [tool.poetry]
 name = "drytoml"
@@ -37,11 +37,3 @@ isort = "^5.7.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/black.toml"
-target-version = ['py37']
-line-length = 79
-
-[tool.isort]
-__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/isort.toml"

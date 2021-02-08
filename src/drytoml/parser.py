@@ -7,7 +7,7 @@ from typing import Union
 
 from drytoml.types import Url
 from drytoml.utils import deep_find
-from drytoml.utils import deep_merge
+from drytoml.utils import merge_targeted
 from drytoml.utils import is_url
 from drytoml.utils import request
 from tomlkit.parser import Parser as BaseParser
@@ -62,17 +62,23 @@ class Parser(BaseParser):
 
     def parse(self):
         document = super().parse()
-        base_key_locations = sorted(
-            deep_find(document, self.extend_key),
-            key=lambda path_ct: path_ct[0],
-        )
-        for breadcrumbs, value in base_key_locations:
-            incoming_parser = type(self).factory(
-                value,
-                self.extend_key,
-                self.reference,
+        while True:
+            base_key_locations = sorted(
+                deep_find(document, self.extend_key),
+                key=lambda path_ct: path_ct[0],
             )
-            incoming = incoming_parser.parse()
-            deep_merge(document, incoming, breadcrumbs, value)
+
+            if not base_key_locations:
+                break
+
+            for breadcrumbs, value in base_key_locations:
+                incoming_parser = type(self).factory(
+                    value,
+                    self.extend_key,
+                    self.reference,
+                )
+                incoming = incoming_parser.parse()
+                merge_targeted(document, incoming, breadcrumbs, value)
+            
 
         return document
