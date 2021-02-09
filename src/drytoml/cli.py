@@ -2,10 +2,12 @@
 """"""
 import importlib
 import os
+from pathlib import Path
+import shutil
 import sys
 import tempfile
 from contextlib import contextmanager
-import shutil
+
 from drytoml.parser import Parser
 
 CLI_PROVIDERS = {
@@ -26,10 +28,19 @@ ENVIRON_PROVIDERS = {
 def tmp_dump(cfg: str):
     parser = Parser.from_file(cfg)
     document = parser.parse()
+
+    # ensure locally referenced files work
+    path = Path(cfg)
+    if path.is_absolute():
+        parent = path.parent
+    else:
+        parent = (Path.cwd() / cfg).parent
+
     with tempfile.NamedTemporaryFile(
         mode="w+",
         suffix=".toml",
         prefix="drytoml.",
+        dir=str(parent),
     ) as fp:
         fp.write(document.as_string())
         fp.seek(0)
@@ -52,6 +63,7 @@ def impl_env(importstr, env):
         # NOTE: import should go after env definition just to be safe
         tool_main = import_callable(importstr)
         sys.exit(tool_main())
+
 
 def impl_cli(importstr, configs):
     tool_main = import_callable(importstr)
@@ -77,7 +89,8 @@ def impl_cli(importstr, configs):
 
 def clear_cache():
     from drytoml.paths import CACHE
-    truthy = {'t', "true", "y","yes", "clear"}
+
+    truthy = {"t", "true", "y", "yes", "clear"}
     response = input("Clear cache? [y/N]")
     if response.lower() not in truthy:
         print("Aborted")
@@ -93,6 +106,7 @@ def clear_cache():
 INTERNAL = {
     "cache-clear": clear_cache,
 }
+
 
 def main():
     del sys.argv[0]

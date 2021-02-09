@@ -5,13 +5,14 @@ from pathlib import Path
 from typing import Optional
 from typing import Union
 
+from tomlkit.parser import Parser as BaseParser
+
 from drytoml.types import Url
 from drytoml.utils import deep_del
 from drytoml.utils import deep_find
-from drytoml.utils import merge_targeted
 from drytoml.utils import is_url
+from drytoml.utils import merge_targeted
 from drytoml.utils import request
-from tomlkit.parser import Parser as BaseParser
 
 DEFAULT_EXTEND_KEY = "__extends"
 

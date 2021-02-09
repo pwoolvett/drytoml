@@ -11,7 +11,6 @@ from typing import Union
 
 from drytoml.paths import CACHE
 from drytoml.types import Url
-
 from tomlkit.container import _NOT_SET
 from tomlkit.container import Container
 from tomlkit.items import Item
@@ -106,20 +105,20 @@ def deep_pop(document, breadcrumbs, default=_NOT_SET):
         current = current[key]
     return current.pop(final, default)
 
+
 def deep_del(document, final, *breadcrumbs):
     current = document
     for key in breadcrumbs:
         current = current[key]
     del current[final]
 
+
 def deep_extend(current, incoming):
     current.extend(incoming)
     return current
 
-def deep_merge(
-    current,
-    incoming
-):
+
+def deep_merge(current, incoming):
     if isinstance(current, list):
         if isinstance(incoming, list):
             return deep_extend(current, incoming)
@@ -140,6 +139,7 @@ def deep_merge(
             return incoming
 
     raise NotImplementedError
+
 
 def merge_targeted(
     document: Container,
@@ -163,5 +163,5 @@ def merge_targeted(
         location = location[key]
 
     location[final] = deep_merge(location[final], incoming_data[final])
-    
+
     return document
