@@ -6,6 +6,7 @@ from typing import Optional
 from typing import Union
 
 from drytoml.types import Url
+from drytoml.utils import deep_del
 from drytoml.utils import deep_find
 from drytoml.utils import merge_targeted
 from drytoml.utils import is_url
@@ -79,6 +80,6 @@ class Parser(BaseParser):
                 )
                 incoming = incoming_parser.parse()
                 merge_targeted(document, incoming, breadcrumbs, value)
-            
+                deep_del(document, self.extend_key, *breadcrumbs)
 
         return document

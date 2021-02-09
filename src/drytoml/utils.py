@@ -106,6 +106,11 @@ def deep_pop(document, breadcrumbs, default=_NOT_SET):
         current = current[key]
     return current.pop(final, default)
 
+def deep_del(document, final, *breadcrumbs):
+    current = document
+    for key in breadcrumbs:
+        current = current[key]
+    del current[final]
 
 def deep_extend(current, incoming):
     current.extend(incoming)
