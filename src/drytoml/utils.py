@@ -9,11 +9,12 @@ from logging import root as logger
 from typing import List
 from typing import Union
 
-from drytoml.paths import CACHE
-from drytoml.types import Url
 from tomlkit.container import _NOT_SET
 from tomlkit.container import Container
 from tomlkit.items import Item
+
+from drytoml.paths import CACHE
+from drytoml.types import Url
 
 URL_VALIDATOR = re.compile(
     r"^(?:http|ftp)s?://"  # http:// or https://

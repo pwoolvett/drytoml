@@ -7,10 +7,10 @@ from typing import Collection
 from typing import Tuple
 
 import pytest
-import toml
-from drytoml.reader import Toml
 from tests.paths import FIXTURES
 from tests.utils import CustomEncoder
+
+from drytoml.reader import Toml
 
 EXAMPLE = FIXTURES / "example.toml"
 
