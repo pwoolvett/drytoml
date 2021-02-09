@@ -50,20 +50,4 @@ For the moment, the following providers are supported:
 
 ## TODO
 
-1. [ ] Add tests
-1. [ ] Implement github actions
-   1. [ ] matrix: 3.6, 3.9
-   1. [ ] format
-   1. [ ] lint
-   1. [ ] pytest
-   1. [ ] doc
-   1. [ ] if tag publish to pypi
-   1. [ ] if tag publish docs
-
-1. [ ] Allow different key name from cli
-1. [ ] Control verbosity from cli
-1. [ ] Implement more providers
-1. [ ] Use real cli framework (argparse is enough)
-1. [ ] Implement show command
-1. [ ] Update readme
-1. [ ] Add tests
+check out current development [here](https://github.com/pwoolvett/drytoml/projects/2)
