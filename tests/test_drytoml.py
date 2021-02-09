@@ -1,2 +1,2 @@
 def test_import():
-    import drytoml
+    import drytoml  # noqa F401
