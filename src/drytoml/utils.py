@@ -135,9 +135,10 @@ def deep_merge(current, incoming):
                     continue
                 current[key] = deep_merge(current[key], incoming[key])
             return current
+
     if isinstance(current, str):
         if isinstance(incoming, str):
-            return incoming
+            return current
 
     raise NotImplementedError
 
