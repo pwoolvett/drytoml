@@ -1,11 +1,11 @@
 import os
 from pathlib import Path
 
-CACHE = (
-    Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "drytoml"
-)
 
-CONFIG = (
-    Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
-    / "drytoml"
-)
+def env_or(xdg_env, home_subdir):
+    return Path(os.environ.get(xdg_env, Path.home() / home_subdir))
+
+
+CACHE = env_or("XDG_CACHE_HOME", ".cache") / "drytoml"
+
+CONFIG = env_or("XDG_CONFIG_HOME", ".config") / "drytoml"
