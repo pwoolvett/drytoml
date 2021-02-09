@@ -3,7 +3,7 @@ __extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/py
 [tool.poetry]
 name = "drytoml"
 version = "0.1.0"
-description = "Keep toml configuration centralized and personalizable hgf hgf hgf hgf hg fhg fhg fhfg ghf h"
+description = "Keep toml configuration centralized and personalizable"
 authors = ["Pablo Woolvett <pablowoolvett@gmail.com>"]
 readme = "README.md"
 packages = [
