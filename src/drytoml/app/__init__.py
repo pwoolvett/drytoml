@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """"""
-import functools
 import logging
 import sys
-from enum import IntEnum
 
 import fire
 
@@ -12,7 +10,10 @@ from drytoml import logger
 from drytoml.app.cache import Cache
 from drytoml.app.explain import explain
 from drytoml.app.export import export
-from drytoml.app.wrappers import black, isort
+from drytoml.app.wrappers import black
+from drytoml.app.wrappers import flake8helled
+from drytoml.app.wrappers import flakehell
+from drytoml.app.wrappers import isort
 
 INTERNAL_CMDS = {
     cmd.__name__.lower(): cmd
@@ -28,6 +29,8 @@ WRAPPERS = {
     for cmd in (
         black,
         isort,
+        flakehell,
+        flake8helled,
     )
 }
 

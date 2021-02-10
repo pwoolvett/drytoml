@@ -1,12 +1,18 @@
 import importlib
 import os
-import shutil
 import sys
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
 
 from drytoml.parser import Parser
+
+
+def import_callable(string):
+    module_str, tool_main_str = string.split(":")
+    module = importlib.import_module(module_str)
+    tool_main = getattr(module, tool_main_str)
+    return tool_main
 
 
 @contextmanager
@@ -32,13 +38,6 @@ def tmp_dump(cfg: str):
         yield fp
 
 
-def import_callable(string):
-    module_str, tool_main_str = string.split(":")
-    module = importlib.import_module(module_str)
-    tool_main = getattr(module, tool_main_str)
-    return tool_main
-
-
 def impl_cli(importstr, configs):
     tool_main = import_callable(importstr)
     for option in configs:
@@ -61,6 +60,17 @@ def impl_cli(importstr, configs):
         sys.exit(tool_main())
 
 
+def impl_env(importstr, env):
+
+    cfg = os.environ.get(env, "pyproject.toml")
+
+    with tmp_dump(cfg) as virtual:
+        os.environ[env] = virtual.name
+        # NOTE: import should go after env definition just to be safe
+        tool_main = import_callable(importstr)
+        sys.exit(tool_main())
+
+
 def black():
     return impl_cli("black:patched_main", ["--config"])
 
@@ -70,3 +80,11 @@ def isort():
         "isort.main:main",
         ["--sp", "--settings-path", "--settings-file", "--settings"],
     )
+
+
+def flakehell():
+    return impl_env("flakehell:entrypoint", "FLAKEHELL_TOML")
+
+
+def flake8helled():
+    return impl_env("flakehell:flake8_entrypoint", "FLAKEHELL_TOML")

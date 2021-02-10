@@ -1,4 +1,5 @@
-from drytoml.parser import DEFAULT_EXTEND_KEY, Parser
+from drytoml.parser import DEFAULT_EXTEND_KEY
+from drytoml.parser import Parser
 
 
 def export(

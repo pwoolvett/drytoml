@@ -6,9 +6,11 @@ import hashlib
 import re
 import urllib.request
 from logging import root as logger
-from typing import List, Union
+from typing import List
+from typing import Union
 
-from tomlkit.container import _NOT_SET, Container
+from tomlkit.container import _NOT_SET
+from tomlkit.container import Container
 from tomlkit.items import Item
 
 from drytoml.paths import CACHE

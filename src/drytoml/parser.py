@@ -3,13 +3,18 @@
 
 from pathlib import Path
 from textwrap import dedent as _
-from typing import Optional, Union
+from typing import Optional
+from typing import Union
 
 from tomlkit.parser import Parser as BaseParser
 
 from drytoml import logger
 from drytoml.types import Url
-from drytoml.utils import deep_del, deep_find, is_url, merge_targeted, request
+from drytoml.utils import deep_del
+from drytoml.utils import deep_find
+from drytoml.utils import is_url
+from drytoml.utils import merge_targeted
+from drytoml.utils import request
 
 DEFAULT_EXTEND_KEY = "__extends"
 
@@ -31,7 +36,7 @@ class Parser(BaseParser):
 
     def __repr__(self):
         return "{}Parser('{}'{}, extend_key='{}')".format(
-            " " * 2 * self.level,
+            self.log_indent,
             self.reference,
             " as cwd, (from string)" if self.from_string else "",
             self.extend_key,
@@ -72,18 +77,29 @@ class Parser(BaseParser):
 
         return cls.from_file(path, extend_key=extend_key, level=level)
 
+    @property
+    def log_indent(self):
+        return " " * 2 * self.level
+
     def log_document(self, document):
         raw = document.as_string()
-        return (
-            " " * 2 * self.level
-            + "\n".join(
-                (
-                    f'{"="*30}{self} CONTENTS STARTS HERE{"="*30}',
-                    f"{raw}",
-                    f'{"="*30}{self} CONTENTS END HERE{"="*30}',
-                )
-            ).replace("\n", f"\n{' '*2*self.level}")
-        )
+        return _(
+            f"""\
+            {"="*30}{self} CONTENTS STARTS HERE{"="*30}
+            {raw}
+            {"="*30}{self} CONTENTS END HERE{"="*30}
+        """
+        ).replace("\n", f"\n{self.log_indent}")
+        # (
+        #     self.log_indent
+        #     + "\n".join(
+        #         (
+        #             f'',
+        #             f"",
+        #             f'',
+        #         )
+        #     )
+        # )
 
     def parse(self):
         document = super().parse()
@@ -108,8 +124,8 @@ class Parser(BaseParser):
                     self,
                     self.extend_key,
                     [
-                        ".".join(l[0]) or "(document root)"
-                        for l in base_key_locations
+                        ".".join(crumbs_val[0]) or "(document root)"
+                        for crumbs_val in base_key_locations
                     ],
                 )
             )
