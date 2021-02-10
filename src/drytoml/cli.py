@@ -8,8 +8,8 @@ import tempfile
 from contextlib import contextmanager
 from pathlib import Path
 
-from drytoml.parser import Parser
 from drytoml import logger
+from drytoml.parser import Parser
 
 CLI_PROVIDERS = {
     "black": ("black:patched_main", ["--config"]),
@@ -86,27 +86,6 @@ def impl_cli(importstr, configs):
         sys.argv = [*pre, option, f"{virtual.name}", *post]
 
         sys.exit(tool_main())
-
-
-def clear_cache():
-    from drytoml.paths import CACHE
-
-    truthy = {"t", "true", "y", "yes", "clear"}
-    response = input("Clear cache? [y/N]")
-    if response.lower() not in truthy:
-        logger.warning("Aborted")
-        return
-
-    for cache in CACHE.glob("**/*"):
-        if cache.is_file():
-            cache.unlink()
-        elif cache.is_dir():
-            shutil.rmtree(str(cache.resolve()))
-
-
-INTERNAL = {
-    "cache-clear": clear_cache,
-}
 
 
 def main():

@@ -1,24 +1,20 @@
-from cleo import Command
+from drytoml.parser import DEFAULT_EXTEND_KEY, Parser
 
 
-class Export(Command):
+def export(
+    file="pyproject.toml",
+    key=DEFAULT_EXTEND_KEY,
+):
+    """Generate resulting TOML after injection
+
+    Args:
+        file: TOML file to interpolate values.
+        key: Name too look for inside the file to activate interpolation.
+
+    Example:
+        >>> toml = export("isort.toml", "base")
     """
-    Generate file containing
+    import logging
 
-    greet
-        {name? : Who do you want to greet?}
-        {--y|yell : If set, the task will yell in uppercase letters}
-    """
-
-    def handle(self):
-        name = self.argument('name')
-
-        if name:
-            text = 'Hello {}'.format(name)
-        else:
-            text = 'Hello'
-
-        if self.option('yell'):
-            text = text.upper()
-
-        self.line(text)
+    logging.basicConfig(level=60, format="%(message)s", force=True)
+    return Parser.from_file(file, extend_key=key).parse().as_string()

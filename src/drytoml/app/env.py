@@ -44,7 +44,6 @@ def import_callable(string):
     return tool_main
 
 
-
 def impl_env(importstr, env):
 
     cfg = os.environ.get(env, "pyproject.toml")
@@ -54,4 +53,3 @@ def impl_env(importstr, env):
         # NOTE: import should go after env definition just to be safe
         tool_main = import_callable(importstr)
         sys.exit(tool_main())
-

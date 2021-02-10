@@ -3,14 +3,13 @@ import json
 import tempfile
 from pathlib import Path
 from textwrap import dedent as _
-from typing import Collection
-from typing import Tuple
+from typing import Collection, Tuple
 
 import pytest
-from tests.paths import FIXTURES
-from tests.utils import CustomEncoder
 
 from drytoml.reader import Toml
+from tests.paths import FIXTURES
+from tests.utils import CustomEncoder
 
 EXAMPLE = FIXTURES / "example.toml"
 

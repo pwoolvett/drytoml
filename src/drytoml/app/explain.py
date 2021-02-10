@@ -1,6 +1,17 @@
-from drytoml.parser import Parser
+from drytoml.parser import DEFAULT_EXTEND_KEY, Parser
 
-def explain(file="pyproject.toml"):
-    """Show steps for toml injection"""
-    parser = Parser.from_file(file)
-    document = parser.parse()
+
+def explain(
+    file="pyproject.toml",
+    key=DEFAULT_EXTEND_KEY,
+):
+    """Show steps for toml injection
+
+    Args:
+        file: TOML file to interpolate values.
+        key: Name too look for inside the file to activate interpolation.
+
+    Example:
+        >>> explain("isort.toml", "base")
+    """
+    Parser.from_file(file, extend_key=key).parse()

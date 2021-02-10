@@ -8,14 +8,6 @@ from pathlib import Path
 
 from drytoml.parser import Parser
 
-CLI_PROVIDERS = {
-    "black": ("black:patched_main", ["--config"]),
-    "isort": (
-        "isort.main:main",
-        ["--sp", "--settings-path", "--settings-file", "--settings"],
-    ),
-}
-
 
 @contextmanager
 def tmp_dump(cfg: str):
@@ -47,7 +39,6 @@ def import_callable(string):
     return tool_main
 
 
-
 def impl_cli(importstr, configs):
     tool_main = import_callable(importstr)
     for option in configs:
@@ -68,3 +59,14 @@ def impl_cli(importstr, configs):
         sys.argv = [*pre, option, f"{virtual.name}", *post]
 
         sys.exit(tool_main())
+
+
+def black():
+    return impl_cli("black:patched_main", ["--config"])
+
+
+def isort():
+    return impl_cli(
+        "isort.main:main",
+        ["--sp", "--settings-path", "--settings-file", "--settings"],
+    )

@@ -1,18 +1,16 @@
 import os
-from pathlib import Path
 import shutil
-from drytoml.paths import CACHE
+from pathlib import Path
+
 from drytoml import logger
+from drytoml.paths import CACHE
+
 
 class Cache:
     """Manage drytoml's internal cache"""
 
     @classmethod
-    def clear(
-        cls,
-        force:bool = False,
-        name:str = ""
-    ):
+    def clear(cls, force: bool = False, name: str = ""):
         """Clear drytoml's cache
 
         Args:
@@ -58,10 +56,7 @@ class Cache:
         if not data:
             return logger.info(f"Cache is empty: {CACHE}")
         info = {
-            **{
-                k: f"{v/1024:.2f} kb"
-                for k,v in data.items()
-            },
-            "__total__": f"{sum(data.values()) / 1024:.2f} kb"
+            **{k: f"{v/1024:.2f} kb" for k, v in data.items()},
+            "__total__": f"{sum(data.values()) / 1024:.2f} kb",
         }
         return info
