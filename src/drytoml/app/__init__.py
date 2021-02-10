@@ -32,8 +32,7 @@ def setup_log(argv):
     args, unknown = parser.parse_known_args()
     level = max(1,20 + 50*args.quiet - 10*args.verbose )
     logging.basicConfig(level=level, format='%(message)s', force=True)
-    for lvl in ("critical","error","warning","info","debug"):
-        getattr(logger, lvl)(lvl)
+    logger.debug(f"drytoml: Log level set to {level} because {args.__dict__}")
     return sys.argv[:1]+unknown
 
 

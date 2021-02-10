@@ -39,22 +39,23 @@ class Cache:
                 shutil.rmtree(str(descendant.resolve()))
                 worked = True
         if worked:
-            print(f"Succesfully cleared {CACHE} {name}")
+            logger.info(f"Succesfully cleared {CACHE} {name}")
         else:
-            print(f"Nothing cleared from {CACHE} ")
+            logger.info(f"Nothing cleared from {CACHE} ")
             raise SystemExit(1)
 
         return cls.show()
 
     @staticmethod
     def show():
+        """Show drytoml's cache contents"""
         data = {
             descendant: descendant.stat().st_size
             for descendant in CACHE.glob("**/*")
             if descendant.is_file()
         }
         if not data:
-            return print(f"Cache is empty: {CACHE}")
+            return logger.info(f"Cache is empty: {CACHE}")
         info = {
             **{
                 k: f"{v/1024:.2f} kb"
