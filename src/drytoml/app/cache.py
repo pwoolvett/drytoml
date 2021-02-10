@@ -5,6 +5,7 @@ from drytoml.paths import CACHE
 from drytoml import logger
 
 class Cache:
+    """Manage drytoml's internal cache"""
 
     @classmethod
     def clear(

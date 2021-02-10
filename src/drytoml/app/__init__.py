@@ -8,6 +8,7 @@ import sys
 import fire
 
 from drytoml.app.cache import Cache
+from drytoml.app.explain import explain
 
 LOG_LEVEL = IntEnum("LOG_LEVEL", logging._nameToLevel)
 from drytoml import logger
@@ -19,8 +20,8 @@ from drytoml import logger
 # NOTSET = 0
 
 ALL_COMMANDS = {
-    cls.__name__.lower(): cls
-    for cls in (Cache,)
+    cmd.__name__.lower(): cmd
+    for cmd in (Cache, explain)
 }
 
 def setup_log(argv):
