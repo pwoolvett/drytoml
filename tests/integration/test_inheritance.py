@@ -1,27 +1,24 @@
 import contextlib
 import json
+import tempfile
 from pathlib import Path
-from tests.utils import CustomEncoder
 from textwrap import dedent as _
 from typing import Collection
 from typing import Tuple
-import tempfile
 
-import toml
 import pytest
+from tests.paths import FIXTURES
+from tests.utils import CustomEncoder
 
 from drytoml.reader import Toml
 
-from tests.utils import CustomEncoder
-from tests.paths import FIXTURES
-
 EXAMPLE = FIXTURES / "example.toml"
+
 
 @pytest.fixture
 def example_raw():
     with open(EXAMPLE) as fp:
         return fp.read()
-
 
 
 @contextlib.contextmanager
@@ -67,22 +64,30 @@ def test_full_toml_single_inheritance(example_raw):
 
 
 def test_full_toml_disjoint_list_inheritance():
-    child = _("""\
+    child = _(
+        """\
         extends = ["table1.toml", "table2.toml"]
-    """)
-    table1 = _("""\
+    """
+    )
+    table1 = _(
+        """\
         tabe1data = {foo = "bar"}
-    """)
-    table2 = _("""\
+    """
+    )
+    table2 = _(
+        """\
         tabe2data = {fizz = "buzz"}
-    """)
-    expected = _("""\
+    """
+    )
+    expected = _(
+        """\
         [tabe1data]
         foo = "bar"
 
         [tabe2data]
         fizz = "buzz"
-    """)
+    """
+    )
     check(
         ("child.toml", child),
         ("table1.toml", table1),
