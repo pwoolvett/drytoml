@@ -11,7 +11,7 @@ packages = [
 ]
 
 [tool.poetry.scripts]
-dry = "drytoml.cli:main"
+dry = "drytoml.app:main"
 
 [tool.poetry.dependencies]
 python = "^3.6.9"
@@ -19,6 +19,7 @@ black = {version = "^20.8b1", optional = true}
 isort = {extras = ["toml"], version = "^5.7.0", optional = true}
 tomlkit = "^0.7.0"
 flakehell = {git = "https://github.com/pwoolvett/flakehell.git", rev = "58f545a07188875193bac1efd0e81e076b041561", optional=true}
+fire = "^0.4.0"
 
 [tool.poetry.extras]
 black = ["black"]
