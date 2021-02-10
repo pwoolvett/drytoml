@@ -40,14 +40,14 @@ def cached(func):
         key = hashlib.sha1(url.encode("utf8")).hexdigest()
         path = CACHE / key
         if path.exists():
-            logger.warning(
-                f"DryToml: Using cached version of {url} from {path}"
+            logger.debug(
+                f"drytoml-cache: Using cached version of {url} at {path}"
             )
             with open(path) as fp:
                 return fp.read()
 
         result = func(url, *a, **kw)
-        logger.warning(f"Caching {url} into {path}")
+        logger.debug(f"Caching {url} into {path}")
         CACHE.mkdir(exist_ok=True, parents=True)
         with open(path, "w") as fp:
             fp.write(result)

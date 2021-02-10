@@ -2,44 +2,111 @@
 
 Keep toml configuration centralized and personalizable.
 
-Inspired by `flakehell` and `nitpick`, drytoml aims at having a single, centralized
-configuration for several project, as well as granular control on each table.
+`drytoml` enables having `.toml` files referencing any content from another `.toml`
+file. You can reference the whole file, a specific table, or in general anything
+reachable by a sequence of `getitem` calls (eg `["tool", "poetry", "source", 0, "url"]`)
 
-`drytoml` allows to have the following in your pyproject
+Inspired by `flakehell` and `nitpick`, drytoml main motivation is to have several
+projects share a common, centralized configuration defining codestyles, but still
+allowing granular control wherever is required.
 
-```toml
-...
-[tool.black]
-__extends = "../../common/black.toml"
-...
-```
+IMPORTANT: if you want to manually control transclusions and modify files by hand, you
+should use other tools, like [nitpick](https://pypi.org/project/nitpick/).
 
-It works with urls too, which is the main motivation for the project. Then, run `dry` followed by the executable. In this case:
+## Usage
 
-```console
-dry black
-```
+`drytoml` has two main usages:
 
-`drytoml` Uses [tomlkit]() and merges the corresponding sections between the local and referenced `toml`.
+1. Use a file as a reference to create an transcluded one:
+
+    ```toml
+    # contents of pyproject.dry.toml
+    ...
+    [tool.black]
+    __extends = "../../common/black.toml"
+    target-version = ['py37']
+    include = '\.pyi?$'
+    include = '\.pyi?$'
+    ...
+    ```
+
+    ```toml
+    # contents of ../../common/black.toml
+    [tool.black]
+    line-length = 100
+    ```
+
+   ```console
+   $ dry export --file=pyproject.dry.toml > pyproject.toml
+   ```
+
+    ```toml
+    # contents of pyproject.toml
+    [tool.black]
+    line-length = 100
+    target-version = ['py37']
+    include = '\.pyi?$'
+    ```
+
+2. Use included wrappers, allowing you to use your current configuration
+
+   Instead of this:
+
+   ```console
+   $ black .
+   All done! ✨ 🍰 ✨
+   14 files left unchanged.
+   ```
+
+   You would run this
+   ```console
+   $ dry black
+   reformatted /path/to/cwd/file_with_potentially_long_lines.py
+   reformatted /path/to/cwd/another_file_with_potentially_long_lines.py
+   All done! ✨ 🍰 ✨
+   2 files reformatted, 12 files left unchanged.
+   ```
 
 
-For the moment, the following providers are supported:
+Transclusion works with relative/absolute paths and urls. Internally
+`drytoml` uses [tomlkit](https://pypi.org/project/tomlkit/) to merge the
+corresponding sections between the local and referenced `.toml`.
 
-* [x] black
-* [x] isort
+
+For the moment, the following wrappers are supported:
+
+* [x] [black](https://github.com/psf/black)
+* [x] [isort](https://pycqa.github.io/isort/)
+* [x] [flakehell, flake8helled](https://github.com/life4/flakehell) *
 * [ ] docformatter
-* [ ] flakehell
 * [ ] pytest
 
-
+- NOTE: flakehell project was archived. This requires using a custom fork from
+  [here](https://github.com/pwoolvett/flakehell)
+- NOTE flakehell already implements similar funcionality, using a `base` key inside
+  `[tool.flakehell]`
 
 ## Setup
+
+    Install as usual, with `pip`, `poetry`, etc:
 
 ### Prerequisites
 
 ### Install
 
 ## Usage
+
+## FAQ
+
+**Q: I want to use a different key**
+
+   A: Use the `--key` flag (when using `dry` form cli,
+      or initialize `drytoml.parser.Parser` using the `extend_key` kwarg.
+
+
+**Q: I changed a referenced toml upstream (eg in github) but still get the same result.**
+
+   A: Run `dry cache clear --help` to see available options.
 
 ## Contribute
 
