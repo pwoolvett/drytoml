@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Additional Source to extend tomlkit with Urls"""
+"""Additional Source to transclude tomlkit with URL and files"""
 
 from pathlib import Path
 from textwrap import dedent as _
