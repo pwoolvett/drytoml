@@ -6,7 +6,7 @@ def explain(
     file="pyproject.toml",
     key=DEFAULT_EXTEND_KEY,
 ):
-    """Show steps for toml injection
+    """Show steps for toml transclusion
 
     Args:
         file: TOML file to interpolate values.

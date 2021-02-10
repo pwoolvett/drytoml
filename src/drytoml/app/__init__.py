@@ -50,8 +50,8 @@ def setup_log(argv):
 
 
 def main():
+    sys.argv = setup_log(sys.argv)
     if len(sys.argv) == 1 or sys.argv[1] not in WRAPPERS:
-        sys.argv = setup_log(sys.argv)
         return fire.Fire(INTERNAL_CMDS)
     del sys.argv[0]
     return WRAPPERS[sys.argv[0]]()
