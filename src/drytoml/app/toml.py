@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-""""""
 import importlib
 import os
 import shutil
@@ -9,7 +7,6 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from drytoml.parser import Parser
-from drytoml import logger
 
 CLI_PROVIDERS = {
     "black": ("black:patched_main", ["--config"]),
@@ -17,11 +14,6 @@ CLI_PROVIDERS = {
         "isort.main:main",
         ["--sp", "--settings-path", "--settings-file", "--settings"],
     ),
-}
-
-ENVIRON_PROVIDERS = {
-    "flake8helled": ("flakehell:flake8_entrypoint", "FLAKEHELL_TOML"),
-    "flakehell": ("flakehell:entrypoint", "FLAKEHELL_TOML"),
 }
 
 
@@ -55,16 +47,6 @@ def import_callable(string):
     return tool_main
 
 
-def impl_env(importstr, env):
-
-    cfg = os.environ.get(env, "pyproject.toml")
-
-    with tmp_dump(cfg) as virtual:
-        os.environ[env] = virtual.name
-        # NOTE: import should go after env definition just to be safe
-        tool_main = import_callable(importstr)
-        sys.exit(tool_main())
-
 
 def impl_cli(importstr, configs):
     tool_main = import_callable(importstr)
@@ -86,47 +68,3 @@ def impl_cli(importstr, configs):
         sys.argv = [*pre, option, f"{virtual.name}", *post]
 
         sys.exit(tool_main())
-
-
-def clear_cache():
-    from drytoml.paths import CACHE
-
-    truthy = {"t", "true", "y", "yes", "clear"}
-    response = input("Clear cache? [y/N]")
-    if response.lower() not in truthy:
-        logger.warning("Aborted")
-        return
-
-    for cache in CACHE.glob("**/*"):
-        if cache.is_file():
-            cache.unlink()
-        elif cache.is_dir():
-            shutil.rmtree(str(cache.resolve()))
-
-
-INTERNAL = {
-    "cache-clear": clear_cache,
-}
-
-
-def main():
-    del sys.argv[0]
-    provider = sys.argv[0]
-
-    if provider in CLI_PROVIDERS:
-        args = CLI_PROVIDERS[provider]
-        return impl_cli(*args)
-
-    if provider in ENVIRON_PROVIDERS:
-        args = ENVIRON_PROVIDERS[provider]
-        return impl_env(*args)
-
-    if provider in INTERNAL:
-        return INTERNAL[provider]()
-
-    logger.error(f"Invalid command {provider}")
-    sys.exit(1)
-
-
-if __name__ == "__main__":
-    main()

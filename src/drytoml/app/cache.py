@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import shutil
 from drytoml.paths import CACHE
+from drytoml import logger
 
 class Cache:
 
@@ -23,8 +24,8 @@ class Cache:
             truthy = {"t", "true", "y", "yes", "clear"}
             response = input("Clear cache? [y/N]")
             if response.lower() not in truthy:
-                print("Aborted")
-                return
+                logger.error("Aborted")
+                raise SystemExit(1)
 
         worked = False
         for descendant in CACHE.glob("**/*"):
