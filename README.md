@@ -110,9 +110,12 @@ For the moment, the following wrappers are supported:
 
 ## Contribute
 
+Recommended: Use the devcontainer, `act` command to run github actions locally
+
 1. Create issue
 1. clone
 1. add tests
+1. Run check locally with [act](https://github.com/nektos/act)
 1. Create PR
 
 ## TODO

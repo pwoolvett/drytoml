@@ -1,3 +1,9 @@
+# pylint
 .python-version
+#python
 *.pyc
+
 .bkp/
+
+# act, see https://github.com/nektos/act
+.secrets

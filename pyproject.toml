@@ -20,6 +20,12 @@ isort = {extras = ["toml"], version = "^5.7.0", optional = true}
 tomlkit = "^0.7.0"
 flakehell = {git = "https://github.com/pwoolvett/flakehell.git", rev = "58f545a07188875193bac1efd0e81e076b041561", optional=true}
 fire = "^0.4.0"
+pytest = {version = "^6.2.2", optional = true}
+Sphinx = {version = "^3.4.3", optional = true}
+recommonmark = {version = "^0.7.1", optional = true}
+pytest-cov = {version = "^2.11.1", optional = true}
+sphinx-rtd-theme = {version = "^0.5.1", optional = true}
+# docformatter-toml = {version = "^0.1.0", optional = true}
 
 [tool.poetry.extras]
 black = ["black"]
@@ -28,13 +34,19 @@ flakehell = ["flakehell"]
 
 all = ["black", "isort", "flakehell"]
 
-[tool.poetry.dev-dependencies]
-black = "^20.8b1"
-pre-commit = "^2.9.3"
-pytest = "^6.2.2"
-pytest-cov = "^2.11.1"
-isort = "^5.7.0"
+format = ["isort", "black",
+# "docformatter-toml"
+]
+lint = ["isort", "black", "flakehell"]
+docs = ["sphinx", "sphinx-rtd-theme", "recommonmark"]
+test = ["pytest", "pytest-cov"]
 
+dev = [
+    "black", "isort", #"docformatter-toml",
+    "flakehell",
+    "sphinx", "sphinx-rtd-theme", "recommonmark",
+    "pytest", "pytest-cov"
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
