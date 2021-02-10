@@ -1,4 +1,3 @@
-
 name: Format
 
 on:
@@ -20,6 +19,7 @@ jobs:
         run: |
           pip install .[format] 
 
+      # disabled until docformatter or docformatter-toml supports custom file config
       # - name: Run docformatter in check mode
       #   run: |
       #     dry docformatter --check .
@@ -32,15 +32,16 @@ jobs:
         run: |
           dry -q isort --check .
 
-      - name: If needed, commit Code Quality changes to the PR
-        if: failure()
-        run: |
-          dry docformatter --in-place .
-          dry black .
-          dry isort .
-          git config --global user.name 'Format Quality Bot'
-          git config --global user.email 'formatter.drytoml@devx.pw'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git checkout $GITHUB_HEAD_REF
-          git commit -am "style: Auto reformat"
-          git push
+      # Enable to re-commit automatically
+      # - name: If needed, commit Code Quality changes to the PR
+      #   if: failure()
+      #   run: |
+      #     dry docformatter --in-place .
+      #     dry black .
+      #     dry isort .
+      #     git config --global user.name 'Format Quality Bot'
+      #     git config --global user.email 'formatter.drytoml@devx.pw'
+      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+      #     git checkout $GITHUB_HEAD_REF
+      #     git commit -am "style: Auto reformat"
+      #     git push

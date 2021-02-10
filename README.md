@@ -110,7 +110,9 @@ For the moment, the following wrappers are supported:
 
 ## Contribute
 
-Recommended: Use the devcontainer, `act` command to run github actions locally
+* Use the devcontainer, `act` command to run github actions locally
+* install locally with pip `pip install .[dev]` or poetry `poetry install -E dev`
+
 
 1. Create issue
 1. clone
