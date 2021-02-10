@@ -15,76 +15,92 @@ def import_callable(string):
     return tool_main
 
 
-@contextmanager
-def tmp_dump(cfg: str):
-    parser = Parser.from_file(cfg)
-    document = parser.parse()
+class Wrapper:
+    cfg: str
 
-    # ensure locally referenced files work
-    path = Path(cfg)
-    if path.is_absolute():
-        parent = path.parent
-    else:
-        parent = (Path.cwd() / cfg).parent
+    def __call__(self, importstr):
+        with self.tmp_dump() as virtual:
+            self.virtual = virtual
+            self.pre_import()
+            self.pre_call()
+            tool_main = import_callable(importstr)
+            sys.exit(tool_main())
 
-    with tempfile.NamedTemporaryFile(
-        mode="w+",
-        suffix=".toml",
-        prefix="drytoml.",
-        dir=str(parent),
-    ) as fp:
-        fp.write(document.as_string())
-        fp.seek(0)
-        yield fp
+    def pre_import(self):
+        pass
 
+    def pre_call(self):
+        pass
 
-def impl_cli(importstr, configs):
-    tool_main = import_callable(importstr)
-    for option in configs:
-        try:
-            idx = sys.argv.index(option)
-            pre = sys.argv[:idx]
-            post = sys.argv[idx + 2 :]
-            cfg = sys.argv[idx + 1]
-            break
-        except ValueError:
-            pass
-    else:
-        pre = sys.argv
-        post = []
-        cfg = "pyproject.toml"
+    @contextmanager
+    def tmp_dump(self):
+        parser = Parser.from_file(self.cfg)
+        document = parser.parse()
 
-    with tmp_dump(cfg) as virtual:
-        sys.argv = [*pre, option, f"{virtual.name}", *post]
+        # ensure locally referenced files work
+        path = Path(self.cfg)
+        if path.is_absolute():
+            parent = path.parent
+        else:
+            parent = (Path.cwd() / self.cfg).parent
 
-        sys.exit(tool_main())
+        with tempfile.NamedTemporaryFile(
+            mode="w+",
+            suffix=".toml",
+            prefix="drytoml.",
+            dir=str(parent),
+        ) as fp:
+            fp.write(document.as_string())
+            fp.seek(0)
+            yield fp
 
 
-def impl_env(importstr, env):
+class Env(Wrapper):
+    def __init__(self, env):
+        self.env = env
+        self.cfg = os.environ.get(env, "pyproject.toml")
 
-    cfg = os.environ.get(env, "pyproject.toml")
+    def pre_import(self):
+        os.environ[self.env] = self.virtual.name
 
-    with tmp_dump(cfg) as virtual:
-        os.environ[env] = virtual.name
-        # NOTE: import should go after env definition just to be safe
-        tool_main = import_callable(importstr)
-        sys.exit(tool_main())
+
+class Cli(Wrapper):
+    def __init__(self, configs):
+        for option in configs:
+            try:
+                idx = sys.argv.index(option)
+                pre = sys.argv[:idx]
+                post = sys.argv[idx + 2 :]
+                cfg = sys.argv[idx + 1]
+                break
+            except ValueError:
+                pass
+        else:
+            pre = sys.argv
+            post = []
+            cfg = "pyproject.toml"
+        self.cfg = cfg
+        self.pre = pre
+        self.post = post
+        self.option = option
+
+    def pre_call(self):
+        sys.argv = [*self.pre, self.option, f"{self.virtual.name}", *self.post]
 
 
 def black():
-    return impl_cli("black:patched_main", ["--config"])
+    return Cli(["--config"])("black:patched_main")
 
 
 def isort():
-    return impl_cli(
-        "isort.main:main",
-        ["--sp", "--settings-path", "--settings-file", "--settings"],
+    return Cli(["--sp", "--settings-path", "--settings-file", "--settings"])(
+        "isort.main:main"
     )
 
 
 def flakehell():
-    return impl_env("flakehell:entrypoint", "FLAKEHELL_TOML")
+    return Env("FLAKEHELL_TOML")("flakehell:entrypoint")
 
 
 def flake8helled():
-    return impl_env("flakehell:flake8_entrypoint", "FLAKEHELL_TOML")
+    return Env("FLAKEHELL_TOML")("flakehell:flake8_entrypoint")
