@@ -7,3 +7,7 @@
 
 # act, see https://github.com/nektos/act
 .secrets
+docs/src/apidoc/*.rst
+docs/build/
+reports/
+.coverage

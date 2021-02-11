@@ -100,8 +100,8 @@ For the moment, the following wrappers are supported:
 
 **Q: I want to use a different key**
 
-   A: Use the `--key` flag (when using `dry` form cli,
-      or initialize `drytoml.parser.Parser` using the `extend_key` kwarg.
+   A: Use the `--key` flag (when using `dry` form cli, or initialize
+   `drytoml.parser.Parser` using the `extend_key` kwarg.
 
 
 **Q: I changed a referenced toml upstream (eg in github) but still get the same result.**
