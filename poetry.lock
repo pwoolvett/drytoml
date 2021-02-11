@@ -620,6 +620,29 @@ pytest = ">=4.6"
 testing = ["fields", "hunter", "process-tests (==2.0.2)", "six", "pytest-xdist", "virtualenv"]
 
 [[package]]
+name = "pytest-html"
+version = "3.1.1"
+description = "pytest plugin for generating HTML reports"
+category = "main"
+optional = true
+python-versions = ">=3.6"
+
+[package.dependencies]
+pytest = ">=5.0,<6.0.0 || >6.0.0"
+pytest-metadata = "*"
+
+[[package]]
+name = "pytest-metadata"
+version = "1.11.0"
+description = "pytest plugin for test session metadata"
+category = "main"
+optional = true
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+
+[package.dependencies]
+pytest = ">=2.9.0"
+
+[[package]]
 name = "pytz"
 version = "2021.1"
 description = "World timezone definitions, modern and historical"
@@ -894,18 +917,18 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [extras]
 all = ["black", "isort", "flakehell"]
 black = ["black"]
-dev = ["black", "isort", "flakehell", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming", "Sphinx", "sphinx-rtd-theme", "recommonmark", "pytest", "pytest-cov"]
+dev = ["black", "isort", "flakehell", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming", "Sphinx", "sphinx-rtd-theme", "recommonmark", "pytest", "pytest-cov", "pytest-html"]
 docs = ["Sphinx", "sphinx-rtd-theme", "recommonmark"]
 flakehell = ["flakehell"]
 format = ["isort", "black"]
 isort = ["isort"]
 lint = ["isort", "black", "darglint", "flakehell", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming"]
-test = ["pytest", "pytest-cov"]
+test = ["pytest", "pytest-cov", "pytest-html"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.9"
-content-hash = "d440778f0f860eb3461e0f5610181677a5fb9512f42849aad60d86e8b8d34243"
+content-hash = "c58be50155eaa8b30c91af521e87a93f1092833c6113207be6ca82b2b34873e8"
 
 [metadata.files]
 alabaster = [
@@ -1221,6 +1244,14 @@ pytest = [
 pytest-cov = [
     {file = "pytest-cov-2.11.1.tar.gz", hash = "sha256:359952d9d39b9f822d9d29324483e7ba04a3a17dd7d05aa6beb7ea01e359e5f7"},
     {file = "pytest_cov-2.11.1-py2.py3-none-any.whl", hash = "sha256:bdb9fdb0b85a7cc825269a4c56b48ccaa5c7e365054b6038772c32ddcdc969da"},
+]
+pytest-html = [
+    {file = "pytest-html-3.1.1.tar.gz", hash = "sha256:3ee1cf319c913d19fe53aeb0bc400e7b0bc2dbeb477553733db1dad12eb75ee3"},
+    {file = "pytest_html-3.1.1-py3-none-any.whl", hash = "sha256:b7f82f123936a3f4d2950bc993c2c1ca09ce262c9ae12f9ac763a2401380b455"},
+]
+pytest-metadata = [
+    {file = "pytest-metadata-1.11.0.tar.gz", hash = "sha256:71b506d49d34e539cc3cfdb7ce2c5f072bea5c953320002c95968e0238f8ecf1"},
+    {file = "pytest_metadata-1.11.0-py2.py3-none-any.whl", hash = "sha256:576055b8336dd4a9006dd2a47615f76f2f8c30ab12b1b1c039d99e834583523f"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
