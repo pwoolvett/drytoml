@@ -9,9 +9,17 @@ from tomlkit.parser import Parser as BaseParser
 
 from drytoml import logger
 from drytoml.types import Url
-from drytoml.utils import (deep_del, deep_find, is_url, merge_from_dict,
-                           merge_from_list, merge_from_str, merge_from_value,
-                           merge_targeted, request)
+from drytoml.utils import (
+    deep_del,
+    deep_find,
+    is_url,
+    merge_from_dict,
+    merge_from_list,
+    merge_from_str,
+    merge_from_value,
+    merge_targeted,
+    request,
+)
 
 DEFAULT_EXTEND_KEY = "__extends"
 
@@ -80,11 +88,10 @@ class Parser(BaseParser):
     def log_document(self, document):
         raw = document.as_string()
         return _(
-            f"""\
-            {"="*30}{self} CONTENTS STARTS HERE{"="*30}
-            {raw}
-            {"="*30}{self} CONTENTS END HERE{"="*30}
-        """
+            f"""
+{"="*30}{self} CONTENTS STARTS HERE{"="*30}
+{raw}
+{"="*30}{self} CONTENTS END HERE{"="*30}"""
         ).replace("\n", f"\n{self.log_indent}")
 
     def parse(self):
@@ -115,6 +122,9 @@ class Parser(BaseParser):
             )
 
             for breadcrumbs, value in base_key_locations:
+                logger.debug(
+                    "{}: Before merging {} contents:\n\n{}".format(self, breadcrumbs, self.log_document(document))
+                    )
                 merge_from_value(
                     type(self),
                     value,
@@ -125,6 +135,10 @@ class Parser(BaseParser):
                     breadcrumbs,
                 )
                 deep_del(document, self.extend_key, *breadcrumbs)
+                logger.debug(
+                    "{}: After merging {} contents:\n\n{}".format(self, breadcrumbs, self.log_document(document))
+                    )
+            print("pdb in between")
 
         logger.info(f"{self}: Parsing finished")
         logger.debug(

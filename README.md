@@ -147,6 +147,9 @@ For the moment, the following wrappers are supported:
 
 1. Run check(s)
 
+
+   Useful tip: To debug your code, a useful tool is using `drytoml -v explain`
+
    * Manually, executing the check from inside a venv
 
      For example, to generate the documentation:
@@ -178,6 +181,9 @@ For the moment, the following wrappers are supported:
      ```
 
    * Remotely, by pushing to an open PR
+
+
+
 
 1. Create PR
 
