@@ -164,6 +164,98 @@ def merge_targeted(
             location[key] = type(incoming_data)()
         location = location[key]
 
-    location[final] = deep_merge(location[final], incoming_data[final])
+    if final not in location:
+        location[final] = incoming_data[final]
+    else:
+        location[final] = deep_merge(location[final], incoming_data[final])
 
     return document
+
+def merge_from_value(
+    cls,
+    value,
+    extend_key,
+    reference,
+    level,
+    document,
+    breadcrumbs
+):
+
+    if isinstance(value, str):
+        merge = merge_from_str
+    elif isinstance(value, list):
+        merge = merge_from_list
+    elif isinstance(value, dict):
+        merge = merge_from_dict
+    else:
+        raise NotImplementedError
+
+    merge(
+        cls,
+        value,
+        extend_key,
+        reference,
+        level,
+        document,
+        breadcrumbs
+    )
+
+def merge_from_str(
+    cls,
+    value,
+    extend_key,
+    reference,
+    level,
+    document,
+    breadcrumbs
+):
+    incoming_parser = cls.factory(
+        value,
+        extend_key,
+        reference,
+        level=level,
+    )
+    incoming = incoming_parser.parse()
+    merge_targeted(document, incoming, breadcrumbs, value)
+
+
+def merge_from_list(
+    cls,
+    values,
+    extend_key,
+    reference,
+    level,
+    document,
+    breadcrumbs,
+):
+    for val in reversed(values):
+        merge_from_value(
+            cls,
+            val,
+            extend_key,
+            reference,
+            level,
+            document,
+            breadcrumbs,
+        )
+    
+
+def merge_from_dict(
+    cls,
+    dct,
+    extend_key,
+    reference,
+    level,
+    document,
+    breadcrumbs,
+):
+    for key, val in dct.items():
+        merge_from_value(
+            cls,
+            val,
+            extend_key,
+            reference,
+            level,
+            document,
+            [*breadcrumbs, key],
+        )

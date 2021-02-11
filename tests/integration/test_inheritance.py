@@ -10,7 +10,7 @@ import pytest
 from tests.paths import FIXTURES
 from tests.utils import CustomEncoder
 
-from drytoml.reader import Toml
+from drytoml.parser import Parser
 
 EXAMPLE = FIXTURES / "example.toml"
 
@@ -35,7 +35,9 @@ def setup_temp(name_toml: Collection[Tuple[str, str]]):
         # through parents, then through children...
         for name, raw in name_toml:
             toml_path = path / name
-            tomls.append(Toml(toml_path).load())
+            parser = Parser.from_file(toml_path)
+            document = parser.parse()
+            tomls.append(document)
         yield tomls[0], tomls[-1]
 
 
@@ -56,7 +58,7 @@ def check(*toml_tuples):
 def test_full_toml_single_inheritance(example_raw):
     child = _(
         """\
-        extends = "parent.toml"
+        __extends = "parent.toml"
     """
     )
     parent = example_raw
@@ -66,7 +68,7 @@ def test_full_toml_single_inheritance(example_raw):
 def test_full_toml_disjoint_list_inheritance():
     child = _(
         """\
-        extends = ["table1.toml", "table2.toml"]
+        __extends = ["table1.toml", "table2.toml"]
     """
     )
     table1 = _(
@@ -99,7 +101,7 @@ def test_full_toml_disjoint_list_inheritance():
 def test_full_toml_intersect_list_inheritance():
     child = _(
         """\
-        extends = ["table1.toml", "table2.toml"]
+        __extends = ["table1.toml", "table2.toml"]
         [child_only_section]
         should_be_child = "child"
 
@@ -144,7 +146,7 @@ def test_full_toml_intersect_list_inheritance():
 def test_full_toml_table_inheritance():
     child = _(
         """\
-        [extends]
+        [__extends]
         first_only = "table1.toml"
         second_only = "table2.toml"
         common = ["table1.toml", "table2.toml"]

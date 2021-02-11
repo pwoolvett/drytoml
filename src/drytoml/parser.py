@@ -10,7 +10,7 @@ from tomlkit.parser import Parser as BaseParser
 
 from drytoml import logger
 from drytoml.types import Url
-from drytoml.utils import deep_del
+from drytoml.utils import deep_del, merge_from_dict, merge_from_list, merge_from_str, merge_from_value
 from drytoml.utils import deep_find
 from drytoml.utils import is_url
 from drytoml.utils import merge_targeted
@@ -27,7 +27,6 @@ class Parser(BaseParser):
         reference: Optional[Union[str, Path, Url]] = None,
         level=0,
     ):
-        """"""
         self.extend_key = extend_key
         self.reference = reference or Path.cwd()
         self.from_string = not reference
@@ -90,16 +89,6 @@ class Parser(BaseParser):
             {"="*30}{self} CONTENTS END HERE{"="*30}
         """
         ).replace("\n", f"\n{self.log_indent}")
-        # (
-        #     self.log_indent
-        #     + "\n".join(
-        #         (
-        #             f'',
-        #             f"",
-        #             f'',
-        #         )
-        #     )
-        # )
 
     def parse(self):
         document = super().parse()
@@ -131,15 +120,18 @@ class Parser(BaseParser):
             )
 
             for breadcrumbs, value in base_key_locations:
-                incoming_parser = type(self).factory(
+                merge_from_value(
+                    type(self),
                     value,
                     self.extend_key,
                     self.reference,
-                    level=self.level + 1,
+                    self.level + 1,
+                    document,
+                    breadcrumbs
                 )
-                incoming = incoming_parser.parse()
-                merge_targeted(document, incoming, breadcrumbs, value)
                 deep_del(document, self.extend_key, *breadcrumbs)
+
+                
 
         logger.info(f"{self}: Parsing finished")
         logger.debug(
