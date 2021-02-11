@@ -38,6 +38,8 @@ isort                 = { version = "^5.7.0", optional = true }
 pytest-html           = { version = "^3.1.1", optional = true }
 m2r2                  = { version = "^0.2.7", optional = true }
 recommonmark          = { version = "^0.7.1", optional = true }
+commitizen = {version = "^2.14.2", optional = true}
+pre-commit = {version = "^2.10.1", optional = true}
 
 [tool.poetry.extras]
 black     = ["black"]
@@ -74,6 +76,9 @@ docs   = ["sphinx", "sphinx-rtd-theme", "recommonmark", "m2r2"]
 test   = ["pytest", "pytest-cov", "pytest-html"]
 
 dev = [
+    # dev-specific
+    "commitizen",
+    "pre-commit",
     # FORMAT
     "black",
     "isort",
@@ -120,3 +125,10 @@ addopts   = '''
 [build-system]
 requires      = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+tag_format = "$version"
+version_files = [
+    "pyproject.toml",
+]

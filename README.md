@@ -118,16 +118,41 @@ For the moment, the following wrappers are supported:
 
 1. clone
 
-1. add tests
+1. Setup Dev environment
 
-1. Run check 
+   * The easiest way is to use the provided devcontainer inside vscode, which already
+     contains everything pre-installed. You must open the cloned directory using the
+     [remote-containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+     Just run `poetry shell` or prepend any command with `poetry run` to ensure commands
+     run inside the virtual environment.
+
+   * Using poetry: `poetry install -E dev`
+
+   * Using pip (>20 recommended): `pip install .[dev]`
+
+   The next steps assume you have already activated the venv.
+
+1. Install pre-commit hook
+
+   ```console
+   pre-commit install --hook-type commit-msg
+   ```
+
+   * Commits in every branch except those starting with `wip/` must be compliant to
+     [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+   * Commit using `cz` to ensure compliance.
+
+1. Add tests to code
+
+1. Run check(s)
 
    * Manually, executing the check from inside a venv
 
      For example, to generate the documentation:
   
      ```console
-     poetry run sphinx-apidoc \
+     sphinx-apidoc \
        --templatedir=docs/src/templates \
        --separate \
        --module-first \
@@ -135,15 +160,16 @@ For the moment, the following wrappers are supported:
        -o docs/src/apidoc src/drytoml
      ```
 
-     and then 
+     and then
 
      ```console
-     poetry run sphinx-build docs/src docs/build
+     sphinx-build docs/src docs/build
      ```
 
       See the different checks in `.github/workflows`
 
-   * Locally with [act](https://github.com/nektos/act)
+   * Locally with [act](https://github.com/nektos/act) (Already installed in the
+     devcontainer)
 
      For example, to emulate a PR run for the docs workflow:
   
