@@ -6,11 +6,9 @@ import hashlib
 import re
 import urllib.request
 from logging import root as logger
-from typing import List
-from typing import Union
+from typing import List, Union
 
-from tomlkit.container import _NOT_SET
-from tomlkit.container import Container
+from tomlkit.container import _NOT_SET, Container
 from tomlkit.items import Item
 
 from drytoml.paths import CACHE
@@ -40,9 +38,7 @@ def cached(func):
         key = hashlib.sha1(url.encode("utf8")).hexdigest()
         path = CACHE / key
         if path.exists():
-            logger.debug(
-                f"drytoml-cache: Using cached version of {url} at {path}"
-            )
+            logger.debug(f"drytoml-cache: Using cached version of {url} at {path}")
             with open(path) as fp:
                 return fp.read()
 
@@ -171,15 +167,8 @@ def merge_targeted(
 
     return document
 
-def merge_from_value(
-    cls,
-    value,
-    extend_key,
-    reference,
-    level,
-    document,
-    breadcrumbs
-):
+
+def merge_from_value(cls, value, extend_key, reference, level, document, breadcrumbs):
 
     if isinstance(value, str):
         merge = merge_from_str
@@ -190,25 +179,10 @@ def merge_from_value(
     else:
         raise NotImplementedError
 
-    merge(
-        cls,
-        value,
-        extend_key,
-        reference,
-        level,
-        document,
-        breadcrumbs
-    )
+    merge(cls, value, extend_key, reference, level, document, breadcrumbs)
 
-def merge_from_str(
-    cls,
-    value,
-    extend_key,
-    reference,
-    level,
-    document,
-    breadcrumbs
-):
+
+def merge_from_str(cls, value, extend_key, reference, level, document, breadcrumbs):
     incoming_parser = cls.factory(
         value,
         extend_key,
@@ -238,7 +212,7 @@ def merge_from_list(
             document,
             breadcrumbs,
         )
-    
+
 
 def merge_from_dict(
     cls,
