@@ -125,10 +125,14 @@ addopts   = '''
 [build-system]
 requires      = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.1.0"
 tag_format = "$version"
+bump_message = "release $current_version → $new_version [skip-ci]"
+update_changelog_on_bump = true
+annotated_tag = true
 version_files = [
     "pyproject.toml",
 ]
