@@ -14,6 +14,7 @@ Table of contents
 
    introduction.md
    apidoc/modules.rst
+   changelog
 
 
 Indices and tables

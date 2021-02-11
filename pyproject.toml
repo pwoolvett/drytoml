@@ -2,7 +2,7 @@ __extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/py
 
 [tool.poetry]
 name        = "drytoml"
-version     = "0.1.0"
+version = "9.1.0"
 description = "Keep toml configuration centralized and personalizable"
 authors     = ["Pablo Woolvett <pablowoolvett@gmail.com>"]
 readme      = "README.md"
@@ -130,9 +130,10 @@ build-backend = "poetry.core.masonry.api"
 name = "cz_conventional_commits"
 version = "0.1.0"
 tag_format = "$version"
-bump_message = "release $current_version → $new_version [skip-ci]"
+bump_message = "release $current_version → $new_version"
 update_changelog_on_bump = true
 annotated_tag = true
 version_files = [
     "pyproject.toml",
+    "docs/src/conf.py",
 ]
