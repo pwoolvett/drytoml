@@ -115,9 +115,44 @@ For the moment, the following wrappers are supported:
 
 
 1. Create issue
+
 1. clone
+
 1. add tests
-1. Run check locally with [act](https://github.com/nektos/act)
+
+1. Run check 
+
+   * Manually, executing the check from inside a venv
+
+     For example, to generate the documentation:
+  
+     ```console
+     poetry run sphinx-apidoc \
+       --templatedir=docs/src/templates \
+       --separate \
+       --module-first \
+       --force \
+       -o docs/src/apidoc src/drytoml
+     ```
+
+     and then 
+
+     ```console
+     poetry run sphinx-build docs/src docs/build
+     ```
+
+      See the different checks in `.github/workflows`
+
+   * Locally with [act](https://github.com/nektos/act)
+
+     For example, to emulate a PR run for the docs workflow:
+  
+     ```console
+     act -W .github/workflows/docs.yml pull_request
+     ```
+
+   * Remotely, by pushing to an open PR
+
 1. Create PR
 
 ## TODO

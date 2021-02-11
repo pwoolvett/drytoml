@@ -4,19 +4,15 @@ on:
   pull_request:
 
 jobs:
-  test:
+
+  Sphinx:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        python-version: [ 3.9',]
-    name: Python ${{ matrix.python-version }} sample
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup python
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
-          architecture: x64
+          python-version: 3.9
 
       - name: Install deps
         # TODO simplyfy this when poetry1.2 lands
