@@ -1,20 +1,31 @@
+# -*- coding: utf-8 -*-
+"""Manage drytoml's internal cache.
+
+This module contains the Cache class, which allows fire to execute any
+method (bound, static, or classmethod) as sub-command from the cli.
+"""
+
 import shutil
 from pathlib import Path
+from typing import Dict
 
 from drytoml import logger
 from drytoml.paths import CACHE
 
 
 class Cache:
-    """Manage drytoml's internal cache"""
+    """Manage drytoml's internal cache."""
 
     @classmethod
-    def clear(cls, force: bool = False, name: str = ""):
-        """Clear drytoml's cache
+    def clear(cls, force: bool = False, name: str = "") -> Dict[Union[Path, str], str]:
+        """Clear drytoml's cache.
 
         Args:
             force: Clear without asking.
             name: If set, only clear a specific cache element.
+
+        Returns:
+            Contents of the cache after clearing it.
 
         """
 
@@ -46,7 +57,7 @@ class Cache:
 
     @staticmethod
     def show():
-        """Show drytoml's cache contents"""
+        """Show drytoml's cache contents."""
         data = {
             descendant: descendant.stat().st_size
             for descendant in CACHE.glob("**/*")

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""""""
+"""Cli application for drytoml."""
+
 import logging
 import sys
 
@@ -50,6 +51,11 @@ def setup_log(argv):
 
 
 def main():
+    """Execute the cli application.
+
+    Returns:
+        The result of the wrapped command
+    """
     sys.argv = setup_log(sys.argv)
 
     if len(sys.argv) == 1 or sys.argv[1] not in WRAPPERS:

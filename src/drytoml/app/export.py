@@ -6,7 +6,7 @@ def export(
     file="pyproject.toml",
     key=DEFAULT_EXTEND_KEY,
 ):
-    """Generate resulting TOML after transclusion
+    """Generate resulting TOML after transclusion.
 
     Args:
         file: TOML file to interpolate values.

@@ -33,7 +33,7 @@ def setup_temp(name_toml: Collection[Tuple[str, str]]):
         # iterate twice here to ensure files exist for relative
         # referencing. Alternatively, we could ensure iteration goes
         # through parents, then through children...
-        for name, _ in name_toml:
+        for name, __ in name_toml:
             toml_path = path / name
             parser = Parser.from_file(toml_path)
             document = parser.parse()

@@ -4,12 +4,25 @@ import sys
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
+from types import ModuleType
+from typing import Any
+from typing import Callable
 from typing import List
+from typing import Optional
 
 from drytoml.parser import Parser
 
 
-def import_callable(string):
+def import_callable(string: str) -> Callable:
+    """Import a module from a string using colon syntax.
+
+    Args:
+        string: String of the form `package.subpackage:module`
+
+    Returns:
+        The imported module
+
+    """
     module_str, tool_main_str = string.split(":")
     module = importlib.import_module(module_str)
     tool_main = getattr(module, tool_main_str)
@@ -20,6 +33,7 @@ class Wrapper:
     cfg: str
 
     def __call__(self, importstr):
+        """Execute the wrapped callback"""
         with self.tmp_dump() as virtual:
             self.virtual = virtual
             self.pre_import()
@@ -28,13 +42,16 @@ class Wrapper:
             sys.exit(tool_main())
 
     def pre_import(self):
+        """This function gets called before importing the callback."""
         pass
 
     def pre_call(self):
+        """This function gets called before executing the callback."""
         pass
 
     @contextmanager
     def tmp_dump(self):
+        """Yield a temporary file with the configuration toml contents."""
         parser = Parser.from_file(self.cfg)
         document = parser.parse()
 
@@ -60,18 +77,25 @@ class Env(Wrapper):
     """Call another script, configuring it with an environment variable."""
 
     def __init__(self, env):
+        """Instantiate a cli wrapper.
+
+        Args:
+            env: Name ov the env var to use which selects a
+                 configuration file.
+        """
         self.env = env
         self.cfg = os.environ.get(env, "pyproject.toml")
 
     def pre_import(self):
+        """Setup env var before importing the callback."""
         os.environ[self.env] = self.virtual.name
 
 
 class Cli(Wrapper):
     """Call another script, configuring it with specific cli flag."""
 
-    def __init__(self, configs:List[str]):
-        """Instantiate a cli wrapper
+    def __init__(self, configs: List[str]):
+        """Instantiate a cli wrapper.
 
         Args:
             configs: Possible names for the configuration flag of the
@@ -95,7 +119,8 @@ class Cli(Wrapper):
         self.post = post
         self.option = option
 
-    def pre_call(self):
+    def pre_call(self) -> None:
+        """Prepare sys.argv to contain the configuration flag and file."""
         sys.argv = [*self.pre, self.option, f"{self.virtual.name}", *self.post]
 
 
