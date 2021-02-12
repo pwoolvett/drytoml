@@ -17,6 +17,7 @@ from drytoml.app.wrappers import black
 from drytoml.app.wrappers import flake8helled
 from drytoml.app.wrappers import flakehell
 from drytoml.app.wrappers import isort
+from drytoml.app.wrappers import pylint
 
 INTERNAL_CMDS = {
     cmd.__name__.lower(): cmd
@@ -32,6 +33,7 @@ WRAPPERS = {
     for cmd in (
         black,
         isort,
+        pylint,
         flakehell,
         flake8helled,
     )
@@ -59,7 +61,9 @@ def setup_log(argv: Optional[List[str]]) -> List[str]:
     args, unknown = parser.parse_known_args()
     level = max(1, 20 + 50 * args.quiet - 10 * args.verbose)
     logging.basicConfig(level=level, format="%(message)s", force=True)
-    logger.debug(f"drytoml: Log level set to {level} because {args.__dict__}")
+    logger.debug(
+        "drytoml: Log level set to {} because {}", level, args.__dict__
+    )
     return sys.argv[:1] + unknown
 
 

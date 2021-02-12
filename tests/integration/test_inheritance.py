@@ -15,8 +15,8 @@ from drytoml.parser import Parser
 EXAMPLE = FIXTURES / "example.toml"
 
 
-@pytest.fixture()
-def example_raw():
+@pytest.fixture(name="example_raw")
+def example_raw_fixture():
     with open(EXAMPLE) as fp:
         return fp.read()
 

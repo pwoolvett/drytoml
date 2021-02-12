@@ -64,13 +64,15 @@ def cached(func):
         path = CACHE / key
         if path.exists():
             logger.debug(
-                f"drytoml-cache: Using cached version of {url} at {path}"
+                "drytoml-cache: Using cached version of {} at {}",
+                url,
+                path,
             )
             with open(path) as fp:
                 return fp.read()
 
         result = func(url, *a, **kw)
-        logger.debug(f"Caching {url} into {path}")
+        logger.debug("Caching {url} into {path}", url, path)
         CACHE.mkdir(exist_ok=True, parents=True)
         with open(path, "w") as fp:
             fp.write(result)
@@ -92,11 +94,11 @@ def request(
         Decoded content.
     """
 
-    request = urllib.request.Request(Url(url))
+    request_ = urllib.request.Request(Url(url))
     # avoid server-side caching
-    request.add_header("Pragma", "no-cache")
-    request.add_header("User-Agent", "Mozilla/5.0")
-    with urllib.request.urlopen(request) as response:  # noqa: S310
+    request_.add_header("Pragma", "no-cache")
+    request_.add_header("User-Agent", "Mozilla/5.0")
+    with urllib.request.urlopen(request_) as response:  # noqa: S310
         contents = response.read().decode("utf-8")
     return contents
 
@@ -241,7 +243,6 @@ def merge_targeted(
     document: Container,
     incoming: Container,
     breadcrumbs: List[Union[str, int]],
-    value: Item,
 ) -> TOMLDocument:
     """Merge specific path contents from an incoming contianer into another.
 
@@ -249,7 +250,6 @@ def merge_targeted(
         document: The container to store the merge result.
         incoming: The source of the incoming data.
         breadcrumbs: Location of the incoming contend.
-        value: The actual content to be merged.
 
     Returns:
         The `document`, after merging in-place.
@@ -351,7 +351,7 @@ def merge_from_str(
         level=level,
     )
     incoming = incoming_parser.parse()
-    merge_targeted(document, incoming, breadcrumbs, value)
+    merge_targeted(document, incoming, breadcrumbs)
 
 
 def merge_from_list(

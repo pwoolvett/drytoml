@@ -162,11 +162,9 @@ class Parser(BaseParser):
             The parsed, transcluded document.
         """
         document = super().parse()
-        logger.info(f"{self}: Parsing started")
+        logger.info("{}: Parsing started", self)
         logger.debug(
-            "{}: Source contents:\n\n{}".format(
-                self, self._log_document(document)
-            )
+            "{}: Source contents:\n\n{}", self, self._log_document(document)
         )
 
         while True:
@@ -176,24 +174,24 @@ class Parser(BaseParser):
             )
 
             if not base_key_locations:
-                logger.debug(f"{self}: No {self.extend_key} found")
+                logger.debug("{}: No {} found", self, self.extend_key)
                 break
             logger.info(
-                "{}: Found '{}': at {}".format(
-                    self,
-                    self.extend_key,
-                    [
-                        ".".join(crumbs_val[0]) or "(document root)"
-                        for crumbs_val in base_key_locations
-                    ],
-                )
+                "{}: Found '{}': at {}",
+                self,
+                self.extend_key,
+                [
+                    ".".join(crumbs_val[0]) or "(document root)"
+                    for crumbs_val in base_key_locations
+                ],
             )
 
             for breadcrumbs, value in base_key_locations:
                 logger.debug(
-                    "{}: Before merging {} contents:\n\n{}".format(
-                        self, breadcrumbs, self._log_document(document)
-                    )
+                    "{}: Before merging {} contents:\n\n{}",
+                    self,
+                    breadcrumbs,
+                    self._log_document(document),
                 )
                 merge_from_value(
                     value,
@@ -206,15 +204,16 @@ class Parser(BaseParser):
                 )
                 deep_del(document, self.extend_key, *breadcrumbs)
                 logger.debug(
-                    "{}: After merging {} contents:\n\n{}".format(
-                        self, breadcrumbs, self._log_document(document)
-                    )
+                    "{}: After merging {} contents:\n\n{}",
+                    self,
+                    breadcrumbs,
+                    self._log_document(document),
                 )
 
-        logger.info(f"{self}: Parsing finished")
+        logger.info("{}: Parsing finished", self)
         logger.debug(
-            "{}: Final contents:\n\n{}".format(
-                self, self._log_document(document)
-            )
+            "{}: Final contents:\n\n{}",
+            self,
+            self._log_document(document),
         )
         return document

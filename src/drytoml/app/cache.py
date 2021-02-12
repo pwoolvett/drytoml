@@ -52,9 +52,9 @@ class Cache:
                 shutil.rmtree(str(descendant.resolve()))
                 worked = True
         if worked:
-            logger.info(f"Succesfully cleared {CACHE} {name}")
+            logger.info("Succesfully cleared {} {}", CACHE, name)
         else:
-            logger.info(f"Nothing cleared from {CACHE} ")
+            logger.info("Nothing cleared from {}", CACHE)
             sys.exit(1)
 
         return cls.show()
@@ -72,7 +72,7 @@ class Cache:
             if descendant.is_file()
         }
         if not data:
-            return logger.info(f"Cache is empty: {CACHE}")
+            return logger.info("Cache is empty: {}", CACHE)
         info = {
             **{k: f"{v/1024:.2f} kb" for k, v in data.items()},
             "__total__": f"{sum(data.values()) / 1024:.2f} kb",

@@ -1,5 +1,7 @@
-"""This module contains third-party commands enabled through drytoml."""
+"""Third-party commands enabled through drytoml."""
+
 import importlib
+import io
 import os
 import sys
 import tempfile
@@ -7,6 +9,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Callable
 from typing import List
+from typing import Union
 
 from drytoml.parser import Parser
 
@@ -31,6 +34,7 @@ class Wrapper:
     """Common skeleton for third-party wrapper commands."""
 
     cfg: str
+    virtual: io.StringIO
 
     def __call__(self, importstr):
         """Execute the wrapped callback.
@@ -51,11 +55,9 @@ class Wrapper:
 
     def pre_import(self):
         """Execute custom processing done before callback import."""
-        pass
 
     def pre_call(self):
         """Execute custom processing done before callback execut."""
-        pass
 
     @contextmanager
     def tmp_dump(self):
@@ -88,19 +90,26 @@ class Wrapper:
 class Env(Wrapper):
     """Call another script, configuring it with an environment variable."""
 
-    def __init__(self, env):
+    def __init__(self, env: Union[str, List[str]]):
         """Instantiate a cli wrapper.
 
         Args:
-            env: Name ov the env var to use which selects a
+            env: Name(s) of the env var(s) to use which selects a
                  configuration file.
         """
-        self.env = env
-        self.cfg = os.environ.get(env, "pyproject.toml")
+        self.envs = (
+            [
+                env,
+            ]
+            if isinstance(env, str)
+            else env
+        )
+        self.cfg = os.environ.get(self.envs[0], "pyproject.toml")
 
     def pre_import(self):
         """Configure env var before callback import."""
-        os.environ[self.env] = self.virtual.name
+        for env in self.envs:
+            os.environ[env] = self.virtual.name
 
 
 class Cli(Wrapper):
@@ -112,7 +121,13 @@ class Cli(Wrapper):
         Args:
             configs: Possible names for the configuration flag of the
                 wrapped script.
+
+        Raises:
+            ValueError: Empty configs.
         """
+        if not configs:
+            raise ValueError("No configuration strings received")
+
         for option in configs:
             try:
                 idx = sys.argv.index(option)
@@ -126,6 +141,7 @@ class Cli(Wrapper):
             pre = sys.argv
             post = []
             cfg = "pyproject.toml"
+            option = configs[0]
         self.cfg = cfg
         self.pre = pre
         self.post = post
@@ -148,11 +164,16 @@ def isort():
     )
 
 
+def pylint():
+    """Execute pylint, configured with custom setting cli flag."""
+    Cli(["--rcfile"])("pylint:run_pylint")
+
+
 def flakehell():
     """Execute flakehell, configured with custom env var."""
-    Env("FLAKEHELL_TOML")("flakehell:entrypoint")
+    Env(["FLAKEHELL_TOML", "PYLINTRC"])("flakehell:entrypoint")
 
 
 def flake8helled():
     """Execute flake8helled, configured with custom env var."""
-    Env("FLAKEHELL_TOML")("flakehell:flake8_entrypoint")
+    Env(["FLAKEHELL_TOML", "PYLINTRC"])("flakehell:flake8_entrypoint")
