@@ -91,9 +91,12 @@ def request(
     Returns:
         Decoded content.
     """
-    with urllib.request.urlopen(  # noqa: S310
-        urllib.request.Request(Url(url))
-    ) as response:
+
+    request = urllib.request.Request(Url(url))
+    # avoid server-side caching
+    request.add_header("Pragma", "no-cache")
+    request.add_header("User-Agent", "Mozilla/5.0")
+    with urllib.request.urlopen(request) as response:  # noqa: S310
         contents = response.read().decode("utf-8")
     return contents
 
