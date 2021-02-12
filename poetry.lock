@@ -1157,13 +1157,13 @@ docs = ["Sphinx", "sphinx-rtd-theme", "recommonmark", "m2r2"]
 flakehell = ["flakehell"]
 format = ["isort", "black"]
 isort = ["isort"]
-lint = ["isort", "black", "pylint", "darglint", "flakehell", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming"]
+lint = ["isort", "black", "pylint", "darglint", "flakehell", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming", "pytest"]
 test = ["pytest", "pytest-cov", "pytest-html"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.9"
-content-hash = "dd9eca788da4b24ef3580b2e661a21320ef40986a66a180ff2bc9844fe74d78b"
+content-hash = "ff672354e27923dc6f5c262101ce72dc24bc7f9bd2b786647db225959f4d530d"
 
 [metadata.files]
 alabaster = [

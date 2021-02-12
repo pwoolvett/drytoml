@@ -10,10 +10,9 @@ from tomlkit.parser import Parser as BaseParser
 from tomlkit.toml_document import TOMLDocument
 
 from drytoml import logger
+from drytoml.locate import deep_find
+from drytoml.merge import TomlMerger
 from drytoml.types import Url
-from drytoml.utils import deep_del
-from drytoml.utils import deep_find
-from drytoml.utils import merge_from_value
 from drytoml.utils import request
 
 DEFAULT_EXTEND_KEY = "__extends"
@@ -193,16 +192,8 @@ class Parser(BaseParser):
                     breadcrumbs,
                     self._log_document(document),
                 )
-                merge_from_value(
-                    value,
-                    document,
-                    breadcrumbs,
-                    self.extend_key,
-                    type(self),
-                    self.reference,
-                    self.level + 1,
-                )
-                deep_del(document, self.extend_key, *breadcrumbs)
+                merge = TomlMerger(document, self)
+                merge(value, breadcrumbs, delete_dangling=True)
                 logger.debug(
                     "{}: After merging {} contents:\n\n{}",
                     self,

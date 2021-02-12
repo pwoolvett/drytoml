@@ -74,6 +74,7 @@ lint   = [
     "flake8-mutable",
     "flake8-pytest-style",
     "pep8-naming",
+    "pytest",
 ]
 docs   = ["sphinx", "sphinx-rtd-theme", "recommonmark", "m2r2"]
 test   = ["pytest", "pytest-cov", "pytest-html"]
