@@ -55,7 +55,7 @@ def check(*toml_tuples):
         assert_equal(child_toml, expected_toml)
 
 
-def btest_full_toml_single_inheritance(example_raw):
+def test_full_toml_single_inheritance(example_raw):
     child = _(
         """\
         __extends = "parent.toml"
@@ -65,7 +65,7 @@ def btest_full_toml_single_inheritance(example_raw):
     check(("child.toml", child), ("parent.toml", parent))
 
 
-def btest_full_toml_disjoint_list_inheritance():
+def test_full_toml_disjoint_list_inheritance():
     child = _(
         """\
         __extends = ["table1.toml", "table2.toml"]
@@ -98,7 +98,7 @@ def btest_full_toml_disjoint_list_inheritance():
     )
 
 
-def btest_full_toml_intersect_list_inheritance():
+def test_full_toml_intersect_list_inheritance():
     child = _(
         """\
         __extends = ["table1.toml", "table2.toml"]
@@ -143,7 +143,7 @@ def btest_full_toml_intersect_list_inheritance():
     )
 
 
-def btest_full_toml_table_inheritance():
+def test_full_toml_table_inheritance():
     child = _(
         """\
         [__extends]
@@ -210,7 +210,7 @@ def btest_full_toml_table_inheritance():
     )
 
 
-def btest_table_inheritance():
+def test_table_inheritance():
     child = _(
         """\
         [from_table_1]
@@ -242,7 +242,7 @@ def btest_table_inheritance():
     )
 
 
-def btest_chained_table_inheritance():
+def test_chained_table_inheritance():
     child = _(
         """\
         __extends = "table1.toml"
@@ -291,140 +291,256 @@ def btest_chained_table_inheritance():
     )
 
 
-def test_github():
+def test_pyproject():
     child = _(
         """\
-        __extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/pyproject.toml"
+        __extends = "ref_pyproject.toml"
 
-        [tool.other]
+        [tool.poetry]
         section_key = "value"
     """
     )
-    table1 = _(
+
+    ref_pyproject = _(
         """\
-[tool.black]
-__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/black.toml"
+        [tool.black]
+        __extends = "black.toml"
 
-[tool.isort]
-__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/isort.toml"
+        [tool.isort]
+        __extends = "isort.toml"
 
-[tool.docformatter]
-__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/docformatter.toml"
+        [tool.docformatter]
+        __extends = "docformatter.toml"
 
-[tool.flakehell]
-__extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/python/flakehell.toml"
+        [tool.flakehell]
+        __extends = "flakehell.toml"
     """
     )
-    expected = r"""[tool.other]
-section_key = "value"
 
-[tool.black]
-line-length = 79
-exclude = '''
-/(
-  \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | data
-  | \.tmp
-  | \tmp
-)/
-'''
+    black = _(
+        """\
+        [tool.black]
+        line-length = 79
+        exclude = '''
+        a
+        multiline
+        string
+        '''
+    """)
+
+    isort = _(
+        """\
+        [tool.isort]
+        profile = "black"
+        force_single_line = true
+        src_paths = ["src"]
+        known_local_folder = ["test"]
+        atomic = true
+    """)
+
+    docformatter = _(
+        """\
+        [tool.docformatter]
+        blank=true
+        recursive=true
+    """)
+
+    flakehell = _(
+        """\
+        [tool.flakehell]
+        format = "colored"
+        max_line_length = 79
+        exclude = [
+          # self-managed files should not be checked
+          "poetry.lock",
+          "./.venv",
+        ]
+        ignore = [
+          "F401", "E501"  # pylint takes care of these
+        ]
+        docstring-convention = "google"  # flake8-docstrings
+        docstring_style = "google"  # darglint
+
+        [tool.flakehell.plugins]
+        flake8-bandit = [
+          "+*",
+          "-S322",  # input for python2, no problem
+        ]
+        flake8-bugbear = ["+*"]
+        flake8-builtins = ["+*"]
+        flake8-comprehensions = ["+*"]
+        flake8-darglint = ["+*"]
+        flake8-docstrings = [
+          "+*",
+          "-D202",  # black conflict
+          "-D412",  # we do want lines between header and contents. See https://github.com/PyCQA/pydocstyle/issues/412
+        ]
+        flake8-eradicate = ["+*"]
+        flake8-isort = ["+*"]
+        flake8-debugger = ["+*"]
+        flake8-mutable = ["+*"]
+        flake8-pytest-style = ["+*"]
+        mccabe = ["+*"]
+        pep8-naming = [
+          "+*",
+          "-N805",  # pylint duplicate
+        ]
+        pycodestyle = [
+          "+*",
+          "-E501",  # pylint duplicate
+          "-E203",  # false positives on list slice
+          "-E722",  # bugbear duplicate
+        ]
+        pyflakes = ["+*"]
+        pylint = ["+*"]
+        pandas-dev = ["+*"]
+
+        [tool.flakehell.exceptions."docs/src/conf.py"]
+        flake8-eradicate = [
+          "-E800",
+        ]
+        flake8-docstrings = [
+          "-D100",
+        ]
+        flake8-builtins = [
+          "-A001", # variable "copyright" is shadowing a python builtin -> sphinx wants it
+        ]
+
+        [tool.flakehell.exceptions."tests/"]
+        flake8-docstrings = [
+          "-D100",
+          "-D101",
+          "-D102",
+          "-D103",
+          "-D104",
+        ]
+        flake8-bandit = [
+          "-S101",  # asserts are ok
+        ]
+        flake8-darglint = [
+          "-DAR101",
+        ]
+        pylint = [
+          "-C0115",
+          "-C0115",
+          "-C0116",
+          "-C0116",
+        ]
+    """)
+
+    expected = _("""\
+        [tool.poetry]
+        section_key = "value"
+
+        [tool.black]
+        line-length = 79
+        exclude = '''
+        a
+        multiline
+        string
+        '''
+
+        [tool.isort]
+        atomic = true
+        profile = "black"
+        known_local_folder = ["test"]
+        force_single_line = true
+        src_paths = ["src"]
 
 
-
-[tool.isort]
-atomic = true
-profile = "black"
-known_local_folder = ["test"]
-force_single_line = true
-src_paths = ["src"]
+        [tool.docformatter]
+        blank = true
+        recursive = true
 
 
-[tool.docformatter]
-blank = true
-recursive = true
+        [tool.flakehell]
+        format = "colored"
+        max_line_length = 79
+        exclude = [
+          # self-managed files should not be checked
+          "poetry.lock",
+          "./.venv",
+        ]
+        ignore = [
+          "F401", "E501"  # pylint takes care of these
+        ]
+        docstring-convention = "google"  # flake8-docstrings
+        docstring_style = "google"  # darglint
 
+        [tool.flakehell.plugins]
+        flake8-bandit = [
+          "+*",
+          "-S322",  # input for python2, no problem
+        ]
+        flake8-bugbear = ["+*"]
+        flake8-builtins = ["+*"]
+        flake8-comprehensions = ["+*"]
+        flake8-darglint = ["+*"]
+        flake8-docstrings = [
+          "+*",
+          "-D202",  # black conflict
+          "-D412",  # we do want lines between header and contents. See https://github.com/PyCQA/pydocstyle/issues/412
+        ]
+        flake8-eradicate = ["+*"]
+        flake8-isort = ["+*"]
+        flake8-debugger = ["+*"]
+        flake8-mutable = ["+*"]
+        flake8-pytest-style = ["+*"]
+        mccabe = ["+*"]
+        pep8-naming = [
+          "+*",
+          "-N805",  # pylint duplicate
+        ]
+        pycodestyle = [
+          "+*",
+          "-E501",  # pylint duplicate
+          "-E203",  # false positives on list slice
+          "-E722",  # bugbear duplicate
+        ]
+        pyflakes = ["+*"]
+        pylint = ["+*"]
+        pandas-dev = ["+*"]
 
-[tool.flakehell]
-format = "colored"
-docstring-convention = "google"  # flake8-docstrings
-per-file-ignores = [
-"tests/*.py: S101,D100,D101,D103,D104",  # tests without documentation, allow asserts
-]
-exclude = [
-# self-managed files should not be checked
-"poetry.lock",
-"./.venv",
-]
-ignore = [
-"F401", "E501"  # pylint takes care of these
-]
-max_line_length = 79
-docstring_style = "google"  # darglint
-[tool.flakehell.exceptions."tests/"]
-flake8-docstrings = [
-"-D100",
-"-D101",
-"-D102",
-"-D103",
-"-D104",
-]
-flake8-bandit = [
-"-S101",  # asserts are ok
-]
-flake8-darglint = [
-"-DAR101",
-]
-pylint = [
-"-C0115",
-"-C0115",
-"-C0116",
-"-C0116",
-]
+        [tool.flakehell.exceptions."docs/src/conf.py"]
+        flake8-eradicate = [
+          "-E800",
+        ]
+        flake8-docstrings = [
+          "-D100",
+        ]
+        flake8-builtins = [
+          "-A001", # variable "copyright" is shadowing a python builtin -> sphinx wants it
+        ]
 
-[tool.flakehell.plugins]
-flake8-bandit = [
-"+*",
-"-S322",  # input for python2, no problem
-]
-flake8-bugbear = ["+*"]
-flake8-builtins = ["+*"]
-flake8-comprehensions = ["+*"]
-flake8-darglint = ["+*"]
-flake8-docstrings = [
-"+*",
-"-D202",  # black conflict
-"-D412",  # we do want lines between header and contents. See https://github.com/PyCQA/pydocstyle/issues/412
-]
-flake8-eradicate = ["+*"]
-flake8-isort = ["+*"]
-flake8-debugger = ["+*"]
-flake8-mutable = ["+*"]
-flake8-pytest-style = ["+*"]
-mccabe = ["+*"]
-pep8-naming = [
-"+*",
-"-N805",  # pylint duplicate
-]
-pycodestyle = [
-"+*",
-"-E501",  # pylint duplicate
-"-E203", # false positives on list slice
-]
-pyflakes = ["+*"]
-pylint = ["+*"]
-pandas-dev = ["+*"]"""
+        [tool.flakehell.exceptions."tests/"]
+        flake8-docstrings = [
+          "-D100",
+          "-D101",
+          "-D102",
+          "-D103",
+          "-D104",
+        ]
+        flake8-bandit = [
+          "-S101",  # asserts are ok
+        ]
+        flake8-darglint = [
+          "-DAR101",
+        ]
+        pylint = [
+          "-C0115",
+          "-C0115",
+          "-C0116",
+          "-C0116",
+        ]
+        """
+    )
 
     check(
         ("child.toml", child),
-        ("table1.toml", table1),
+        ("ref_pyproject.toml", ref_pyproject),
+        ("black.toml", black),
+        ("isort.toml", isort),
+        ("docformatter.toml", docformatter),
+        ("flakehell.toml", flakehell),
         ("expected.toml", expected),
     )

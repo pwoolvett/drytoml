@@ -8,6 +8,7 @@ method (bound, static, or classmethod) as sub-command from the cli.
 import shutil
 from pathlib import Path
 from typing import Dict
+from typing import Union
 
 from drytoml import logger
 from drytoml.paths import CACHE
