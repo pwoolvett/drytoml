@@ -4,6 +4,7 @@ import sys
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
+from typing import List
 
 from drytoml.parser import Parser
 
@@ -56,6 +57,8 @@ class Wrapper:
 
 
 class Env(Wrapper):
+    """Call another script, configuring it with an environment variable."""
+
     def __init__(self, env):
         self.env = env
         self.cfg = os.environ.get(env, "pyproject.toml")
@@ -65,7 +68,15 @@ class Env(Wrapper):
 
 
 class Cli(Wrapper):
-    def __init__(self, configs):
+    """Call another script, configuring it with specific cli flag."""
+
+    def __init__(self, configs:List[str]):
+        """Instantiate a cli wrapper
+
+        Args:
+            configs: Possible names for the configuration flag of the
+                wrapped script.
+        """
         for option in configs:
             try:
                 idx = sys.argv.index(option)
@@ -89,18 +100,22 @@ class Cli(Wrapper):
 
 
 def black():
+    """Execute black, configured with custom setting cli flag."""
     return Cli(["--config"])("black:patched_main")
 
 
 def isort():
+    """Execute isort, configured with custom setting cli flag."""
     return Cli(["--sp", "--settings-path", "--settings-file", "--settings"])(
         "isort.main:main"
     )
 
 
 def flakehell():
+    """Execute flakehell, configured with custom env var."""
     return Env("FLAKEHELL_TOML")("flakehell:entrypoint")
 
 
 def flake8helled():
+    """Execute flake8helled, configured with custom env var."""
     return Env("FLAKEHELL_TOML")("flakehell:flake8_entrypoint")

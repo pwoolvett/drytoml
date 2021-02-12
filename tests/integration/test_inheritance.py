@@ -15,7 +15,7 @@ from drytoml.parser import Parser
 EXAMPLE = FIXTURES / "example.toml"
 
 
-@pytest.fixture
+@pytest.fixture()
 def example_raw():
     with open(EXAMPLE) as fp:
         return fp.read()
@@ -33,7 +33,7 @@ def setup_temp(name_toml: Collection[Tuple[str, str]]):
         # iterate twice here to ensure files exist for relative
         # referencing. Alternatively, we could ensure iteration goes
         # through parents, then through children...
-        for name, raw in name_toml:
+        for name, _ in name_toml:
             toml_path = path / name
             parser = Parser.from_file(toml_path)
             document = parser.parse()
@@ -45,14 +45,14 @@ def json_dumps(data: dict):
     return json.dumps(data, cls=CustomEncoder, sort_keys=True)
 
 
-def assertEqual(result: dict, expected: dict):
+def assert_equal(result: dict, expected: dict):
     assert json_dumps(result) == json_dumps(expected)
     return True
 
 
 def check(*toml_tuples):
     with setup_temp(toml_tuples) as (child_toml, expected_toml):
-        assertEqual(child_toml, expected_toml)
+        assert_equal(child_toml, expected_toml)
 
 
 def btest_full_toml_single_inheritance(example_raw):
@@ -252,7 +252,7 @@ def btest_chained_table_inheritance():
         """\
         [tool.black]
         __extends = "table2.toml"
-        
+
         [tool.isort]
         __extends = "table3.toml"
     """

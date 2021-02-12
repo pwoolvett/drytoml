@@ -7,7 +7,7 @@ from datetime import datetime
 
 try:
     from importlib.metadata import version
-except:
+except ImportError:
     from importlib_metadata import version
 
 year = datetime.now().year
