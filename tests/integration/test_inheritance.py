@@ -326,7 +326,8 @@ def test_pyproject():
         multiline
         string
         '''
-    """)
+    """
+    )
 
     isort = _(
         """\
@@ -336,14 +337,16 @@ def test_pyproject():
         src_paths = ["src"]
         known_local_folder = ["test"]
         atomic = true
-    """)
+    """
+    )
 
     docformatter = _(
         """\
         [tool.docformatter]
         blank=true
         recursive=true
-    """)
+    """
+    )
 
     flakehell = _(
         """\
@@ -426,9 +429,11 @@ def test_pyproject():
           "-C0116",
           "-C0116",
         ]
-    """)
+    """
+    )
 
-    expected = _("""\
+    expected = _(
+        """\
         [tool.poetry]
         section_key = "value"
 

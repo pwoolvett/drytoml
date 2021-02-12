@@ -1,3 +1,5 @@
+"""This module contains the `export` command and its required utilities."""
+
 from drytoml.parser import DEFAULT_EXTEND_KEY
 from drytoml.parser import Parser
 

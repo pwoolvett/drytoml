@@ -18,7 +18,9 @@ class Cache:
     """Manage drytoml's internal cache."""
 
     @classmethod
-    def clear(cls, force: bool = False, name: str = "") -> Dict[Union[Path, str], str]:
+    def clear(
+        cls, force: bool = False, name: str = ""
+    ) -> Dict[Union[Path, str], str]:
         """Clear drytoml's cache.
 
         Args:

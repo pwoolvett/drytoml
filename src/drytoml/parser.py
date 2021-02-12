@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Additional Source to transclude tomlkit with URL and files"""
+"""Additional Source to transclude tomlkit with URL and files."""
 
 from pathlib import Path
 from textwrap import dedent as _
@@ -12,18 +12,15 @@ from drytoml import logger
 from drytoml.types import Url
 from drytoml.utils import deep_del
 from drytoml.utils import deep_find
-from drytoml.utils import is_url
-from drytoml.utils import merge_from_dict
-from drytoml.utils import merge_from_list
-from drytoml.utils import merge_from_str
 from drytoml.utils import merge_from_value
-from drytoml.utils import merge_targeted
 from drytoml.utils import request
 
 DEFAULT_EXTEND_KEY = "__extends"
 
 
 class Parser(BaseParser):
+    """Extend tomlkit parser to allow transclusion."""
+
     def __init__(
         self,
         string: str,
@@ -31,6 +28,16 @@ class Parser(BaseParser):
         reference: Optional[Union[str, Path, Url]] = None,
         level=0,
     ):
+        """Construct a transclusion-enabled toml parser.
+
+        Args:
+            string: Raw toml content.
+            extend_key: key to look for to init transclusion.
+            reference: Reference for the source of the content
+                (eg url, file, etc).
+            level: Number of parent documents previously parsed to
+                instantiate this.
+        """
         self.extend_key = extend_key
         self.reference = reference or Path.cwd()
         self.from_string = not reference
@@ -38,8 +45,23 @@ class Parser(BaseParser):
         super().__init__(string)
 
     def __repr__(self):
+        """Enable parser visual differentiation from repr.
+
+        Examples:
+
+        >>> parser = Parser.from_file("pyproject.toml")
+        >>> parser
+        Parser('pyproject.toml', extend_key='__extends')
+
+        >>> content = parser.parse().as_string()
+        >>> Parser(content)
+        Parser('/path/to/dir' as cwd, (from string), extend_key='__extends')
+
+        >>> Parser.factory("https://github.com/pytest-dev/pytest/blob/master/pyproject.toml")
+        Parser('https://github.com/pytest-dev/pytest/blob/master/pyproject.toml', extend_key='__extends')
+        """
         return "{}Parser('{}'{}, extend_key='{}')".format(
-            self.log_indent,
+            self._log_indent,
             self.reference,
             " as cwd, (from string)" if self.from_string else "",
             self.extend_key,
@@ -47,12 +69,26 @@ class Parser(BaseParser):
 
     @classmethod
     def from_file(cls, path, extend_key=DEFAULT_EXTEND_KEY, level=0):
+        """Instantiate a parser from file.
+
+        Args:
+            path: Path to an existing file with the toml contents.
+            extend_key: kwarg to construct the parser.
+            level: kwarg to construct the parser.
+        """
         with open(path) as fp:
             raw = fp.read()
         return cls(raw, extend_key=extend_key, reference=path, level=level)
 
     @classmethod
     def from_url(cls, url, extend_key=DEFAULT_EXTEND_KEY, level=0):
+        """Instantiate a parser from url.
+
+        Args:
+            url: URL to an existing file with the toml contents.
+            extend_key: kwarg to construct the parser.
+            level: kwarg to construct the parser.
+        """
         raw = request(url)
         return cls(raw, extend_key=extend_key, reference=url, level=level)
 
@@ -64,8 +100,16 @@ class Parser(BaseParser):
         parent_reference: Optional[Union[str, Path, Url]] = None,
         level=0,
     ):
+        """Instantiate a parser from url, string, or path.
 
-        if is_url(reference):
+        Args:
+            reference: Existing file/url/path with the toml contents.
+            extend_key: kwarg to construct the parser.
+            parent_reference: Used to parse relative paths.
+            level: kwarg to construct the parser.
+        """
+
+        if Url.validate(reference):
             return cls.from_url(
                 reference,
                 extend_key=extend_key,
@@ -81,24 +125,25 @@ class Parser(BaseParser):
         return cls.from_file(path, extend_key=extend_key, level=level)
 
     @property
-    def log_indent(self):
+    def _log_indent(self):
         return " " * 2 * self.level
 
-    def log_document(self, document):
+    def _log_document(self, document):
         raw = document.as_string()
         return _(
             f"""
 {"="*30}{self} CONTENTS STARTS HERE{"="*30}
 {raw}
 {"="*30}{self} CONTENTS END HERE{"="*30}"""
-        ).replace("\n", f"\n{self.log_indent}")
+        ).replace("\n", f"\n{self._log_indent}")
 
     def parse(self):
+        """Parse recursively until no transclusions are required."""
         document = super().parse()
         logger.info(f"{self}: Parsing started")
         logger.debug(
             "{}: Source contents:\n\n{}".format(
-                self, self.log_document(document)
+                self, self._log_document(document)
             )
         )
 
@@ -125,29 +170,29 @@ class Parser(BaseParser):
             for breadcrumbs, value in base_key_locations:
                 logger.debug(
                     "{}: Before merging {} contents:\n\n{}".format(
-                        self, breadcrumbs, self.log_document(document)
+                        self, breadcrumbs, self._log_document(document)
                     )
                 )
                 merge_from_value(
-                    type(self),
                     value,
-                    self.extend_key,
-                    self.reference,
-                    self.level + 1,
                     document,
                     breadcrumbs,
+                    self.extend_key,
+                    type(self),
+                    self.reference,
+                    self.level + 1,
                 )
                 deep_del(document, self.extend_key, *breadcrumbs)
                 logger.debug(
                     "{}: After merging {} contents:\n\n{}".format(
-                        self, breadcrumbs, self.log_document(document)
+                        self, breadcrumbs, self._log_document(document)
                     )
                 )
 
         logger.info(f"{self}: Parsing finished")
         logger.debug(
             "{}: Final contents:\n\n{}".format(
-                self, self.log_document(document)
+                self, self._log_document(document)
             )
         )
         return document

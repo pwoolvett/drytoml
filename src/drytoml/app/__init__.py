@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Cli application for drytoml."""
-
+import argparse
 import logging
 import sys
+from typing import List
+from typing import Optional
 
 import fire
 
@@ -36,8 +38,16 @@ WRAPPERS = {
 }
 
 
-def setup_log(argv):
-    import argparse
+def setup_log(argv: Optional[List[str]]):
+    """Control verbosity via logging level using "-q/-v" as flags.
+
+    Args:
+        argv: If not set, use sys.argv. For each "-v" or "--verbose",
+              increase the log level verbosity. If it contains a "-q",
+              or a "--quiet", set lefel to `logging.CRITICAL`.
+    """
+
+    argv = argv or sys.argv
 
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_mutually_exclusive_group()

@@ -2,7 +2,7 @@ __extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/py
 
 [tool.poetry]
 name        = "drytoml"
-version = "9.1.0"
+version     = "9.1.0"
 description = "Keep toml configuration centralized and personalizable"
 authors     = ["Pablo Woolvett <pablowoolvett@gmail.com>"]
 readme      = "README.md"
@@ -12,17 +12,19 @@ packages    = [{ include = "drytoml", from = "src" }]
 dry = "drytoml.app:main"
 
 [tool.poetry.dependencies]
-python           = "^3.6.9"
-black            = { version = "^20.8b1", optional = true }
-tomlkit          = "^0.7.0"
-flakehell        = { git = "https://github.com/pwoolvett/flakehell.git", rev = "58f545a07188875193bac1efd0e81e076b041561", optional = true }
-fire             = "^0.4.0"
-pytest           = { version = "^6.2.2", optional = true }
-Sphinx           = { version = "^3.4.3", optional = true }
-pytest-cov       = { version = "^2.11.1", optional = true }
-sphinx-rtd-theme = { version = "^0.5.1", optional = true }
-# docformatter-toml = {version = "^0.1.0", optional = true}
+python  = "^3.6.9"
+tomlkit = "^0.7.0"
+fire    = "^0.4.0"
 
+# wrappers
+black     = { version = "^20.8b1", optional = true }
+flakehell = { git = "https://github.com/pwoolvett/flakehell.git", rev = "58f545a07188875193bac1efd0e81e076b041561", optional = true }
+isort     = { version = "^5.7.0", optional = true }
+# DEV
+pytest                = { version = "^6.2.2", optional = true }
+Sphinx                = { version = "^3.4.3", optional = true }
+pytest-cov            = { version = "^2.11.1", optional = true }
+sphinx-rtd-theme      = { version = "^0.5.1", optional = true }
 flake8-bandit         = { version = "^2.1.2", optional = true }
 flake8-bugbear        = { version = "^20.11.1", optional = true }
 flake8-builtins       = { version = "^1.5.3", optional = true }
@@ -34,12 +36,12 @@ flake8-mutable        = { version = "^1.2.0", optional = true }
 flake8-debugger       = { version = "^4.0.0", optional = true }
 flake8-pytest-style   = { version = "^1.3.0", optional = true }
 pep8-naming           = { version = "^0.11.1", optional = true }
-isort                 = { version = "^5.7.0", optional = true }
 pytest-html           = { version = "^3.1.1", optional = true }
 m2r2                  = { version = "^0.2.7", optional = true }
 recommonmark          = { version = "^0.7.1", optional = true }
-commitizen = {version = "^2.14.2", optional = true}
-pre-commit = {version = "^2.10.1", optional = true}
+commitizen            = { version = "^2.14.2", optional = true }
+pre-commit            = { version = "^2.10.1", optional = true }
+# docformatter-toml = {version = "^0.1.0", optional = true}
 
 [tool.poetry.extras]
 black     = ["black"]
@@ -60,7 +62,6 @@ lint   = [
     "flakehell",
     "flake8-bandit",
     "flake8-bugbear",
-    "flake8-banditflake8-bugbear",
     "flake8-builtins",
     "flake8-comprehensions",
     "flake8-darglint",
@@ -127,13 +128,10 @@ requires      = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.commitizen]
-name = "cz_conventional_commits"
-version = "0.1.0"
-tag_format = "$version"
-bump_message = "release $current_version → $new_version"
+name                     = "cz_conventional_commits"
+version                  = "0.1.0"
+tag_format               = "$version"
+bump_message             = "release $current_version → $new_version"
 update_changelog_on_bump = true
-annotated_tag = true
-version_files = [
-    "pyproject.toml",
-    "docs/src/conf.py",
-]
+annotated_tag            = true
+version_files            = ["pyproject.toml", "docs/src/conf.py"]

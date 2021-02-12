@@ -1,3 +1,11 @@
+"""Call drytoml's entrypoint as a python module.
+
+Example:
+
+    ```console
+    $ python -m dry
+    ```
+"""
 import sys
 
 from drytoml.app import main

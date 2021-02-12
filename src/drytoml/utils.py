@@ -1,46 +1,41 @@
 # -*- coding: utf-8 -*-
-""""""
+"""Miscellaneous utilities used throughout the project."""
 
 import functools
 import hashlib
-import re
 import urllib.request
 from logging import root as logger
+from pathlib import Path
+from typing import Generator
 from typing import List
+from typing import Optional
 from typing import Union
 
-from tomlkit.container import _NOT_SET
 from tomlkit.container import Container
 from tomlkit.container import OutOfOrderTableProxy
+from tomlkit.items import AoT
+from tomlkit.items import Array
 from tomlkit.items import Item
+from tomlkit.items import Key
 from tomlkit.items import Table
 from tomlkit.toml_document import TOMLDocument
 
 from drytoml.paths import CACHE
 from drytoml.types import Url
 
-URL_VALIDATOR = re.compile(
-    r"^(?:http|ftp)s?://"  # http:// or https://
-    r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"  # domain...
-    r"localhost|"  # localhost...
-    r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"  # ...or ip
-    r"(?::\d+)?"  # optional port
-    r"(?:/?|[/?]\S+)$",
-    re.IGNORECASE,
-)
-"""Django validator."""
-
-
-def is_url(
-    maybe_url,
-):
-    return URL_VALIDATOR.match(str(maybe_url)) is not None
-
 
 def cached(func):
+    """Store output in drytoml's cache to use it on subsequent calls.
+
+    .. seealso::
+
+       * `drytoml.paths.CACHE`
+       * `drytoml.app.cache`
+    """
+
     @functools.wraps(func)
-    def wrapped(url: Url, *a, **kw):
-        key = hashlib.sha1(url.encode("utf8")).hexdigest()
+    def _wrapped(url: Url, *a, **kw):
+        key = hashlib.sha256(url.encode("utf8")).hexdigest()
         path = CACHE / key
         if path.exists():
             logger.debug(
@@ -56,15 +51,25 @@ def cached(func):
             fp.write(result)
         return result
 
-    return wrapped
+    return _wrapped
 
 
 @cached
 def request(
-    url: Url,
-):
-    with urllib.request.urlopen(url) as fp:
-        contents = fp.read().decode("utf-8")
+    url: Union[str, Url],
+) -> str:
+    """Request a `url` using a GET.
+
+    Args:
+        url: The URL to GET.
+
+    Returns:
+        Decoded content.
+    """
+    with urllib.request.urlopen(  # noqa: S310
+        urllib.request.Request(Url(url))
+    ) as response:
+        contents = response.read().decode("utf-8")
     return contents
 
 
@@ -75,8 +80,15 @@ def deep_find(
         dict,
     ],
     extend_key: str,
-    breadcrumbs=None,
-):
+    breadcrumbs: Optional[List[str]] = None,
+) -> Generator[List[Key], type, None]:
+    """Walk a data structure to yield all occurences of a key.
+
+    Args:
+        container: Where to look for the key.
+        extend_key: The key to look for.
+        breadcrumbs: The sequence of walked keys to the current position.
+    """
     breadcrumbs = breadcrumbs or []
 
     if isinstance(
@@ -102,27 +114,48 @@ def deep_find(
     return type(container)
 
 
-def deep_pop(document, breadcrumbs, default=_NOT_SET):
-    crumbs, final = breadcrumbs[:-1], breadcrumbs[-1]
-    current = document
-    for key in crumbs:
-        current = current[key]
-    return current.pop(final, default)
-
-
 def deep_del(document, final, *breadcrumbs):
+    """Delete content located deep within a data structure.
+
+    Args:
+        document: Where to remove the content from.
+        final: Last key required to locate the element to be deleted.
+        breadcrumbs: The path to walk from the container root up to the
+            parent ob the object to be deleted.
+
+    Examples:
+        Examples should be written in doctest format, and should illustrate how
+        to use the function.
+
+        >>> container = {
+        ...     "foo": [
+        ...         {},
+        ...         {"bar": "delete_me"}
+        ...     ]
+        ... }
+        {'foo': [{}, {'bar': 'delete_me'}]}
+        >>> deep_del(container, "bar", ["foo", 1])
+        >>> container
+        {'foo': [{}, {}]}
+    """
     current = document
     for key in breadcrumbs:
         current = current[key]
     del current[final]
 
 
-def deep_extend(current, incoming):
+def deep_extend(
+    current: Union[Array, AoT],
+    incoming: Union[Array, AoT],
+) -> Union[Array, AoT]:
+    """Extend a container with another's contents."""
     current.extend(incoming)
     return current
 
 
-def deep_merge(current, incoming):
+def deep_merge(current: Item, incoming: Item) -> Item:
+    """Merge two items using a type-dependent strategy."""
+
     if isinstance(current, list):
         if isinstance(incoming, list):
             return deep_extend(current, incoming)
@@ -152,6 +185,14 @@ def merge_targeted(
     breadcrumbs: List[Union[str, int]],
     value: Item,
 ):
+    """Merge specific path contents from an incoming contianer into another.
+
+    Args:
+        document: The container to store the merge result.
+        incoming: The source of the incoming data.
+        breadcrumbs: Location of the incoming contend.
+        value: The actual content to be merged.
+    """
 
     if not breadcrumbs:
         return deep_merge(document, incoming)
@@ -176,8 +217,24 @@ def merge_targeted(
 
 
 def merge_from_value(
-    cls, value, extend_key, reference, level, document, breadcrumbs
+    value: Container,
+    document: TOMLDocument,
+    breadcrumbs: List[Key],
+    extend_key: Key,
+    cls,
+    reference: Optional[Union[str, Path, Url]],
+    level: int,
 ):
+    """Store a dict-like object with an incoming data structure.
+
+    Args:
+        document:  The Storage for the resulting merge.
+        breadcrumbs: Keys to locate the extend_key
+        extend_key: Final key to use when merging the two objects.
+        dct: The original document, to be merged in-place.
+        reference: The source of the current object.
+        level: The current parsing level, used to create new parsers.
+    """
 
     if isinstance(value, str):
         merge = merge_from_str
@@ -188,12 +245,37 @@ def merge_from_value(
     else:
         raise NotImplementedError
 
-    merge(cls, value, extend_key, reference, level, document, breadcrumbs)
+    merge(
+        value,
+        document,
+        breadcrumbs,
+        extend_key,
+        cls,
+        reference,
+        level,
+    )
 
 
 def merge_from_str(
-    cls, value, extend_key, reference, level, document, breadcrumbs
+    value,
+    document,
+    breadcrumbs,
+    extend_key,
+    cls,
+    reference,
+    level,
 ):
+    """Store a dict-like object with an incoming value.
+
+    Args:
+        value: Incoming data to be merged.
+        document: Storage for the resulting merge.
+        breadcrumbs: Keys to locate the extend_key
+        extend_key: Final key to use when merging the two objects.
+        cls: Parser to use for sub-documents.
+        reference: The source of the current object.
+        level: The current parsing level, used to create new parsers.
+    """
     incoming_parser = cls.factory(
         value,
         extend_key,
@@ -205,42 +287,64 @@ def merge_from_str(
 
 
 def merge_from_list(
-    cls,
     values,
-    extend_key,
-    reference,
-    level,
     document,
     breadcrumbs,
+    extend_key,
+    cls,
+    reference,
+    level,
 ):
+    """Store a dict-like object with incoming values.
+
+    Args:
+        values: Incoming data to be merged one by one, in reversed order.
+        document: Storage for the resulting merge.
+        breadcrumbs: Keys to locate the extend_key
+        extend_key: Final key to use when merging the two objects.
+        cls: Parser to use for sub-documents.
+        reference: The source of the current object.
+        level: The current parsing level, used to create new parsers.
+    """
     for val in reversed(values):
         merge_from_value(
-            cls,
             val,
-            extend_key,
-            reference,
-            level,
             document,
             breadcrumbs,
+            extend_key,
+            cls,
+            reference,
+            level,
         )
 
 
 def merge_from_dict(
-    cls,
     dct,
-    extend_key,
-    reference,
-    level,
     document,
     breadcrumbs,
+    extend_key,
+    cls,
+    reference,
+    level,
 ):
+    """Store a dict-like object with an incoming data structure.
+
+    Args:
+        dct: The original document, to be merged in-place.
+        document:  The Storage for the resulting merge.
+        breadcrumbs: Keys to locate the extend_key
+        extend_key: Final key to use when merging the two objects.
+        cls: Parser to use for sub-documents.
+        reference: The source of the current object.
+        level: The current parsing level, used to create new parsers.
+    """
     for key, val in dct.items():
         merge_from_value(
-            cls,
             val,
-            extend_key,
-            reference,
-            level,
             document,
             [*breadcrumbs, key],
+            extend_key,
+            cls,
+            reference,
+            level,
         )

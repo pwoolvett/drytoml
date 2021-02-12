@@ -1,3 +1,4 @@
+"""This module contains the `explain` command and its required utilities."""
 from drytoml.parser import DEFAULT_EXTEND_KEY
 from drytoml.parser import Parser
 
@@ -6,7 +7,7 @@ def explain(
     file="pyproject.toml",
     key=DEFAULT_EXTEND_KEY,
 ):
-    """Show steps for toml transclusion
+    """Show steps for toml transclusion.
 
     Args:
         file: TOML file to interpolate values.

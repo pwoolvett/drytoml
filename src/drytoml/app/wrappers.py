@@ -1,14 +1,12 @@
+"""This module contains third-party commands enabled through drytoml."""
 import importlib
 import os
 import sys
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
-from types import ModuleType
-from typing import Any
 from typing import Callable
 from typing import List
-from typing import Optional
 
 from drytoml.parser import Parser
 
@@ -30,10 +28,13 @@ def import_callable(string: str) -> Callable:
 
 
 class Wrapper:
+    """Common skeleton for third-party wrapper commands."""
+
     cfg: str
 
     def __call__(self, importstr):
-        """Execute the wrapped callback"""
+        """Execute the wrapped callback."""
+
         with self.tmp_dump() as virtual:
             self.virtual = virtual
             self.pre_import()
@@ -42,11 +43,11 @@ class Wrapper:
             sys.exit(tool_main())
 
     def pre_import(self):
-        """This function gets called before importing the callback."""
+        """Execute custom processing done before callback import."""
         pass
 
     def pre_call(self):
-        """This function gets called before executing the callback."""
+        """Execute custom processing done before callback execut."""
         pass
 
     @contextmanager
@@ -87,7 +88,7 @@ class Env(Wrapper):
         self.cfg = os.environ.get(env, "pyproject.toml")
 
     def pre_import(self):
-        """Setup env var before importing the callback."""
+        """Configure env var before callback import."""
         os.environ[self.env] = self.virtual.name
 
 
