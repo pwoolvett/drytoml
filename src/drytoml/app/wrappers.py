@@ -15,7 +15,7 @@ def import_callable(string: str) -> Callable:
     """Import a module from a string using colon syntax.
 
     Args:
-        string: String of the form `package.subpackage:module`
+        string: String of the form `package.module:object`
 
     Returns:
         The imported module
@@ -33,7 +33,14 @@ class Wrapper:
     cfg: str
 
     def __call__(self, importstr):
-        """Execute the wrapped callback."""
+        """Execute the wrapped callback.
+
+        Args:
+            importstr: String of the form `package.module:object`
+
+        .. seealso:: `import_callable`
+
+        """
 
         with self.tmp_dump() as virtual:
             self.virtual = virtual
@@ -52,7 +59,11 @@ class Wrapper:
 
     @contextmanager
     def tmp_dump(self):
-        """Yield a temporary file with the configuration toml contents."""
+        """Yield a temporary file with the configuration toml contents.
+
+        Yields:
+            Temporary file with the configuration toml contents
+        """
         parser = Parser.from_file(self.cfg)
         document = parser.parse()
 
@@ -127,21 +138,21 @@ class Cli(Wrapper):
 
 def black():
     """Execute black, configured with custom setting cli flag."""
-    return Cli(["--config"])("black:patched_main")
+    Cli(["--config"])("black:patched_main")
 
 
 def isort():
     """Execute isort, configured with custom setting cli flag."""
-    return Cli(["--sp", "--settings-path", "--settings-file", "--settings"])(
+    Cli(["--sp", "--settings-path", "--settings-file", "--settings"])(
         "isort.main:main"
     )
 
 
 def flakehell():
     """Execute flakehell, configured with custom env var."""
-    return Env("FLAKEHELL_TOML")("flakehell:entrypoint")
+    Env("FLAKEHELL_TOML")("flakehell:entrypoint")
 
 
 def flake8helled():
     """Execute flake8helled, configured with custom env var."""
-    return Env("FLAKEHELL_TOML")("flakehell:flake8_entrypoint")
+    Env("FLAKEHELL_TOML")("flakehell:flake8_entrypoint")

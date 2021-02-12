@@ -6,6 +6,7 @@ method (bound, static, or classmethod) as sub-command from the cli.
 """
 
 import shutil
+import sys
 from pathlib import Path
 from typing import Dict
 from typing import Union
@@ -37,7 +38,7 @@ class Cache:
             response = input("Clear cache? [y/N]")
             if response.lower() not in truthy:
                 logger.error("Aborted")
-                raise SystemExit(1)
+                sys.exit(1)
 
         worked = False
         for descendant in CACHE.glob("**/*"):
@@ -54,13 +55,17 @@ class Cache:
             logger.info(f"Succesfully cleared {CACHE} {name}")
         else:
             logger.info(f"Nothing cleared from {CACHE} ")
-            raise SystemExit(1)
+            sys.exit(1)
 
         return cls.show()
 
     @staticmethod
-    def show():
-        """Show drytoml's cache contents."""
+    def show() -> Dict[Union[str, Path], str]:
+        """Show drytoml's cache contents.
+
+        Returns:
+            Locations -> weight (in kb) mapping
+        """
         data = {
             descendant: descendant.stat().st_size
             for descendant in CACHE.glob("**/*")

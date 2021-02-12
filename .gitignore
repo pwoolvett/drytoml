@@ -11,3 +11,4 @@ docs/src/apidoc/*.rst
 docs/build/
 reports/
 .coverage
+.venv

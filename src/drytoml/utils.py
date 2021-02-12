@@ -15,17 +15,42 @@ from tomlkit.container import Container
 from tomlkit.container import OutOfOrderTableProxy
 from tomlkit.items import AoT
 from tomlkit.items import Array
+from tomlkit.items import Bool
+from tomlkit.items import Date
+from tomlkit.items import DateTime
+from tomlkit.items import Float
+from tomlkit.items import Integer
 from tomlkit.items import Item
 from tomlkit.items import Key
+from tomlkit.items import Null
+from tomlkit.items import String
 from tomlkit.items import Table
+from tomlkit.items import Time
 from tomlkit.toml_document import TOMLDocument
 
 from drytoml.paths import CACHE
 from drytoml.types import Url
 
+KEEP_CURRENT_IGNORE_INCOMING = (
+    Integer,
+    Float,
+    Bool,
+    DateTime,
+    Date,
+    Time,
+    String,
+    Null,
+)
+
 
 def cached(func):
     """Store output in drytoml's cache to use it on subsequent calls.
+
+    Args:
+        func: Function to decorate.
+
+    Returns:
+        Cached result with function result as fallback.
 
     .. seealso::
 
@@ -88,6 +113,14 @@ def deep_find(
         container: Where to look for the key.
         extend_key: The key to look for.
         breadcrumbs: The sequence of walked keys to the current position.
+
+    Returns:
+        The container type
+
+    Yields:
+        Tuple containing (`breadcrumbs`, `content`) where `extend_key`
+            was found.
+
     """
     breadcrumbs = breadcrumbs or []
 
@@ -148,13 +181,35 @@ def deep_extend(
     current: Union[Array, AoT],
     incoming: Union[Array, AoT],
 ) -> Union[Array, AoT]:
-    """Extend a container with another's contents."""
+    """Extend a container with another's contents.
+
+    Args:
+        current: Container to extend (in-place).
+        incoming: Container to extend with.
+
+    Returns:
+        The recevied container, modified in-place.
+
+    """
     current.extend(incoming)
     return current
 
 
 def deep_merge(current: Item, incoming: Item) -> Item:
-    """Merge two items using a type-dependent strategy."""
+    """Merge two items using a type-dependent strategy.
+
+    Args:
+        current: Item to merge into.
+        incoming: Item to merge from.
+
+    Raises:
+        NotImplementedError: Unable to merge received current and
+            incoming item given their types.
+
+    Returns:
+        The current Item, after merging in-place.
+
+    """
 
     if isinstance(current, list):
         if isinstance(incoming, list):
@@ -172,8 +227,8 @@ def deep_merge(current: Item, incoming: Item) -> Item:
                 current[key] = deep_merge(current[key], incoming[key])
             return current
 
-    if isinstance(current, str):
-        if isinstance(incoming, str):
+    if isinstance(current, KEEP_CURRENT_IGNORE_INCOMING):
+        if isinstance(incoming, KEEP_CURRENT_IGNORE_INCOMING):
             return current
 
     raise NotImplementedError
@@ -184,7 +239,7 @@ def merge_targeted(
     incoming: Container,
     breadcrumbs: List[Union[str, int]],
     value: Item,
-):
+) -> TOMLDocument:
     """Merge specific path contents from an incoming contianer into another.
 
     Args:
@@ -192,6 +247,9 @@ def merge_targeted(
         incoming: The source of the incoming data.
         breadcrumbs: Location of the incoming contend.
         value: The actual content to be merged.
+
+    Returns:
+        The `document`, after merging in-place.
     """
 
     if not breadcrumbs:
@@ -228,12 +286,19 @@ def merge_from_value(
     """Store a dict-like object with an incoming data structure.
 
     Args:
-        document:  The Storage for the resulting merge.
+        value: Value to merge.
+        document:  The storage for the resulting merge.
         breadcrumbs: Keys to locate the extend_key
         extend_key: Final key to use when merging the two objects.
-        dct: The original document, to be merged in-place.
-        reference: The source of the current object.
-        level: The current parsing level, used to create new parsers.
+        cls: Parser class, used to instantiate children parsers.
+        reference: The source of the current object, used to instantiate
+            children parsers.
+        level: The current parsing level, used to instantiate children
+            parsers.
+
+    Raises:
+        NotImplementedError: Unable to merge given value type.
+
     """
 
     if isinstance(value, str):

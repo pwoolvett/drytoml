@@ -7,6 +7,7 @@ from typing import Optional
 from typing import Union
 
 from tomlkit.parser import Parser as BaseParser
+from tomlkit.toml_document import TOMLDocument
 
 from drytoml import logger
 from drytoml.types import Url
@@ -44,8 +45,11 @@ class Parser(BaseParser):
         self.level = level
         super().__init__(string)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Enable parser visual differentiation from repr.
+
+        Returns:
+            A string of the form ``Parser(reference, extend_key)``
 
         Examples:
 
@@ -75,6 +79,10 @@ class Parser(BaseParser):
             path: Path to an existing file with the toml contents.
             extend_key: kwarg to construct the parser.
             level: kwarg to construct the parser.
+
+        Returns:
+            Parser instantiated from received path.
+
         """
         with open(path) as fp:
             raw = fp.read()
@@ -88,6 +96,9 @@ class Parser(BaseParser):
             url: URL to an existing file with the toml contents.
             extend_key: kwarg to construct the parser.
             level: kwarg to construct the parser.
+
+        Returns:
+            Parser instantiated from received url.
         """
         raw = request(url)
         return cls(raw, extend_key=extend_key, reference=url, level=level)
@@ -107,6 +118,13 @@ class Parser(BaseParser):
             extend_key: kwarg to construct the parser.
             parent_reference: Used to parse relative paths.
             level: kwarg to construct the parser.
+
+        Returns:
+            Parser instantiated from received reference.
+
+        Raises:
+            ValueError: Attempted to intantiate a parser with a relative
+                path as reference, without a parent reference.
         """
 
         if Url.validate(reference):
@@ -137,8 +155,12 @@ class Parser(BaseParser):
 {"="*30}{self} CONTENTS END HERE{"="*30}"""
         ).replace("\n", f"\n{self._log_indent}")
 
-    def parse(self):
-        """Parse recursively until no transclusions are required."""
+    def parse(self) -> TOMLDocument:
+        """Parse recursively until no transclusions are required.
+
+        Returns:
+            The parsed, transcluded document.
+        """
         document = super().parse()
         logger.info(f"{self}: Parsing started")
         logger.debug(

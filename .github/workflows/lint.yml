@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  Format:
+  Lint:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v1
@@ -22,8 +22,9 @@ jobs:
       - name: Ensure all linters enabled
         # TODO simplyfy this when poetry1.2 lands
         run: |
+          dry -q flakehell plugins
           echo `flakehell missed`
-          ! dry -q flakehell missed | grep -v "pandas|isort"
+          ! dry -q flakehell missed | egrep -v "pandas|isort"
       - name: Lint
         # TODO simplyfy this when poetry1.2 lands
         run: |

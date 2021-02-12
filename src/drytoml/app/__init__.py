@@ -38,13 +38,16 @@ WRAPPERS = {
 }
 
 
-def setup_log(argv: Optional[List[str]]):
+def setup_log(argv: Optional[List[str]]) -> List[str]:
     """Control verbosity via logging level using "-q/-v" as flags.
 
     Args:
         argv: If not set, use sys.argv. For each "-v" or "--verbose",
               increase the log level verbosity. If it contains a "-q",
               or a "--quiet", set lefel to `logging.CRITICAL`.
+
+    Returns:
+        Unparsed, remanining arguments.
     """
 
     argv = argv or sys.argv

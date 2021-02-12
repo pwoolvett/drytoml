@@ -5,8 +5,16 @@ from pathlib import Path
 from typing import Union
 
 
-def env_or(xdg_env: str, home_subdir: Union[str, Path]):
+def env_or(xdg_env: str, home_subdir: Union[str, Path]) -> Path:
     """Retreive path from xdg env, with home subdir as default.
+
+    Args:
+        xdg_env: Name of the environment variable.
+        home_subdir: Sub-directory (inside $HOME) to use as default
+            value if the env var is not found.
+
+    Returns:
+        Resulting path
 
     Examples:
 

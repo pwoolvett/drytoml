@@ -18,7 +18,14 @@ class Url(str):
     """Django validator."""
 
     def __init__(self, string):
-        """Validate string as url before instantiating."""
+        """Validate string as url before instantiating.
+
+        Args:
+            string: Url to validate
+
+        Raises:
+            ValueError: The received string is not a valid URL.
+        """
         if not self.validate(string):
             raise ValueError("Not a valid URL")
         super().__init__()
@@ -28,5 +35,12 @@ class Url(str):
         cls,
         maybe_url,
     ) -> bool:
-        """Validate url string using django regex."""
+        """Validate url string using django regex.
+
+        Args:
+            maybe_url: Url to validate.
+
+        Returns:
+            `True` iff validation succeeds.
+        """
         return cls.URL_VALIDATOR.match(str(maybe_url)) is not None

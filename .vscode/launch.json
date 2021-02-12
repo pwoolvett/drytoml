@@ -10,7 +10,8 @@
             "request": "launch",
             "program": "src/drytoml/__main__.py",
             "args": ["explain"],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "justMyCode": false,
         }
     ]
 }

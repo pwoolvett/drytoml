@@ -7,12 +7,15 @@ from drytoml.parser import Parser
 def export(
     file="pyproject.toml",
     key=DEFAULT_EXTEND_KEY,
-):
+) -> str:
     """Generate resulting TOML after transclusion.
 
     Args:
-        file: TOML file to interpolate values.
+        file: TOML file to transclude values.
         key: Name too look for inside the file to activate interpolation.
+
+    Returns:
+        The transcluded toml.
 
     Example:
         >>> toml = export("isort.toml", "base")
