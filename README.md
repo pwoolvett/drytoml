@@ -132,7 +132,7 @@ For the moment, the following wrappers are supported:
 
    The next steps assume you have already activated the venv.
 
-1. Install pre-commit hook
+1. Install pre-commit hook (skip if using devcontainer)
 
    ```console
    pre-commit install --hook-type commit-msg
