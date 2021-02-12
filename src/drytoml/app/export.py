@@ -1,4 +1,5 @@
 """This module contains the `export` command and its required utilities."""
+import logging
 
 from drytoml.parser import DEFAULT_EXTEND_KEY
 from drytoml.parser import Parser
@@ -20,7 +21,6 @@ def export(
     Example:
         >>> toml = export("isort.toml", "base")
     """
-    import logging
 
     logging.basicConfig(level=60, format="%(message)s", force=True)
     return Parser.from_file(file, extend_key=key).parse().as_string()
