@@ -1,0 +1,47 @@
+name: Format
+
+on:
+  pull_request:
+
+jobs:
+
+  Format:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install deps
+        # TODO simplyfy this when poetry1.2 lands
+        run: |
+          pip install .[format] 
+
+      # disabled until docformatter or docformatter-toml supports custom file config
+      # - name: Run docformatter in check mode
+      #   run: |
+      #     dry docformatter --check .
+
+      - name: Run black in check mode
+        run: |
+          dry -q black --check .
+
+      - name: Run isort in check mode
+        run: |
+          dry -q isort --check .
+
+      # Enable to re-commit automatically
+      # - name: If needed, commit Code Quality changes to the PR
+      #   if: failure()
+      #   run: |
+      #     dry docformatter --in-place .
+      #     dry black .
+      #     dry isort .
+      #     git config --global user.name 'Format Quality Bot'
+      #     git config --global user.email 'formatter.drytoml@devx.pw'
+      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+      #     git checkout $GITHUB_HEAD_REF
+      #     git commit -am "style: Auto reformat"
+      #     git push

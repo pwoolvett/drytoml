@@ -1,0 +1,12 @@
+{
+    "ref": "refs/tags/6.6.6",
+    "push": {
+        "ref": "refs/tags/7.7.7",
+        "head": {
+          "ref": "sample-head-ref"
+        },
+        "base": {
+          "ref": "sample-base-ref"
+        }
+      }
+}

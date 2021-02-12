@@ -8,8 +8,10 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "src/drytoml/cli.py",
-            "console": "integratedTerminal"
+            "program": "src/drytoml/__main__.py",
+            "args": ["explain"],
+            "console": "integratedTerminal",
+            "justMyCode": false,
         }
     ]
 }

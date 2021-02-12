@@ -1,0 +1,31 @@
+name: Lint
+
+on:
+  pull_request:
+
+jobs:
+
+  Lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install deps
+        # TODO simplyfy this when poetry1.2 lands
+        run: |
+          pip install .[lint] 
+
+      - name: Ensure all linters enabled
+        # TODO simplyfy this when poetry1.2 lands
+        run: |
+          dry -q flakehell plugins
+          echo `flakehell missed`
+          ! dry -q flakehell missed | egrep -v "pandas|isort"
+      - name: Lint
+        # TODO simplyfy this when poetry1.2 lands
+        run: |
+          dry -q flake8helled src tests
