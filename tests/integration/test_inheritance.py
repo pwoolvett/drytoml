@@ -3,13 +3,14 @@ import json
 import tempfile
 from pathlib import Path
 from textwrap import dedent as _
-from typing import Collection, Tuple
+from typing import Collection
+from typing import Tuple
 
 import pytest
-
-from drytoml.parser import Parser
 from tests.paths import FIXTURES
 from tests.utils import CustomEncoder
+
+from drytoml.parser import Parser
 
 EXAMPLE = FIXTURES / "example.toml"
 
@@ -208,6 +209,7 @@ def btest_full_toml_table_inheritance():
         ("expected.toml", expected),
     )
 
+
 def btest_table_inheritance():
     child = _(
         """\
@@ -238,6 +240,7 @@ def btest_table_inheritance():
         ("table1.toml", table1),
         ("expected.toml", expected),
     )
+
 
 def btest_chained_table_inheritance():
     child = _(
@@ -286,6 +289,7 @@ def btest_chained_table_inheritance():
         ("table3.toml", table3),
         ("expected.toml", expected),
     )
+
 
 def test_github():
     child = _(

@@ -10,7 +10,10 @@ from drytoml import logger
 from drytoml.app.cache import Cache
 from drytoml.app.explain import explain
 from drytoml.app.export import export
-from drytoml.app.wrappers import black, flake8helled, flakehell, isort
+from drytoml.app.wrappers import black
+from drytoml.app.wrappers import flake8helled
+from drytoml.app.wrappers import flakehell
+from drytoml.app.wrappers import isort
 
 INTERNAL_CMDS = {
     cmd.__name__.lower(): cmd

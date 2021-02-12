@@ -6,10 +6,15 @@ import hashlib
 import re
 import urllib.request
 from logging import root as logger
-from typing import List, Union
+from typing import List
+from typing import Union
 
-from tomlkit.container import _NOT_SET, Container
+from tomlkit.container import _NOT_SET
+from tomlkit.container import Container
+from tomlkit.container import OutOfOrderTableProxy
 from tomlkit.items import Item
+from tomlkit.items import Table
+from tomlkit.toml_document import TOMLDocument
 
 from drytoml.paths import CACHE
 from drytoml.types import Url
@@ -38,7 +43,9 @@ def cached(func):
         key = hashlib.sha1(url.encode("utf8")).hexdigest()
         path = CACHE / key
         if path.exists():
-            logger.debug(f"drytoml-cache: Using cached version of {url} at {path}")
+            logger.debug(
+                f"drytoml-cache: Using cached version of {url} at {path}"
+            )
             with open(path) as fp:
                 return fp.read()
 
@@ -120,14 +127,14 @@ def deep_merge(current, incoming):
         if isinstance(incoming, list):
             return deep_extend(current, incoming)
 
-    if isinstance(current, dict):
-        if isinstance(incoming, dict):
+    if isinstance(current, (Table, TOMLDocument, OutOfOrderTableProxy)):
+        if isinstance(incoming, (Table, TOMLDocument, OutOfOrderTableProxy)):
             for key in {*current.keys(), *incoming.keys()}:
                 if key not in incoming:
                     continue
                 if key not in current:
                     # emulate incoming container skeleton
-                    current[key] = incoming[key]
+                    current.append(key, incoming[key])
                     continue
                 current[key] = deep_merge(current[key], incoming[key])
             return current
@@ -168,7 +175,9 @@ def merge_targeted(
     return document
 
 
-def merge_from_value(cls, value, extend_key, reference, level, document, breadcrumbs):
+def merge_from_value(
+    cls, value, extend_key, reference, level, document, breadcrumbs
+):
 
     if isinstance(value, str):
         merge = merge_from_str
@@ -182,7 +191,9 @@ def merge_from_value(cls, value, extend_key, reference, level, document, breadcr
     merge(cls, value, extend_key, reference, level, document, breadcrumbs)
 
 
-def merge_from_str(cls, value, extend_key, reference, level, document, breadcrumbs):
+def merge_from_str(
+    cls, value, extend_key, reference, level, document, breadcrumbs
+):
     incoming_parser = cls.factory(
         value,
         extend_key,

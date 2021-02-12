@@ -3,23 +3,22 @@
 
 from pathlib import Path
 from textwrap import dedent as _
-from typing import Optional, Union
+from typing import Optional
+from typing import Union
 
 from tomlkit.parser import Parser as BaseParser
 
 from drytoml import logger
 from drytoml.types import Url
-from drytoml.utils import (
-    deep_del,
-    deep_find,
-    is_url,
-    merge_from_dict,
-    merge_from_list,
-    merge_from_str,
-    merge_from_value,
-    merge_targeted,
-    request,
-)
+from drytoml.utils import deep_del
+from drytoml.utils import deep_find
+from drytoml.utils import is_url
+from drytoml.utils import merge_from_dict
+from drytoml.utils import merge_from_list
+from drytoml.utils import merge_from_str
+from drytoml.utils import merge_from_value
+from drytoml.utils import merge_targeted
+from drytoml.utils import request
 
 DEFAULT_EXTEND_KEY = "__extends"
 
@@ -98,7 +97,9 @@ class Parser(BaseParser):
         document = super().parse()
         logger.info(f"{self}: Parsing started")
         logger.debug(
-            "{}: Source contents:\n\n{}".format(self, self.log_document(document))
+            "{}: Source contents:\n\n{}".format(
+                self, self.log_document(document)
+            )
         )
 
         while True:
@@ -123,8 +124,10 @@ class Parser(BaseParser):
 
             for breadcrumbs, value in base_key_locations:
                 logger.debug(
-                    "{}: Before merging {} contents:\n\n{}".format(self, breadcrumbs, self.log_document(document))
+                    "{}: Before merging {} contents:\n\n{}".format(
+                        self, breadcrumbs, self.log_document(document)
                     )
+                )
                 merge_from_value(
                     type(self),
                     value,
@@ -136,12 +139,15 @@ class Parser(BaseParser):
                 )
                 deep_del(document, self.extend_key, *breadcrumbs)
                 logger.debug(
-                    "{}: After merging {} contents:\n\n{}".format(self, breadcrumbs, self.log_document(document))
+                    "{}: After merging {} contents:\n\n{}".format(
+                        self, breadcrumbs, self.log_document(document)
                     )
-            print("pdb in between")
+                )
 
         logger.info(f"{self}: Parsing finished")
         logger.debug(
-            "{}: Final contents:\n\n{}".format(self, self.log_document(document))
+            "{}: Final contents:\n\n{}".format(
+                self, self.log_document(document)
+            )
         )
         return document
