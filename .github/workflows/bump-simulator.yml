@@ -15,8 +15,19 @@ jobs:
           token: '${{ secrets.PERSONAL_ACCESS_TOKEN }}'
           fetch-depth: 0
 
-      - name: Create bump and changelog
-        uses: commitizen-tools/commitizen-action@master
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
         with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          dry_run: true
+          python-version: 3.9
+
+      - name: Install deps
+        run: |
+          pip install commitizen==2.14.2
+
+      - name: Show changelog
+        run: |
+          python -m commitizen changelog --dry-run
+
+      - name: Show Bump
+        run: |
+          python -m commitizen changelog --dry-run

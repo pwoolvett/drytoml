@@ -17,7 +17,7 @@ jobs:
       - name: Install deps
         # TODO simplyfy this when poetry1.2 lands
         run: |
-          pip install .[format] 
+          pip install .[format]
 
       # disabled until docformatter or docformatter-toml supports custom file config
       # - name: Run docformatter in check mode
