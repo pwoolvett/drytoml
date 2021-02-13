@@ -419,6 +419,26 @@ python-versions = ">=3.6,<4.0"
 flake8-plugin-utils = ">=1.3.1,<2.0.0"
 
 [[package]]
+name = "flakeheaven"
+version = "0.10.0a0"
+description = "Flake8 wrapper to make it nice and configurable"
+category = "main"
+optional = true
+python-versions = ">=3.5"
+
+[package.dependencies]
+colorama = "*"
+entrypoints = "*"
+flake8 = ">=3.8.0"
+pygments = "*"
+toml = "*"
+urllib3 = "*"
+
+[package.extras]
+dev = ["dlint", "flake8-2020", "flake8-aaa", "flake8-absolute-import", "flake8-alfred", "flake8-annotations-complexity", "flake8-bandit", "flake8-black", "flake8-broken-line", "flake8-bugbear", "flake8-builtins", "flake8-coding", "flake8-cognitive-complexity", "flake8-commas", "flake8-comprehensions", "flake8-debugger", "flake8-django", "flake8-docstrings", "flake8-eradicate", "flake8-executable", "flake8-expression-complexity", "flake8-fixme", "flake8-functions", "flake8-future-import", "flake8-import-order", "flake8-isort", "flake8-logging-format", "flake8-mock", "flake8-mutable", "flake8-mypy", "flake8-pep3101", "flake8-pie", "flake8-print", "flake8-printf-formatting", "flake8-pyi", "flake8-pytest-style", "flake8-pytest", "flake8-quotes", "flake8-requirements", "flake8-rst-docstrings", "flake8-scrapy", "flake8-spellcheck", "flake8-sql", "flake8-strict", "flake8-string-format", "flake8-tidy-imports", "flake8-todo", "flake8-use-fstring", "flake8-variables-names", "mccabe", "pandas-vet", "pep8-naming", "pylint", "typing-extensions", "wemake-python-styleguide", "pytest", "isort"]
+docs = ["alabaster", "pygments-github-lexers", "recommonmark", "sphinx"]
+
+[[package]]
 name = "flakehell"
 version = "0.8.0"
 description = "Flake8 wrapper to make it nice and configurable"
@@ -1163,7 +1183,7 @@ test = ["pytest", "pytest-cov", "pytest-html"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.9"
-content-hash = "ff672354e27923dc6f5c262101ce72dc24bc7f9bd2b786647db225959f4d530d"
+content-hash = "10163eddb820e5d96686b1a78a85645cbf1e64bdd5cceabb55d9a626d8938334"
 
 [metadata.files]
 alabaster = [
@@ -1360,6 +1380,10 @@ flake8-polyfill = [
 flake8-pytest-style = [
     {file = "flake8-pytest-style-1.3.0.tar.gz", hash = "sha256:d141476de2d1a31e491c2090ba7d1e32980b11a2c12e8aa3b3cc844571b19bfa"},
     {file = "flake8_pytest_style-1.3.0-py3-none-any.whl", hash = "sha256:5a0bfb30696eb97473bb2078834794e9491848f975f680bdcb0554e5b4efbbfc"},
+]
+flakeheaven = [
+    {file = "flakeheaven-0.10.0a0-py3-none-any.whl", hash = "sha256:80d453a38dffcaca6a14cd081fce2501a08be30b7bc8427850219a6aae64698b"},
+    {file = "flakeheaven-0.10.0a0.tar.gz", hash = "sha256:3931422e8aeafa69d29d1b1158fb1795d801c830b8bcedb79312b3db962f9c9c"},
 ]
 flakehell = []
 gitdb = [
