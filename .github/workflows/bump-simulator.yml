@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    name: "Poetry build"
+    name: "Simulate commitizen bump"
     steps:
 
       - name: Check out

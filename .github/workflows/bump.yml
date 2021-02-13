@@ -11,11 +11,13 @@ jobs:
     runs-on: ubuntu-20.04
     name: "Bump version and create changelog with commitizen"
     steps:
+
       - name: Check out
         uses: actions/checkout@v2
         with:
           token: '${{ secrets.PERSONAL_ACCESS_TOKEN }}'
           fetch-depth: 0
+
       - name: Create bump and changelog
         uses: commitizen-tools/commitizen-action@master
         with:
