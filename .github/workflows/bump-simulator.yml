@@ -30,4 +30,4 @@ jobs:
 
       - name: Show Bump
         run: |
-          python -m commitizen changelog --dry-run
+          python -m commitizen bump --dry-run
