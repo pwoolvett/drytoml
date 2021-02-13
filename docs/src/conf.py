@@ -108,8 +108,9 @@ napoleon_include_private_with_doc = False
 
 import shlex
 import subprocess as sp
-from pathlib import Path
 import sys
+from pathlib import Path
+
 
 def run_apidoc(_):
     root_dir = Path(__file__).parents[2].resolve()
@@ -118,14 +119,19 @@ def run_apidoc(_):
     package = root_dir / "src/drytoml"
     sphinx_apidoc = Path(sys.executable).parent / "sphinx-apidoc"
 
-    sp.check_call(shlex.split(f"\
+    sp.check_call(
+        shlex.split(
+            f"\
         {sphinx_apidoc} \
         --templatedir={templates}  --separate \
         --module-first \
         --force \
         -o {apidoc} \
         {package} \
-    "))
+    "
+        )
+    )
+
 
 def setup(app):
-    app.connect('builder-inited', run_apidoc)
+    app.connect("builder-inited", run_apidoc)

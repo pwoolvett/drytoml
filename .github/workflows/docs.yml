@@ -15,18 +15,8 @@ jobs:
           python-version: 3.9
 
       - name: Install deps
-        # TODO simplyfy this when poetry1.2 lands
         run: |
           pip install .[docs]
-
-      - name: Gather Apidocs
-        run: |
-          sphinx-apidoc \
-            --templatedir=docs/src/templates \
-            --separate \
-            --module-first \
-            --force \
-            -o docs/src/apidoc src/drytoml
 
       - name: Build with Sphinx
         run: |
