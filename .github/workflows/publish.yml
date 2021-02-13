@@ -1,4 +1,4 @@
-name: Deploy Assets
+name: Publish tagged Documentation and Package
 
 on:
   push:
@@ -17,13 +17,11 @@ jobs:
           python-version: 3.9
 
       - name: Install deps
-        # TODO simplyfy this when poetry1.2 lands
         run: |
           pip install --user poetry
           pip install .[dev]
 
       - name: Bump poetry version
-        # TODO simplyfy this when poetry1.2 lands
         run: |
           echo "github ref: ${{ github.ref }}"
           echo "poetry version before: "`python3 -m poetry version --short`
