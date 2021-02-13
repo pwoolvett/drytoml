@@ -1,4 +1,4 @@
-name: Deploy Assets
+name: Publish tagged Documentation and Package
 
 on:
   push:
