@@ -1,23 +1,43 @@
 # drytoml
 
-Keep toml configuration centralized and personalizable.
+Keep your toml configuration centralized and personalizable.
 
-`drytoml` enables having `.toml` files referencing any content from another `.toml`
-file. You can reference the whole file, a specific table, or in general anything
-reachable by a sequence of `getitem` calls (eg `["tool", "poetry", "source", 0, "url"]`)
 
-Inspired by `flakehell` and `nitpick`, drytoml main motivation is to have several
-projects share a common, centralized configuration defining codestyles, but still
-allowing granular control wherever is required.
+[![PyPI](https://img.shields.io/pypi/v/drytoml?color=yellow)](https://pypi.org/project/drytoml/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/drytoml)](https://www.python.org/downloads/)
 
-IMPORTANT: if you want to manually control transclusions and modify files by hand, you
-should use other tools, like [nitpick](https://pypi.org/project/nitpick/).
+[![ReadTheDocs](https://readthedocs.org/projects/drytoml/badge/?version=latest)](https://drytoml.readthedocs.io/en/latest/)
+[![Format](https://github.com/pwoolvett/drytoml/workflows/Format/badge.svg)](https://github.com/pwoolvett/drytoml/actions?query=workflow%3AFormat)
+[![Lint](https://github.com/pwoolvett/drytoml/workflows/Lint/badge.svg)](https://github.com/pwoolvett/drytoml/actions?query=workflow%3ALint)
+[![Test](https://github.com/pwoolvett/drytoml/workflows/Test/badge.svg)](https://github.com/pwoolvett/drytoml/actions?query=workflow%3ATest)
+
+
+[![VSCode Ready-to-Code](https://img.shields.io/badge/devcontainer-enabled-blue?logo=docker)](https://code.visualstudio.com/docs/remote/containers)
+[![License: Unlicense](https://img.shields.io/badge/license-UNLICENSE-white.svg)](http://unlicense.org/)
+
+
+---
+
+
+Through `drytoml`, TOML files can have references to any content from another TOML file.
+References work with relative/absolute paths and urls, and can point to whole files, a
+specific table, or in general anything reachable by a sequence of `getitem` calls, like
+`["tool", "poetry", "source", 0, "url"]`. `drytoml` takes care of transcluding the
+content for you.
+
+Inspired by `flakehell` and `nitpick`, the main motivation behind `drytoml` is to have
+several projects sharing a common, centralized configuration defining codestyles, but
+still allowing granular control when required.
+
+This is a deliberate alternative to tools like [nitpick](https://pypi.org/project/nitpick/),
+which works as a linter instead, ensuring your local files have the right content.
+
 
 ## Usage
 
 `drytoml` has two main usages:
 
-1. Use a file as a reference to create an transcluded one:
+1. Use a file as a reference and "build" the resulting one:
 
     ```toml
     # contents of pyproject.dry.toml
@@ -48,9 +68,11 @@ should use other tools, like [nitpick](https://pypi.org/project/nitpick/).
     include = '\.pyi?$'
     ```
 
-2. Use included wrappers, allowing you to use your current configuration
+2. Use included wrappers, allowing you to use references in your current configuration
+   without changing any file:
 
-   Instead of this:
+   For a given code structure and the sample `pyproject.toml` in the previous example,
+   instead of this:
 
    ```console
    $ black .
@@ -67,10 +89,9 @@ should use other tools, like [nitpick](https://pypi.org/project/nitpick/).
    2 files reformatted, 12 files left unchanged.
    ```
 
-
-Transclusion works with relative/absolute paths and urls. Internally
-`drytoml` uses [tomlkit](https://pypi.org/project/tomlkit/) to merge the
-corresponding sections between the local and referenced `.toml`.
+   What just happened? `drytoml` comes with a set of wrappers which (1) create a
+   transcluded temporary file, (2) configure the wrapped tool to use said file, and (3)
+   get rid of the file after running the tool.
 
 
 For the moment, the following wrappers are supported:
@@ -85,23 +106,43 @@ For the moment, the following wrappers are supported:
   [here](https://github.com/pwoolvett/flakehell)
 - NOTE flakehell already implements similar funcionality, using a `base` key inside
   `[tool.flakehell]`
+- `drytoml` uses [tomlkit](https://pypi.org/project/tomlkit/) internally to merge the 
+  corresponding sections between the local and referenced `.toml`.
 
 ## Setup
 
-    Install as usual, with `pip`, `poetry`, etc:
-
 ### Prerequisites
+
+  * A compatible python >3.6.9
+  * [recommended] virtualenv
+  * A recen `pip`
 
 ### Install
 
+  Install as usual, with `pip`, `poetry`, etc:
+
+* `pip install drytoml`
+* `poetry add drytoml` (probably you'll want `poetry add --dev drytoml` instead)
+
 ## Usage
+
+For any command , run `--help` to find out flags and usage.
+Most common:
+
+* Use any of the provided wrappers as a subcommand, eg `dry black` instead of `black`.
+* Use `dry -q export` and redirect to a file, to generate a new file with transcluded
+  contents
+* Use `dry cache` to manage the cache for remote references.
+
+
 
 ## FAQ
 
-**Q: I want to use a different key**
+**Q: I want to use a different key to trigger transclusions**
 
-   A: Use the `--key` flag (when using `dry` form cli, or initialize
-   `drytoml.parser.Parser` using the `extend_key` kwarg.
+   A: In cli mode (using the `dry` command), you can pass the `--key` flagcli, to change
+      it. In api mode (from python code), initialize `drytoml.parser.Parser` using a
+      custom value for the `extend_key` kwarg.
 
 
 **Q: I changed a referenced toml upstream (eg in github) but still get the same result.**
@@ -124,7 +165,7 @@ For the moment, the following wrappers are supported:
      contains everything pre-installed. You must open the cloned directory using the
      [remote-containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
      Just run `poetry shell` or prepend any command with `poetry run` to ensure commands
-     run inside the virtual environment.
+     are run inside the virtual environment.
 
    * Using poetry: `poetry install -E dev`
 
@@ -132,46 +173,49 @@ For the moment, the following wrappers are supported:
 
    The next steps assume you have already activated the venv.
 
-1. Install pre-commit hook (skip if using devcontainer)
-
-   ```console
-   pre-commit install --hook-type commit-msg
-   ```
+1. Commiting
 
    * Commits in every branch except those starting with `wip/` must be compliant to
-     [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+     [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Releases
+     are done automatically and require commit messages compliance.
 
-   * Commit using `cz` to ensure compliance.
+   * To validate commits, you can install the pre-commit hook
+
+     ```console
+     pre-commit install --hook-type commit-msg
+     ```
+
+   * With venv activated, you can commit using `cz commit` instead of `git commit`
+     to ensure compliance.
 
 1. Add tests to code
 
 1. Run check(s)
 
 
-   Useful tip: To debug your code, a useful tool is using `drytoml -v explain`
+   * To debug your code, `drytoml -v explain` helps a lot to trace the parser.
+   * See the different checks in `.github/workflows`
+
+   There are three ways to check your code:
 
    * Manually, executing the check from inside a venv
 
-     For example, to generate the documentation:
-  
-     ```console
-     sphinx-apidoc \
-       --templatedir=docs/src/templates \
-       --separate \
-       --module-first \
-       --force \
-       -o docs/src/apidoc src/drytoml
-     ```
-
-     and then
+     For example, to generate the documentation, check `.github/workflows/docs`. To run
+     the `Build with Sphinx` step:
 
      ```console
      sphinx-build docs/src docs/build
      ```
 
-      See the different checks in `.github/workflows`
+     Or to run pytest, from `.github/workflows/tests.yml`:
 
-   * Locally with [act](https://github.com/nektos/act) (Already installed in the
+     ```console
+     sphinx-build docs/src docs/build
+     ```
+
+     ... etc
+
+   * Locally, with [act](https://github.com/nektos/act) (Already installed in the
      devcontainer)
 
      For example, to emulate a PR run for the docs workflow:
@@ -182,11 +226,8 @@ For the moment, the following wrappers are supported:
 
    * Remotely, by pushing to an open PR
 
-
-
-
 1. Create PR
 
 ## TODO
 
-check out current development [here](https://github.com/pwoolvett/drytoml/projects/2)
+Check out current development [here](https://github.com/pwoolvett/drytoml/projects/2)
