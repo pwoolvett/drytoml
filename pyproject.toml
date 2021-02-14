@@ -118,13 +118,13 @@ dev = [
 testpaths = ["tests"]
 addopts   = '''
   -raxXs
-  -q
+  --html=docs/build/pytest.html --self-contained-html
+  --junit-xml reports/pytest.xml
   --cov=src/drytoml
   --cov-branch
   --cov-report html:docs/build/coverage
-  --html=docs/build/pytest.html --self-contained-html
-  --junit-xml reports/pytest.xml
   --cov-report xml:reports/coverage.xml
+  --cov-report term:skip-covered
 '''
 
 [build-system]

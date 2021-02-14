@@ -10,8 +10,7 @@ Keep your toml configuration centralized and personalizable.
 [![Format](https://github.com/pwoolvett/drytoml/workflows/Format/badge.svg)](https://github.com/pwoolvett/drytoml/actions?query=workflow%3AFormat)
 [![Lint](https://github.com/pwoolvett/drytoml/workflows/Lint/badge.svg)](https://github.com/pwoolvett/drytoml/actions?query=workflow%3ALint)
 [![Test](https://github.com/pwoolvett/drytoml/workflows/Test/badge.svg)](https://github.com/pwoolvett/drytoml/actions?query=workflow%3ATest)
-
-
+[![codecov](https://codecov.io/gh/pwoolvett/drytoml/branch/master/graph/badge.svg?token=YXO8NDUU0G)](https://codecov.io/gh/pwoolvett/drytoml)
 [![VSCode Ready-to-Code](https://img.shields.io/badge/devcontainer-enabled-blue?logo=docker)](https://code.visualstudio.com/docs/remote/containers)
 [![License: Unlicense](https://img.shields.io/badge/license-UNLICENSE-white.svg)](http://unlicense.org/)
 
