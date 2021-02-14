@@ -12,13 +12,34 @@ jobs:
     name: "Bump version and create changelog with commitizen"
     steps:
 
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
       - name: Check out
         uses: actions/checkout@v2
         with:
           token: '${{ secrets.PERSONAL_ACCESS_TOKEN }}'
           fetch-depth: 0
 
-      - name: Create bump and changelog
-        uses: commitizen-tools/commitizen-action@master
-        with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: Install deps
+        run: |
+          pip install commitizen==2.14.2 poetry==1.1.4
+
+      - name: Configuring git user and email
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Bump Version in commitizen and poetry
+        run: |
+          cz bump --yes
+          poetry version `cz version -p`
+
+      - name: Pushing to branch
+        run: |
+          export remote_repo="https://${{ github.actor }}:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git" \
+          && git pull $remote_repo master \
+          && git push "$remote_repo" HEAD:${INPUT_BRANCH} --follow-tags --tags
