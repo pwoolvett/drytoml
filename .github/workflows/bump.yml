@@ -26,7 +26,7 @@ jobs:
 
       - name: Install deps
         run: |
-          pip install commitizen==2.14.2
+          pip install commitizen==2.14.2 poetry==1.1.4
 
       - name: Configuring git user and email
         run: |
