@@ -62,7 +62,7 @@ def setup_log(argv: Optional[List[str]]) -> List[str]:
     level = max(1, 20 + 50 * args.quiet - 10 * args.verbose)
     logging.basicConfig(level=level, format="%(message)s", force=True)
     logger.debug(
-        "drytoml: Log level set to {} because {}", level, args.__dict__
+        "drytoml: Log level set to %s because %s", level, args.__dict__
     )
     return sys.argv[:1] + unknown
 
