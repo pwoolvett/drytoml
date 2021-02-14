@@ -1,3 +1,10 @@
+## 0.2.2 (2021-02-14)
+
+### Fix
+
+- **release**: push tags from ci (#23)
+- **release**: synchronize poetry and commitizen versions (#22)
+
 ## 0.2.1 (2021-02-14)
 
 ## 0.2.0 (2021-02-14)
