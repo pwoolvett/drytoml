@@ -42,4 +42,4 @@ jobs:
         run: |
           export remote_repo="https://${{ github.actor }}:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git" \
           && git pull $remote_repo master \
-          && git push "$remote_repo" HEAD:${INPUT_BRANCH} --follow-tags --tags
+          && git push "$remote_repo" HEAD:master --follow-tags --tags
