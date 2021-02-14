@@ -30,10 +30,11 @@ jobs:
           pytest
 
       - name: Report Coverage
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./reports/coverage.xml
-          flags: ${{ matrix.python-version }}
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+        env:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          bash <(curl -s https://codecov.io/bash) \
+          -v \
+          -e GITHUB_ACTIONS="" \
+          -f reports/coverage.xml \
+          -F ${{ matrix.python-version }}
