@@ -24,22 +24,39 @@ jobs:
           token: '${{ secrets.PERSONAL_ACCESS_TOKEN }}'
           fetch-depth: 0
 
-      - name: Install deps
-        run: |
-          pip install commitizen==2.14.2 poetry==1.1.4
-
       - name: Configuring git user and email
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      - name: Bump Version in commitizen and poetry
+      - name: Install deps
         run: |
-          cz bump --yes
-          poetry version `cz version -p`
+          pip install \
+            --user \
+            commitizen==2.14.2 \
+            poetry==1.1.4
+          pip install .[dev]
 
+      - name: Bump commitizen(files-only) -> poetry -> commitizen(git, commit, tag)
+        run: |
+          cz bump --yes --files-only \
+            && export NEXT_TAG=`cz version -p` \
+            && git reset --hard \
+            && poetry version $NEXT_TAG \
+            && cz bump --yes
+)
       - name: Pushing to branch
         run: |
           export remote_repo="https://${{ github.actor }}:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git" \
           && git pull $remote_repo master \
           && git push "$remote_repo" HEAD:master --follow-tags --tags
+  
+      - name: Publish to pypi
+        env:
+          PYPI_USERNAME: __token__
+          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          poetry publish \
+            --build \
+            -u $PYPI_USERNAME \
+            -p $PYPI_PASSWORD
