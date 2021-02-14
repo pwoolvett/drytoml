@@ -19,7 +19,6 @@ jobs:
           architecture: x64
 
       - name: Install deps
-        # TODO simplyfy this when poetry1.2 lands
         run: |
           pip install .[test]
 
@@ -28,7 +27,10 @@ jobs:
           pytest
 
       - name: Report Coverage
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          bash <(curl -s https://codecov.io/bash) -f reports/coverage.xml
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./reports/coverage.xml
+          flags: ${{ matrix.python-version }}
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
