@@ -44,7 +44,7 @@ jobs:
             && git reset --hard \
             && poetry version $NEXT_TAG \
             && cz bump --yes
-)
+
       - name: Pushing to branch
         run: |
           export remote_repo="https://${{ github.actor }}:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git" \
