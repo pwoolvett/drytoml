@@ -1,5 +1,11 @@
 # Always validate the PR title, and ignore the commits
-titleOnly: true
+
+#                     Scenario                     | Status | Status Check Message
+# ------------------------------------------------ | ------ | --------------------
+# PR title is [semantic][conventional commit type] |   💚   | `ready to be squashed`
+#              any commit is semantic              |   💚   | `ready to be merged or rebased`
+#                nothing is semantic               |   💛   | `add a semantic commit or PR title`
+# titleOnly: true
 # You can override the valid types
 types:
   - feat
