@@ -439,6 +439,33 @@ dev = ["dlint", "flake8-2020", "flake8-aaa", "flake8-absolute-import", "flake8-a
 docs = ["alabaster", "pygments-github-lexers", "recommonmark", "sphinx"]
 
 [[package]]
+name = "flakehell"
+version = "0.8.0"
+description = "Flake8 wrapper to make it nice and configurable"
+category = "main"
+optional = true
+python-versions = ">=3.5"
+develop = false
+
+[package.dependencies]
+colorama = "*"
+entrypoints = "*"
+flake8 = ">=3.8.0"
+pygments = "*"
+toml = "*"
+urllib3 = "*"
+
+[package.extras]
+dev = ["dlint", "flake8-2020", "flake8-aaa", "flake8-absolute-import", "flake8-alfred", "flake8-annotations-complexity", "flake8-bandit", "flake8-black", "flake8-broken-line", "flake8-bugbear", "flake8-builtins", "flake8-coding", "flake8-cognitive-complexity", "flake8-commas", "flake8-comprehensions", "flake8-debugger", "flake8-django", "flake8-docstrings", "flake8-eradicate", "flake8-executable", "flake8-expression-complexity", "flake8-fixme", "flake8-functions", "flake8-future-import", "flake8-import-order", "flake8-isort", "flake8-logging-format", "flake8-mock", "flake8-mutable", "flake8-mypy", "flake8-pep3101", "flake8-pie", "flake8-print", "flake8-printf-formatting", "flake8-pyi", "flake8-pytest-style", "flake8-pytest", "flake8-quotes", "flake8-requirements", "flake8-rst-docstrings", "flake8-scrapy", "flake8-spellcheck", "flake8-sql", "flake8-strict", "flake8-string-format", "flake8-tidy-imports", "flake8-todo", "flake8-use-fstring", "flake8-variables-names", "mccabe", "pandas-vet", "pep8-naming", "pylint", "typing-extensions", "wemake-python-styleguide", "pytest", "isort"]
+docs = ["alabaster", "pygments-github-lexers", "recommonmark", "sphinx"]
+
+[package.source]
+type = "git"
+url = "https://github.com/pwoolvett/flakehell.git"
+reference = "58f545a07188875193bac1efd0e81e076b041561"
+resolved_reference = "58f545a07188875193bac1efd0e81e076b041561"
+
+[[package]]
 name = "gitdb"
 version = "4.0.5"
 description = "Git Object Database"
@@ -1143,20 +1170,20 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "jaraco.test (>=3.2.0)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [extras]
-all = ["black", "isort", "flakeheaven"]
+all = ["black", "isort", "flakehell"]
 black = ["black"]
-dev = ["commitizen", "pre-commit", "black", "isort", "flakeheaven", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "darglint", "pylint", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming", "Sphinx", "sphinx-rtd-theme", "recommonmark", "m2r2", "pytest", "pytest-cov", "pytest-html"]
+dev = ["commitizen", "pre-commit", "black", "isort", "flakehell", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "darglint", "pylint", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming", "Sphinx", "sphinx-rtd-theme", "recommonmark", "m2r2", "pytest", "pytest-cov", "pytest-html"]
 docs = ["Sphinx", "sphinx-rtd-theme", "recommonmark", "m2r2"]
-flakehell = ["flakeheaven"]
+flakehell = ["flakehell"]
 format = ["isort", "black"]
 isort = ["isort"]
-lint = ["isort", "black", "pylint", "darglint", "flakeheaven", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming", "pytest"]
+lint = ["isort", "black", "pylint", "darglint", "flakehell", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-comprehensions", "flake8-docstrings", "flake8-eradicate", "flake8-debugger", "flake8-mutable", "flake8-pytest-style", "pep8-naming", "pytest"]
 test = ["pytest", "pytest-cov", "pytest-html"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.9"
-content-hash = "0dc36f217f2abdd32d282411afa2087a7d552eaed2a336373670f63a8faf9edf"
+content-hash = "10163eddb820e5d96686b1a78a85645cbf1e64bdd5cceabb55d9a626d8938334"
 
 [metadata.files]
 alabaster = [
@@ -1358,6 +1385,7 @@ flakeheaven = [
     {file = "flakeheaven-0.10.0a0-py3-none-any.whl", hash = "sha256:80d453a38dffcaca6a14cd081fce2501a08be30b7bc8427850219a6aae64698b"},
     {file = "flakeheaven-0.10.0a0.tar.gz", hash = "sha256:3931422e8aeafa69d29d1b1158fb1795d801c830b8bcedb79312b3db962f9c9c"},
 ]
+flakehell = []
 gitdb = [
     {file = "gitdb-4.0.5-py3-none-any.whl", hash = "sha256:91f36bfb1ab7949b3b40e23736db18231bf7593edada2ba5c3a174a7b23657ac"},
     {file = "gitdb-4.0.5.tar.gz", hash = "sha256:c9e1f2d0db7ddb9a704c2a0217be31214e91a4fe1dea1efad19ae42ba0c285c9"},

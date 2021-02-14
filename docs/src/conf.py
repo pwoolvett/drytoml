@@ -3,11 +3,7 @@
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-import shlex
-import subprocess as sp  # noqa: S404
-import sys
 from datetime import datetime
-from pathlib import Path
 
 try:
     from importlib.metadata import version
@@ -110,6 +106,11 @@ napoleon_include_private_with_doc = False
 # napoleon_type_aliases = None
 # napoleon_attr_annotations = True
 
+import shlex
+import subprocess as sp
+import sys
+from pathlib import Path
+
 
 def run_apidoc(_):
     root_dir = Path(__file__).parents[2].resolve()
@@ -118,7 +119,7 @@ def run_apidoc(_):
     package = root_dir / "src/drytoml"
     sphinx_apidoc = Path(sys.executable).parent / "sphinx-apidoc"
 
-    sp.check_call(  # noqa: S603
+    sp.check_call(
         shlex.split(
             f"\
         {sphinx_apidoc} \
