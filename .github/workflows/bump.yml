@@ -39,7 +39,7 @@ jobs:
 
       - name: Bump commitizen(files-only) -> poetry -> commitizen(git, commit, tag)
         run: |
-          python3 -m commitizen cz bump --yes --files-only \
+          python3 -m commitizen bump --yes --files-only \
             && export NEXT_TAG=`python3 -m commitizen version -p` \
             && git reset --hard \
             && python3 -m poetry version $NEXT_TAG \
