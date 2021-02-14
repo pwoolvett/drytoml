@@ -161,9 +161,9 @@ class Parser(BaseParser):
             The parsed, transcluded document.
         """
         document = super().parse()
-        logger.info("{}: Parsing started", self)
+        logger.info("%s: Parsing started", self)
         logger.debug(
-            "{}: Source contents:\n\n{}", self, self._log_document(document)
+            "%s: Source contents:\n\n%s", self, self._log_document(document)
         )
 
         while True:
@@ -173,10 +173,10 @@ class Parser(BaseParser):
             )
 
             if not base_key_locations:
-                logger.debug("{}: No {} found", self, self.extend_key)
+                logger.debug("%s: No %s found", self, self.extend_key)
                 break
             logger.info(
-                "{}: Found '{}': at {}",
+                "%s: Found '%s': at %s",
                 self,
                 self.extend_key,
                 [
@@ -187,7 +187,7 @@ class Parser(BaseParser):
 
             for breadcrumbs, value in base_key_locations:
                 logger.debug(
-                    "{}: Before merging {} contents:\n\n{}",
+                    "%s: Before merging %s contents:\n\n%s",
                     self,
                     breadcrumbs,
                     self._log_document(document),
@@ -195,15 +195,15 @@ class Parser(BaseParser):
                 merge = TomlMerger(document, self)
                 merge(value, breadcrumbs, delete_dangling=True)
                 logger.debug(
-                    "{}: After merging {} contents:\n\n{}",
+                    "%s: After merging %s contents:\n\n%s",
                     self,
                     breadcrumbs,
                     self._log_document(document),
                 )
 
-        logger.info("{}: Parsing finished", self)
+        logger.info("%s: Parsing finished", self)
         logger.debug(
-            "{}: Final contents:\n\n{}",
+            "%s: Final contents:\n\n%s",
             self,
             self._log_document(document),
         )

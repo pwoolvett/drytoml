@@ -1,12 +1,14 @@
 """Third-party commands enabled through drytoml."""
 
 import importlib
-import io
 import os
+import shlex
+import subprocess as sp  # noqa: S404
 import sys
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
+from typing import IO
 from typing import Callable
 from typing import List
 from typing import Union
@@ -34,7 +36,7 @@ class Wrapper:
     """Common skeleton for third-party wrapper commands."""
 
     cfg: str
-    virtual: io.StringIO
+    virtual: IO[str]
 
     def __call__(self, importstr):
         """Execute the wrapped callback.
@@ -177,3 +179,14 @@ def flakehell():
 def flake8helled():
     """Execute flake8helled, configured with custom env var."""
     Env(["FLAKEHELL_TOML", "PYLINTRC"])("flakehell:flake8_entrypoint")
+
+
+def check():
+    """Execute all formatters and linters, sequentially."""
+
+    for command in (
+        "dry -q isort .",
+        "dry -q black .",
+        "dry -q flakehell lint .",
+    ):
+        sp.run(shlex.split(command))  # noqa: S603, W1510

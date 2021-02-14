@@ -26,3 +26,9 @@ jobs:
       - name: Run pytest
         run: |
           pytest
+
+      - name: Report Coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          bash <(curl -s https://codecov.io/bash) -f reports/coverage.xml
