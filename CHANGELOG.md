@@ -1,3 +1,9 @@
+## 0.2.0 (2021-02-14)
+
+### Fix
+
+- **log**: lazy logging properly implemented
+
 ## 0.1.2 (2021-02-13)
 
 ### Fix
