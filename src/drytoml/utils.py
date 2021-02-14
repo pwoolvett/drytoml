@@ -32,7 +32,7 @@ def cached(func):
         path = CACHE / key
         if path.exists():
             logger.debug(
-                "drytoml-cache: Using cached version of %s at %s",
+                "drytoml-cache: Using cached version of {} at {}",
                 url,
                 path,
             )
@@ -40,7 +40,7 @@ def cached(func):
                 return fp.read()
 
         result = func(url, *a, **kw)
-        logger.debug("Caching %s into %s", url, path)
+        logger.debug("Caching {url} into {path}", url, path)
         CACHE.mkdir(exist_ok=True, parents=True)
         with open(path, "w") as fp:
             fp.write(result)
