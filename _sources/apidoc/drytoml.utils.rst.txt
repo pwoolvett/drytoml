@@ -1,0 +1,7 @@
+drytoml.utils module
+====================
+
+.. automodule:: drytoml.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

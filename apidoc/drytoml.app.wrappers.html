@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>drytoml.app.wrappers module &mdash; drytoml 0.2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="drytoml.locate module" href="drytoml.locate.html" />
+    <link rel="prev" title="drytoml.app.export module" href="drytoml.app.export.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Why drytoml?</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="drytoml.html">drytoml package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="drytoml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="drytoml.app.html">drytoml.app package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="drytoml.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">drytoml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="drytoml.html">drytoml package</a> &raquo;</li>
+        
+          <li><a href="drytoml.app.html">drytoml.app package</a> &raquo;</li>
+        
+      <li>drytoml.app.wrappers module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/apidoc/drytoml.app.wrappers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-drytoml.app.wrappers">
+<span id="drytoml-app-wrappers-module"></span><h1>drytoml.app.wrappers module<a class="headerlink" href="#module-drytoml.app.wrappers" title="Permalink to this headline">¶</a></h1>
+<p>Third-party commands enabled through drytoml.</p>
+<dl class="py class">
+<dt id="drytoml.app.wrappers.Cli">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">Cli</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.Cli" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#drytoml.app.wrappers.Wrapper" title="drytoml.app.wrappers.Wrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">drytoml.app.wrappers.Wrapper</span></code></a></p>
+<p>Call another script, configuring it with specific cli flag.</p>
+<dl class="py attribute">
+<dt id="drytoml.app.wrappers.Cli.cfg">
+<code class="sig-name descname"><span class="pre">cfg</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#drytoml.app.wrappers.Cli.cfg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.app.wrappers.Cli.pre_call">
+<code class="sig-name descname"><span class="pre">pre_call</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#drytoml.app.wrappers.Cli.pre_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare sys.argv to contain the configuration flag and file.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="drytoml.app.wrappers.Cli.virtual">
+<code class="sig-name descname"><span class="pre">virtual</span></code><em class="property"><span class="pre">:</span> <span class="pre">IO</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#drytoml.app.wrappers.Cli.virtual" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="drytoml.app.wrappers.Env">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">Env</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.Env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#drytoml.app.wrappers.Wrapper" title="drytoml.app.wrappers.Wrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">drytoml.app.wrappers.Wrapper</span></code></a></p>
+<p>Call another script, configuring it with an environment variable.</p>
+<dl class="py attribute">
+<dt id="drytoml.app.wrappers.Env.cfg">
+<code class="sig-name descname"><span class="pre">cfg</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#drytoml.app.wrappers.Env.cfg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.app.wrappers.Env.pre_import">
+<code class="sig-name descname"><span class="pre">pre_import</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.Env.pre_import" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure env var before callback import.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="drytoml.app.wrappers.Env.virtual">
+<code class="sig-name descname"><span class="pre">virtual</span></code><em class="property"><span class="pre">:</span> <span class="pre">IO</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#drytoml.app.wrappers.Env.virtual" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="drytoml.app.wrappers.Wrapper">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">Wrapper</span></code><a class="headerlink" href="#drytoml.app.wrappers.Wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Common skeleton for third-party wrapper commands.</p>
+<dl class="py attribute">
+<dt id="drytoml.app.wrappers.Wrapper.cfg">
+<code class="sig-name descname"><span class="pre">cfg</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#drytoml.app.wrappers.Wrapper.cfg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.app.wrappers.Wrapper.pre_call">
+<code class="sig-name descname"><span class="pre">pre_call</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.Wrapper.pre_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute custom processing done before callback execut.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.app.wrappers.Wrapper.pre_import">
+<code class="sig-name descname"><span class="pre">pre_import</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.Wrapper.pre_import" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute custom processing done before callback import.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.app.wrappers.Wrapper.tmp_dump">
+<code class="sig-name descname"><span class="pre">tmp_dump</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.Wrapper.tmp_dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield a temporary file with the configuration toml contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p>Temporary file with the configuration toml contents</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="drytoml.app.wrappers.Wrapper.virtual">
+<code class="sig-name descname"><span class="pre">virtual</span></code><em class="property"><span class="pre">:</span> <span class="pre">IO</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#drytoml.app.wrappers.Wrapper.virtual" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.app.wrappers.black">
+<code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">black</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.black" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute black, configured with custom setting cli flag.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.app.wrappers.check">
+<code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">check</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all formatters and linters, sequentially.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.app.wrappers.flake8helled">
+<code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">flake8helled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.flake8helled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute flake8helled, configured with custom env var.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.app.wrappers.flakehell">
+<code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">flakehell</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.flakehell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute flakehell, configured with custom env var.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.app.wrappers.import_callable">
+<code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">import_callable</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Callable</span><a class="headerlink" href="#drytoml.app.wrappers.import_callable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import a module from a string using colon syntax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>string</strong> – String of the form <cite>package.module:object</cite></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The imported module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.app.wrappers.isort">
+<code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">isort</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.isort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute isort, configured with custom setting cli flag.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.app.wrappers.pylint">
+<code class="sig-prename descclassname"><span class="pre">drytoml.app.wrappers.</span></code><code class="sig-name descname"><span class="pre">pylint</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.app.wrappers.pylint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute pylint, configured with custom setting cli flag.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="drytoml.locate.html" class="btn btn-neutral float-right" title="drytoml.locate module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="drytoml.app.export.html" class="btn btn-neutral float-left" title="drytoml.app.export module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Pablo Woolvett .
+
+    </p>
+  </div> 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

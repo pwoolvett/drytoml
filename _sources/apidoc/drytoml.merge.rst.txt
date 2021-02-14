@@ -1,0 +1,7 @@
+drytoml.merge module
+====================
+
+.. automodule:: drytoml.merge
+   :members:
+   :undoc-members:
+   :show-inheritance:

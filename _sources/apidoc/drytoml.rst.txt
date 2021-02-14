@@ -1,0 +1,28 @@
+drytoml package
+===============
+
+.. automodule:: drytoml
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   drytoml.app
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   drytoml.locate
+   drytoml.merge
+   drytoml.parser
+   drytoml.paths
+   drytoml.types
+   drytoml.utils

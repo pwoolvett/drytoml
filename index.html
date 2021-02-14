@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>drytoml’s Docs &mdash; drytoml 0.2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/logo.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Why drytoml?" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+          
+
+          
+            <a href="#">
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Why drytoml?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/modules.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">drytoml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>drytoml’s Docs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="drytoml-s-docs">
+<h1>drytoml’s Docs<a class="headerlink" href="#drytoml-s-docs" title="Permalink to this headline">¶</a></h1>
+<p>Keep your toml configuration centralized and personalizable.</p>
+<a class="reference external image-reference" href="https://pypi.org/project/drytoml/"><img alt="PyPI" src="https://img.shields.io/pypi/v/drytoml?color=yellow" /></a>
+<a class="reference external image-reference" href="https://www.python.org/downloads/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/drytoml" /></a>
+<a class="reference external image-reference" href="https://drytoml.readthedocs.io/en/latest/"><img alt="ReadTheDocs" src="https://readthedocs.org/projects/drytoml/badge/?version=latest" /></a>
+<a class="reference external image-reference" href="https://github.com/pwoolvett/drytoml/actions?query=workflow%3AFormat"><img alt="Format" src="https://github.com/pwoolvett/drytoml/workflows/Format/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/pwoolvett/drytoml/actions?query=workflow%3ALint"><img alt="Lint" src="https://github.com/pwoolvett/drytoml/workflows/Lint/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/pwoolvett/drytoml/actions?query=workflow%3ATest"><img alt="Test" src="https://github.com/pwoolvett/drytoml/workflows/Test/badge.svg" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/pwoolvett/drytoml"><img alt="codecov" src="https://codecov.io/gh/pwoolvett/drytoml/branch/master/graph/badge.svg?token=YXO8NDUU0G" /></a>
+<a class="reference external image-reference" href="https://code.visualstudio.com/docs/remote/containers"><img alt="VSCode Ready-to-Code" src="https://img.shields.io/badge/devcontainer-enabled-blue?logo=docker" /></a>
+<a class="reference external image-reference" href="http://unlicense.org/"><img alt="License: Unlicense" src="https://img.shields.io/badge/license-UNLICENSE-white.svg" /></a>
+<hr class="docutils" />
+<p>Through <code class="docutils literal notranslate"><span class="pre">drytoml</span></code>, TOML files can have references to any content from another TOML file.
+References work with relative/absolute paths and urls, and can point to whole files, a
+specific table, or in general anything reachable by a sequence of <code class="docutils literal notranslate"><span class="pre">getitem</span></code> calls, like
+<code class="docutils literal notranslate"><span class="pre">[&quot;tool&quot;,</span> <span class="pre">&quot;poetry&quot;,</span> <span class="pre">&quot;source&quot;,</span> <span class="pre">0,</span> <span class="pre">&quot;url&quot;]</span></code>. <code class="docutils literal notranslate"><span class="pre">drytoml</span></code> takes care of transcluding the
+content for you.</p>
+<p>Inspired by <a class="reference external" href="https://pypi.org/project/flakehell/">flakehell</a> and
+<a class="reference external" href="https://pypi.org/project/nitpick/">nitpick</a>, the main motivation behind <code class="docutils literal notranslate"><span class="pre">drytoml</span></code> is to
+have several projects sharing a common, centralized configuration defining codestyles,
+but still allowing granular control when required.</p>
+<p>This is a deliberate departure from <a class="reference external" href="https://pypi.org/project/nitpick/">nitpick</a>, which
+works as a linter instead, ensuring your local files have the right content.</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">drytoml</span></code> has two main usages:</p>
+<ol class="arabic">
+<li><p>Use a file as a reference and “build” the resulting one:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># contents of pyproject.dry.toml</span>
+<span class="p">...</span>
+<span class="k">[tool.black]</span>
+<span class="n">__extends</span> <span class="o">=</span> <span class="s">&quot;../../common/black.toml&quot;</span>
+<span class="n">target-version</span> <span class="o">=</span> <span class="k">[&#39;py37&#39;]</span>
+<span class="n">include</span> <span class="o">=</span> <span class="s">&#39;\.pyi?$&#39;</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># contents of ../../common/black.toml</span>
+<span class="k">[tool.black]</span>
+<span class="n">line-length</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dry <span class="nb">export</span> --file<span class="o">=</span>pyproject.dry.toml &gt; pyproject.toml
+</pre></div>
+</div>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># contents of pyproject.toml</span>
+<span class="k">[tool.black]</span>
+<span class="n">line-length</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">target-version</span> <span class="o">=</span> <span class="k">[&#39;py37&#39;]</span>
+<span class="n">include</span> <span class="o">=</span> <span class="s">&#39;\.pyi?$&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use included wrappers, allowing you to use references in your current configuration
+without changing any file:</p>
+<p>Consider the original <code class="docutils literal notranslate"><span class="pre">pyproject.dry.toml</span></code> from the example above, an alternative
+usage for <code class="docutils literal notranslate"><span class="pre">drytoml</span></code> is shown next. Instead of this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>black .
+<span class="go">All done! ✨ 🍰 ✨</span>
+<span class="go">14 files left unchanged.</span>
+</pre></div>
+</div>
+<p>You would run this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>dry black
+<span class="go">reformatted /path/to/cwd/file_with_potentially_long_lines.py</span>
+<span class="go">reformatted /path/to/cwd/another_file_with_potentially_long_lines.py</span>
+<span class="go">All done! ✨ 🍰 ✨</span>
+<span class="go">2 files reformatted, 12 files left unchanged.</span>
+</pre></div>
+</div>
+<p>What just happened? <code class="docutils literal notranslate"><span class="pre">drytoml</span></code> comes with a set of wrappers which</p>
+<ol class="arabic simple">
+<li><p>Create a transcluded temporary file, equivalent to the resulting <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>
+in the example above</p></li>
+<li><p>Configure the wrapped tool (<code class="docutils literal notranslate"><span class="pre">black</span></code> in this case) to use the temporary file</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">black</span></code>, and get rid of the file on exit.</p></li>
+</ol>
+</li>
+</ol>
+<p>For the moment, the following wrappers are available (more to come, contributions are
+welcome):</p>
+<ul class="simple">
+<li><p>[x] <a class="reference external" href="https://github.com/psf/black">black</a></p></li>
+<li><p>[x] <a class="reference external" href="https://pycqa.github.io/isort/">isort</a></p></li>
+<li><p>[x] <a class="reference external" href="https://github.com/life4/flakehell">flakehell, flake8helled</a> *</p></li>
+</ul>
+<p>In the works:</p>
+<ul class="simple">
+<li><p>[ ] docformatter</p></li>
+<li><p>[ ] pytest</p></li>
+</ul>
+<div class="section" id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
+<p>Although the flakehell project was archived, we’re keeping a fork alive from
+<a class="reference external" href="https://github.com/pwoolvett/flakehell">here</a>, availabe as
+<a class="reference external" href="https://pypi.org/project/flakeheaven">flakeheaven</a> in pypi.</p>
+</div>
+</div>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>A compatible python &gt;3.6.9</p></li>
+<li><p>[recommended] virtualenv</p></li>
+<li><p>A recent <code class="docutils literal notranslate"><span class="pre">pip</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="install">
+<h3>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Install as usual, with <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">poetry</span></code>, etc:</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">drytoml</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">add</span> <span class="pre">drytoml</span></code> (probably you’ll want <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">add</span> <span class="pre">--dev</span> <span class="pre">drytoml</span></code> instead)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Usage<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>For any command , run <code class="docutils literal notranslate"><span class="pre">--help</span></code> to find out flags and usage.
+Some of the most common are listed below:</p>
+<ul class="simple">
+<li><p>Use any of the provided wrappers as a subcommand, eg <code class="docutils literal notranslate"><span class="pre">dry</span> <span class="pre">black</span></code> instead of <code class="docutils literal notranslate"><span class="pre">black</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">dry</span> <span class="pre">-q</span> <span class="pre">export</span></code> and redirect to a file, to generate a new file with transcluded
+contents</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">dry</span> <span class="pre">cache</span></code> to manage the cache for remote references.</p></li>
+</ul>
+</div>
+<div class="section" id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<p><strong>Q: I want to use a different key to trigger transclusions</strong></p>
+<blockquote>
+<div><p>A: In cli mode (using the <code class="docutils literal notranslate"><span class="pre">dry</span></code> command), you can pass the <code class="docutils literal notranslate"><span class="pre">--key</span></code> flagcli, to change
+it. In api mode (from python code), initialize <code class="docutils literal notranslate"><span class="pre">drytoml.parser.Parser</span></code> using a
+custom value for the <code class="docutils literal notranslate"><span class="pre">extend_key</span></code> kwarg.</p>
+</div></blockquote>
+<p><strong>Q: I changed a referenced toml upstream (eg in github) but still get the same result.</strong></p>
+<blockquote>
+<div><p>A: Run <code class="docutils literal notranslate"><span class="pre">dry</span> <span class="pre">cache</span> <span class="pre">clear</span> <span class="pre">--help</span></code> to see available options.</p>
+</div></blockquote>
+</div>
+<div class="section" id="contribute">
+<h2>Contribute<a class="headerlink" href="#contribute" title="Permalink to this headline">¶</a></h2>
+<p>Start by creating an issue, forking the project and creating a Pull Request.</p>
+<div class="section" id="setting-up-the-development-environment">
+<h3>Setting up the development environment<a class="headerlink" href="#setting-up-the-development-environment" title="Permalink to this headline">¶</a></h3>
+<p>If you have docker, the easiest way is to use the provided devcontainer inside vscode,
+which already contains everything pre-installed. You must open the cloned directory
+using the <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">remote-containers extension</a>.
+Just run <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code> or prepend any command with <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">run</span></code> to ensure commands
+are run inside the virtual environment.</p>
+<p>Alternatively, you can use poetry: <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">install</span> <span class="pre">-E</span> <span class="pre">dev</span></code></p>
+<p>The next steps assume you have already activated the venv.</p>
+</div>
+<div class="section" id="committing">
+<h3>Committing<a class="headerlink" href="#committing" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p>Commits in every branch must adhere to <a class="reference external" href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>.
+Releases are done automatically and require conventional commits messages compliance.</p></li>
+<li><p>To validate commits, you can install the pre-commit hook</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pre-commit install --hook-type commit-msg</span>
+</pre></div>
+</div>
+</li>
+<li><p>With venv activated, you can commit using <code class="docutils literal notranslate"><span class="pre">cz</span> <span class="pre">commit</span></code> instead of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code> to
+ensure compliance.</p></li>
+</ul>
+</div>
+<div class="section" id="running-checks">
+<h3>Running checks<a class="headerlink" href="#running-checks" title="Permalink to this headline">¶</a></h3>
+<p>You can look at the different actions defined in <code class="docutils literal notranslate"><span class="pre">.github/workflows</span></code>. There are three
+ways to check your code:</p>
+<ul>
+<li><p>Remotely, by pushing to an open PR. You’ll se the results in the PR page.</p></li>
+<li><p>Manually, executing the check from inside a venv</p>
+<p>For example, to generate the documentation, check <code class="docutils literal notranslate"><span class="pre">.github/workflows/docs</span></code>. To run the
+<code class="docutils literal notranslate"><span class="pre">Build</span> <span class="pre">with</span> <span class="pre">Sphinx</span></code> step:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sphinx-build docs/src docs/build</span>
+</pre></div>
+</div>
+<p>Or to run pytest, from <code class="docutils literal notranslate"><span class="pre">.github/workflows/tests.yml</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sphinx-build docs/src docs/build</span>
+</pre></div>
+</div>
+<p>… etc</p>
+</li>
+<li><p>Locally, with <a class="reference external" href="https://github.com/nektos/act">act</a> (Already installed in the
+devcontainer)</p></li>
+</ul>
+<p>For example, to emulate a PR run for the tests workflow:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">act -W .github/workflows/tests.yml pull_request</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="todo">
+<h2>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h2>
+<p>Check out current development <a class="reference external" href="https://github.com/pwoolvett/drytoml/projects/2">here</a></p>
+</div>
+</div>
+<div class="section" id="table-of-contents">
+<h1>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Why drytoml?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#a-bit-of-history">A bit of History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#driving-principles">Driving principles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/modules.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apidoc/drytoml.html">drytoml package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#fix">Fix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">Fix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">Fix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">Fix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">Fix</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Why drytoml?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Pablo Woolvett .
+
+    </p>
+  </div> 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

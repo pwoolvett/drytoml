@@ -1,0 +1,7 @@
+drytoml.app.wrappers module
+===========================
+
+.. automodule:: drytoml.app.wrappers
+   :members:
+   :undoc-members:
+   :show-inheritance:

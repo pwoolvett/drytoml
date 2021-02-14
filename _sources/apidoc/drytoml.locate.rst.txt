@@ -1,0 +1,7 @@
+drytoml.locate module
+=====================
+
+.. automodule:: drytoml.locate
+   :members:
+   :undoc-members:
+   :show-inheritance:

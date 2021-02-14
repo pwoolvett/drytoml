@@ -1,0 +1,7 @@
+drytoml.paths module
+====================
+
+.. automodule:: drytoml.paths
+   :members:
+   :undoc-members:
+   :show-inheritance:

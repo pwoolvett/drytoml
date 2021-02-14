@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>drytoml.merge module &mdash; drytoml 0.2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="drytoml.parser module" href="drytoml.parser.html" />
+    <link rel="prev" title="drytoml.locate module" href="drytoml.locate.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Why drytoml?</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="drytoml.html">drytoml package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="drytoml.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="drytoml.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="drytoml.locate.html">drytoml.locate module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">drytoml.merge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="drytoml.parser.html">drytoml.parser module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="drytoml.paths.html">drytoml.paths module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="drytoml.types.html">drytoml.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="drytoml.utils.html">drytoml.utils module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">drytoml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="drytoml.html">drytoml package</a> &raquo;</li>
+        
+      <li>drytoml.merge module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/apidoc/drytoml.merge.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-drytoml.merge">
+<span id="drytoml-merge-module"></span><h1>drytoml.merge module<a class="headerlink" href="#module-drytoml.merge" title="Permalink to this headline">¶</a></h1>
+<p>Utilities and logic for handling inter-toml merges.</p>
+<dl class="py class">
+<dt id="drytoml.merge.TomlMerger">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">drytoml.merge.</span></code><code class="sig-name descname"><span class="pre">TomlMerger</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tomlkit.container.Container</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.merge.TomlMerger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Encapsulate toml merging strategies and procedures.</p>
+<dl class="py method">
+<dt id="drytoml.merge.TomlMerger.build_subparser">
+<code class="sig-name descname"><span class="pre">build_subparser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tomlkit.items.Item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.merge.TomlMerger.build_subparser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct child parser from specific content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The content of the TOML data to be parsed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instantiated child parser.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.merge.TomlMerger.merge_dict_like">
+<code class="sig-name descname"><span class="pre">merge_dict_like</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dct</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Key</span><span class="p"><span class="pre">,</span> </span><span class="pre">tomlkit.items.Item</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breadcrumbs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Key</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.merge.TomlMerger.merge_dict_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge a dict-like object into a specific container position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dct</strong> – The incoming data.</p></li>
+<li><p><strong>breadcrumbs</strong> – Location of the parent container for the
+incoming data merge.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.merge.TomlMerger.merge_list_like">
+<code class="sig-name descname"><span class="pre">merge_list_like</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Item</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breadcrumbs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Key</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.merge.TomlMerger.merge_list_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge sequence of values in a specific position of the container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Incoming data to be merged one by one, in reversed order.</p></li>
+<li><p><strong>breadcrumbs</strong> – Location of the parent container for the
+incoming value merge.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="drytoml.merge.TomlMerger.merge_simple">
+<code class="sig-name descname"><span class="pre">merge_simple</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tomlkit.items.Item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breadcrumbs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Key</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#drytoml.merge.TomlMerger.merge_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge a value in a specific position of the container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – Incoming data to be merged.</p></li>
+<li><p><strong>breadcrumbs</strong> – Location of the parent container for the
+incoming value merge.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.merge.deep_extend">
+<code class="sig-prename descclassname"><span class="pre">drytoml.merge.</span></code><code class="sig-name descname"><span class="pre">deep_extend</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Array</span><span class="p"><span class="pre">,</span> </span><span class="pre">tomlkit.items.AoT</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incoming</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Array</span><span class="p"><span class="pre">,</span> </span><span class="pre">tomlkit.items.AoT</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">tomlkit.items.Array</span><span class="p"><span class="pre">,</span> </span><span class="pre">tomlkit.items.AoT</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#drytoml.merge.deep_extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend a container with another’s contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current</strong> – Container to extend (in-place).</p></li>
+<li><p><strong>incoming</strong> – Container to extend with.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The recevied container, modified in-place.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.merge.deep_merge">
+<code class="sig-prename descclassname"><span class="pre">drytoml.merge.</span></code><code class="sig-name descname"><span class="pre">deep_merge</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tomlkit.items.Item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incoming</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tomlkit.items.Item</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tomlkit.items.Item</span><a class="headerlink" href="#drytoml.merge.deep_merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two items using a type-dependent strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current</strong> – Item to merge into.</p></li>
+<li><p><strong>incoming</strong> – Item to merge from.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – Unable to merge received current and
+    incoming item given their types.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current Item, after merging in-place.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="drytoml.merge.merge_targeted">
+<code class="sig-prename descclassname"><span class="pre">drytoml.merge.</span></code><code class="sig-name descname"><span class="pre">merge_targeted</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tomlkit.container.Container</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incoming</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tomlkit.container.Container</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breadcrumbs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">tomlkit.toml_document.TOMLDocument</span><a class="headerlink" href="#drytoml.merge.merge_targeted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge specific path contents from an incoming contianer into another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>document</strong> – The container to store the merge result.</p></li>
+<li><p><strong>incoming</strong> – The source of the incoming data.</p></li>
+<li><p><strong>breadcrumbs</strong> – Location of the incoming contend.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <cite>document</cite>, after merging in-place.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="drytoml.parser.html" class="btn btn-neutral float-right" title="drytoml.parser module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="drytoml.locate.html" class="btn btn-neutral float-left" title="drytoml.locate module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Pablo Woolvett .
+
+    </p>
+  </div> 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

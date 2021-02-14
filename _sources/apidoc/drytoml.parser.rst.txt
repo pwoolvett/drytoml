@@ -1,0 +1,7 @@
+drytoml.parser module
+=====================
+
+.. automodule:: drytoml.parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
