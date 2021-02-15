@@ -21,13 +21,17 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
 
+      # Hackity hack:
+        # coverage.py wont report if package is installed in non-editable
+        # pip does not allow editable installs for pyproject.toml
       - name: Install deps
         run: |
-          pip install .[test]
+          pip install --user poetry==1.1.4
+          python -m poetry install -E test
 
       - name: Run pytest
         run: |
-          pytest
+          python -m poetry run pytest
 
       - name: Report Coverage
         uses: codecov/codecov-action@v1

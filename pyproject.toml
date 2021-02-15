@@ -7,6 +7,9 @@ description = "Keep toml configuration centralized and personalizable"
 authors     = ["Pablo Woolvett <pablowoolvett@gmail.com>"]
 readme      = "README.md"
 packages    = [{ include = "drytoml", from = "src" }]
+license = "Unlicense"
+documentation = "https://drytoml.readthedocs.io"
+repository = "https://github.com/pwoolvett/drytoml"
 
 [tool.poetry.scripts]
 dry = "drytoml.app:main"
