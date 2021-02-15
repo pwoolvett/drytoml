@@ -56,7 +56,7 @@ jobs:
           PYPI_USERNAME: __token__
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
-          poetry publish \
+          python3 -m poetry publish \
             --build \
             -u $PYPI_USERNAME \
             -p $PYPI_PASSWORD
