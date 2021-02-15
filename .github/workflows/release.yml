@@ -37,7 +37,7 @@ jobs:
             --user \
             commitizen==2.14.2 \
             poetry==1.1.4
-          pip install .[dev]
+          python3 -m poetry install -E dev
 
       - name: Bump commitizen(files-only) -> poetry -> commitizen(git, commit, tag)
         run: |
@@ -47,12 +47,25 @@ jobs:
             && python3 -m poetry version $NEXT_TAG \
             && python3 -m commitizen bump --yes
 
+      - name: Run pytest
+        run: |
+          python3 -m poetry run pytest
+
       - name: Pushing to branch
         run: |
           export remote_repo="https://${{ github.actor }}:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git" \
           && git pull $remote_repo master \
           && git push "$remote_repo" HEAD:master --follow-tags --tags
   
+      - name: Report Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./reports/coverage.xml
+          flags: ${{ matrix.python-version }}
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
+
       - name: Publish to pypi
         env:
           PYPI_USERNAME: __token__
