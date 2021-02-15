@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """Utilities and logic for handling inter-toml merges."""
 
+from datetime import date
+from datetime import datetime
+from datetime import time
 from typing import Dict
 from typing import List
 from typing import Union
@@ -24,7 +27,7 @@ from tomlkit.toml_document import TOMLDocument
 
 from drytoml.locate import deep_del
 
-RAW_ITEMS = (
+RAW_ITEMS_TOMLKIT = (
     Integer,
     Float,
     Bool,
@@ -33,6 +36,19 @@ RAW_ITEMS = (
     Time,
     String,
     Null,
+)
+RAW_ITEMS_NATIVE = (
+    int,
+    float,
+    bool,
+    datetime,
+    date,
+    time,
+    str,
+)
+RAW_ITEMS = (
+    *RAW_ITEMS_TOMLKIT,
+    *RAW_ITEMS_NATIVE,
 )
 
 
