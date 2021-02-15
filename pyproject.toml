@@ -138,6 +138,8 @@ build-backend = "poetry.core.masonry.api"
 name                     = "cz_conventional_commits"
 version = "0.2.4"
 tag_format               = "$version"
-bump_message             = "release $current_version → $new_version"
+# keep this in sync with the bump workflow to avoid
+# re-triggering it after commitizen bump command pushes
+bump_message             = "release: $current_version → $new_version"
 update_changelog_on_bump = true
 annotated_tag            = true
