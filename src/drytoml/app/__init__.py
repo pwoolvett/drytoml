@@ -62,7 +62,7 @@ def setup_log(argv: Optional[List[str]]) -> List[str]:
     parser.add_argument("-q", "--quiet", action="count", default=0)
     args, unknown = parser.parse_known_args()
     level = max(1, 20 + 50 * args.quiet - 10 * args.verbose)
-    logging.basicConfig(level=level, format="%(message)s", force=True)
+    logging.basicConfig(level=level, format="%(message)s")
     logger.debug(
         "drytoml: Log level set to %s because %s", level, args.__dict__
     )
