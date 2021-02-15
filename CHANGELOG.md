@@ -1,3 +1,9 @@
+## 0.2.5 (2021-02-15)
+
+### Fix
+
+- **ci**: avoid bump triggering workflow (#29)
+
 ## 0.2.4 (2021-02-15)
 
 ### Fix
