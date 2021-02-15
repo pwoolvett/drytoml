@@ -1,3 +1,14 @@
+## 0.2.3 (2021-02-15)
+
+### Fix
+
+- **deploy**: replaced cz with commitizen (#27)
+- **release**: bump poetry (#24)
+
+### fix
+
+- **release**: use commitizen pkg as its not available for ci worker path (#26)
+
 ## 0.2.2 (2021-02-14)
 
 ### Fix
