@@ -1,3 +1,9 @@
+## 0.2.8 (2021-02-15)
+
+### Fix
+
+- **merge**: allow python native values to be merged as well (#32)
+
 ## 0.2.7 (2021-02-15)
 
 ### Fix
