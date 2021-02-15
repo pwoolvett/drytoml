@@ -1,3 +1,9 @@
+## 0.2.6 (2021-02-15)
+
+### Fix
+
+- **master-coverage**: also report coverage on releases (#30)
+
 ## 0.2.5 (2021-02-15)
 
 ### Fix
