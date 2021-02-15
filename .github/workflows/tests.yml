@@ -21,20 +21,23 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
 
+      # Hackity hack:
+        # coverage.py wont report if package is installed in non-editable
+        # pip does not allow editable installs for pyproject.toml
       - name: Install deps
         run: |
-          pip install .[test]
+          pip install --user poetry==1.1.4
+          python -m poetry install -E test
 
       - name: Run pytest
         run: |
-          pytest
+          python -m poetry run pytest
 
       - name: Report Coverage
-        env:
-            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          bash <(curl -s https://codecov.io/bash) \
-          -v \
-          -e GITHUB_ACTIONS="" \
-          -f reports/coverage.xml \
-          -F ${{ matrix.python-version }}
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./reports/coverage.xml
+          flags: ${{ matrix.python-version }}
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
