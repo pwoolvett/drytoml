@@ -1,3 +1,9 @@
+## 0.2.7 (2021-02-15)
+
+### Fix
+
+- **app**: avoid forcing logger setup as it not available in pre python3.8 (#31)
+
 ## 0.2.6 (2021-02-15)
 
 ### Fix

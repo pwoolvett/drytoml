@@ -2,7 +2,7 @@ __extends = "https://raw.githubusercontent.com/rmclabs-io/dev-styleguide/main/py
 
 [tool.poetry]
 name        = "drytoml"
-version = "0.2.6"
+version = "0.2.7"
 description = "Keep toml configuration centralized and personalizable"
 authors     = ["Pablo Woolvett <pablowoolvett@gmail.com>"]
 readme      = "README.md"
@@ -136,7 +136,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.commitizen]
 name                     = "cz_conventional_commits"
-version = "0.2.6"
+version = "0.2.7"
 tag_format               = "$version"
 # keep this in sync with the bump workflow to avoid
 # re-triggering it after commitizen bump command pushes
