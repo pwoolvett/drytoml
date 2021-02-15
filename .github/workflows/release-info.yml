@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-20.04
     name: "Simulate commitizen bump"
     steps:
-
       - name: Check out
         uses: actions/checkout@v2
         with:
@@ -19,6 +18,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+
+      - name: Ensure master is up to date
+        run: |
+          git fetch -vvv --dry-run |& grep master | fgrep "[up to date]"
 
       - name: Install deps
         run: |
